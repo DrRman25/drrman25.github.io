@@ -1,0 +1,287 @@
+@import url("https://fonts.googleapis.com/css?family=IBM+Plex+Sans");
+@import url("https://fonts.googleapis.com/css?family=IBM+Plex+Mono");
+
+body {
+    word-break: break-word;
+    background-color: rgba(31, 36, 48, 1);
+    color: white;
+    font-family: "IBM Plex Sans";
+    line-height: 1.6;
+    margin: 0;
+}
+
+button {
+    font-size: 16px;
+    font-family: "IBM Plex Sans";
+}
+
+.magic-button {
+    border: 1px solid #3c445c;
+    background-color: rgba(31, 36, 48, 1);
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    height: 100%;
+    width: 100px;
+    cursor: pointer;
+    position: relative;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    transition: color 0.2s ease 0s, background-color 0.2s ease 0s;
+    border-radius: 8px;
+    background-color: #044A1000;
+    color: #D9D9D9;
+    font-size: 16px;
+}
+
+.magic-button:hover {
+    background-color: #919191;
+    color: white;
+}
+
+.magic-button:active {
+    background-color: #4A4A4A;
+    border: 1px solid #D9D9D9;
+}
+
+.magic-button:hover svg {
+    color: white;
+}
+
+@media screen and (max-width: 1024px) {
+    #run-code {
+        max-width: 60px;
+        min-width: 60px;
+    }
+    #run-code span {
+        display: none;
+    }
+}
+
+.magic-recommended-button {
+    border: 1px solid #044A10;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    height: 100%;
+    width: 100px;
+    cursor: pointer;
+    position: relative;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    transition: color 0.2s ease 0s, background-color 0.2s ease 0s;
+    border-radius: 8px;
+    background-color: #044A10;
+    color: #6CD97E;
+    font-size: 16px;
+}
+
+.magic-recommended-button:hover {
+    background-color: #009118;
+    color: white;
+}
+
+.magic-recommended-button:active {
+    background-color: #044A10;
+    border: 1px solid #6CD97E;
+}
+
+.magic-recommended-button:hover svg {
+    color: white;
+}
+
+.CodeMirror {
+    height: 100vh !important;
+    font-family: "IBM Plex Mono", monospace !important;
+    line-height: 1.2;
+    font-size: 14px;
+}
+
+.CodeMirror-wrap pre {
+    word-wrap: break-word;
+}
+
+#view {
+    background-color: rgba(255, 255, 255, 1);
+    overflow: scroll;
+    white-space: pre;
+    height: 90vh !important;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #3c445c;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #5e6782;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: #979eb5;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 45px;
+    height: 25.5px;
+}
+
+.switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #3c445c;
+    -webkit-transition: .1s;
+    transition: .1s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 19.5px;
+    width: 19.5px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    -webkit-transition: .1s;
+    transition: .1s;
+}
+
+input:checked + .slider {
+    background-color: #009118;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #009118;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(19.5px);
+    -ms-transform: translateX(19.5px);
+    transform: translateX(19.5px);
+}
+
+.slider.round {
+    border-radius: 17px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    width: 240px;
+    background-color: #1c2333;
+    border: 1px solid #5d677a;
+    color: #fff;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    top: 150%;
+    left: 50%;
+    margin-left: -60px;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity .5s;
+}
+
+.tooltip:hover .tooltip-text, .tooltip-text:hover, .tooltip:active .tooltip-text, .tooltip-text:active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+}
+
+.modal-content {
+    background-color: #3c445c;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #5d677a;
+    width: 80%;
+    border-radius: 15px;
+}
+
+.close-modal {
+    color: #5d677a;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-modal:hover, .close-modal:focus {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+    overflow: visible;
+    font-size: 14px;
+    display: none;
+    position: absolute;
+    background-color: #1c2333;
+    min-width: 110px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 6px;
+    border: 1px solid #5d677a;
+}
+
+.dropdown-content a {
+    border-radius: 6px;
+    color: white;
+    padding: 6px 8px;
+    text-decoration: none;
+    display: block;
+    user-select: none;
+    cursor: pointer;
+}
+
+.dropdown-content a:hover {
+    background-color: #2d3444;
+}
