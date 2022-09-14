@@ -1,0 +1,47 @@
+.cm-s-drrcraft-dark .CodeMirror-foldmarker {
+    color: white;
+    background-color: #111;
+    letter-spacing: -4px;
+    padding-right: .3em;
+    border-radius: .25em;
+    font-family: ReplitHack, "IBM Plex Mono", monospace;
+    line-height: .3;
+    cursor: pointer;
+}
+
+.cm-s-drrcraft-light .CodeMirror-foldmarker {
+    color: black;
+    background-color: #ccc;
+    letter-spacing: -4px;
+    padding-right: .3em;
+    border-radius: .25em;
+    font-family: ReplitHack, "IBM Plex Mono", monospace;
+    line-height: .3;
+    cursor: pointer;
+}
+
+.CodeMirror-foldgutter {
+    width: .7em;
+}
+
+.CodeMirror-foldgutter-open, .CodeMirror-foldgutter-folded {
+    cursor: pointer;
+}
+
+.cm-s-drrcraft-dark .CodeMirror-foldgutter-open, .cm-s-drrcraft-dark .CodeMirror-foldgutter-folded {
+    color: #9da2a6;
+}
+
+.cm-s-drrcraft-light .CodeMirror-foldgutter-open, .cm-s-drrcraft-light .CodeMirror-foldgutter-folded {
+    color: #5c5f66;
+}
+
+.CodeMirror-foldgutter-open:after {
+    content: "⌄";
+    position: relative;
+    top: -3px;
+}
+
+.CodeMirror-foldgutter-folded:after {
+    content: "›";
+}

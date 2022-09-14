@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>HTML Editor v1.6</title>
+        <link href="style.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/ayu-mirage.css" />
+        <link rel="stylesheet" href="https://codemirror.net/5/addon/lint/lint.css" />
+    </head>
+    <body>
+        <span style="text-align: center; padding: 6px; border-bottom: 2px solid silver; background: #ffc; color: black; width: calc(100% - 12px); display: inline-block;">Note that this website is for version 1. <a href="../../">Version 2</a> is the current version. <span style="float: right; transform: scale(1.5) translateY(-1px); cursor: pointer;" onclick="this.parentElement.style.display = 'none'; document.getElementById('view').style.height = 'calc(100vh - 58px) !important';">&times;&nbsp;</span></span>
+        <div id="internet-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" id="close-internet-modal">&times;</span>
+                <h1>Unable to Run Program</h1>
+                <p>Your internet connection may have disconnected. Try checking your Wi-Fi settings to connect to a functioning network. If you still see this screen, try using the troubleshooter on your operating system.</p>
+            </div>
+        </div>
+        <div id="reset-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" id="close-reset-modal">&times;</span>
+                <h1>Reset Code</h1>
+                <p>If you reset your code, you might lose unsaved work. Please copy your code in case you haven't already!</p>
+                <button style="display: inline; padding: 5px; width: 170px;" class="magic-recommended-button" onclick="resetModal.style.display = 'none'; document.getElementById('reset-code').style.display = 'none'; document.getElementById('clear-output').style.display = 'none'; document.getElementById('confirm-reset-code').style.display = 'inline'; document.getElementById('reset-code-message').style.display = 'block'; editor.setOption('readOnly', true);">Copy Code and Reset</button>
+                <button style="border: 1px solid rgba(31, 36, 48, 1); display: inline; padding: 5px; width: 180px;" class="magic-button" onclick="resetModal.style.display = 'none'; resetCode()">I know what I'm doing!</button>
+            </div>
+        </div>
+        <div id="export-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" id="close-export-modal">&times;</span>
+                <h1>Export Code</h1>
+                <p>Select a pre-defined file extension below, or use a custom one.</p>
+                <button style="border: 1px solid rgba(31, 36, 48, 1); display: inline; padding: 5px; width: 210px; margin-bottom: 5px;" class="magic-button" onclick="downloadCode('index.html', editor.getValue())"><img src="https://replit.com/public/images/languages/web_project.svg" style="width: 24px; height: 24px; vertical-align: middle;" alt="HTML5" /><span style="vertical-align: middle;">&nbsp;&nbsp;<abbr title="HyperText Markup Language">HTML</abbr> 5 (<code>.html</code>, <code>.htm</code>)</span></button>
+                <button style="border: 1px solid rgba(31, 36, 48, 1); display: inline; padding: 5px; width: 180px; margin-bottom: 5px;" class="magic-button" onclick="downloadCode('code.txt', editor.getValue())"><svg preserveAspectRatio="xMidYMin" width="24" height="24" viewBox="0 0 24 24" color="currentColor" stroke="currentColor" stroke-width="2" fill="transparent" class="jsx-1319342727 " style="vertical-align: middle;"><path d="M13 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V9M13 2L20 9M13 2V9H20" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="vertical-align: middle;">&nbsp;&nbsp;Plain Text (<code>.txt</code>)</span></button>
+                <button style="border: 1px solid rgba(31, 36, 48, 1); display: inline; padding: 5px; padding-bottom: 7px; width: 70px; margin-bottom: 5px;" class="magic-button" onclick="downloadCode(prompt('Please enter your preferred file name and extension (e.g: code.txt)'), editor.getValue())"><span style="vertical-align: middle;">Custom</span></button>
+            </div>
+        </div>
+        <div id="libraries-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" id="close-libraries-modal">&times;</span>
+                <h1>Version Incompatible</h1>
+                <p>Sorry, libraries and frameworks are only available in the latest version of the DrRcraft Code Editor. Please go <a href="../.." style="color: whitesmoke;">here</a> to see your favorite libraries and packages.</p>
+                <p>Meanwhile, feel free to play a Bingo game!</p>
+                <iframe src="https://bingo-v100.drrman.repl.co/" style="resize: both;"></iframe>
+            </div>
+        </div>
+        <div style="display: none;">
+            <p>Get frameworks and libraries for CSS and JavaScript.</p>
+                <button onclick="window.open('https://getbootstrap.com');" style="display: inline; padding: 5px; width: 90px; margin-bottom: 8px;" class="magic-recommended-button">Bootstrap</button>
+                <br/>
+                <strong>CSS: </strong><br/>
+                <code>&lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"&gt;</code>
+                <br/><br/>
+                <strong>JavaScript: </strong><br/>
+                <code>&lt;script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"&gt;&lt;/script&gt;</code>
+                <br/><br/>
+                <button onclick="window.open('https://jquery.com');" style="display: inline; padding: 5px; width: 65px; margin-bottom: 8px;" class="magic-recommended-button">jQuery</button>
+                <br/>
+                <strong>JavaScript: </strong><br/>
+                <code>&lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"&gt;&lt;/script&gt;</code>
+                <br/><br/>
+                <button onclick="window.open('https://www.w3schools.com/w3css/default.asp');" style="display: inline; padding: 5px; width: 75px; margin-bottom: 8px;" class="magic-recommended-button">W3.CSS</button>
+                <br/>
+                <strong>CSS: </strong><br/>
+                <code>&lt;link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"&gt;</code>
+        </div>
+        <div style="margin: 8px;">
+        <div style="float: left; width: 15%;">
+            <button onclick="location.replace('..')" style="padding: 5px; width: 150px;" class="magic-button" id="home"><svg preserveAspectRatio="xMidYMin" width="24" height="24" viewBox="0 0 24 24" color="currentColor" stroke="currentColor" stroke-width="2" fill="transparent" style="vertical-align:middle" class="jsx-3164811897 "><path d="M9 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H15M9 22V13.5H15V22M9 22H15" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="vertical-align: middle;" id="home-description">&nbsp;&nbsp;Back to Home</span></button>
+            <h2>HTML Editor</h2>
+            <button class="magic-recommended-button" id="run-code" onclick="if (navigator.onLine) {showCode();} else {showInternetError();}"><svg preserveAspectRatio="xMidYMin" width="16" height="16" viewBox="0 0 24 24" color="#6CD97E" stroke="none" stroke-width="0" fill="currentColor" style="vertical-align: middle;"><path d="M20.2253 11.5642C20.5651 11.7554 20.5651 12.2446 20.2253 12.4358L5.74513 20.5809C5.41183 20.7683 5 20.5275 5 20.1451L5 3.85492C5 3.47251 5.41183 3.23165 5.74513 3.41914L20.2253 11.5642Z"></path></svg><span style="vertical-align: middle;">&nbsp;&nbsp;Run</span></button>
+            <br/><br/>
+            <span>Automatic Updates&nbsp;</span>
+            <span class="tooltip" style="font-family: 'IBM Plex Mono'; border: 2px solid white; padding-left: 6px; padding-right: 6px; border-radius: 50%; font-size: 12px; user-select: none;">i<span class="tooltip-text" style="font-family: 'IBM Plex Sans'">When enabled, the program will run every time the code is updated. Only available when connected to internet. Uses more processing power.</span></span>&nbsp;
+            <label class="switch">
+                <input id="automatic-updates-checkbox" type="checkbox" onchange="automaticUpdatesEnabled = !automaticUpdatesEnabled">
+                <span class="slider round"></span>
+            </label>
+            <br/><br/>
+            <div style="width: 100%">
+                Indent Size&nbsp;
+                <span class="tooltip" style="font-family: 'IBM Plex Mono'; border: 2px solid white; padding-left: 6px; padding-right: 6px; border-radius: 50%; font-size: 12px; user-select: none;">i<span class="tooltip-text" style="font-family: 'IBM Plex Sans';">The number of spaces left over after using the <kbd style="background-color: black; padding: 2px; border-radius: 3px;">Tab</kbd> key. You can choose this option as a programmer, but it must be between 1 and 8. Default is 4.</span></span>&nbsp;
+                <span class="tooltip" style="user-select: none;"><input type="range" min="1" max="8" value="4" class="range-slider" id="tab-size-range" onchange="editor.setOption('tabSize', Number(this.value)); editor.setOption('indentUnit', Number(this.value)); if (this.value == 4) {document.getElementById('tab-size-tooltip').innerHTML = '4 (default)'} else if (this.value == 1) {document.getElementById('tab-size-tooltip').innerHTML = '1 (minimum)'} else if (this.value == 8) {document.getElementById('tab-size-tooltip').innerHTML = '8 (maximum)'} else {document.getElementById('tab-size-tooltip').innerHTML = this.value;}" /><span class="tooltip-text" style="font-family: 'IBM Plex Sans'; width: 85px; top: 100%; margin-left: -70px;" id="tab-size-tooltip">4 (default)</span></span>
+            </div>
+            <br/>
+            <button style="display: /*inline*/none; padding: 5px; width: 100px; margin-bottom: 5px;" class="magic-button" onclick="showResetWarning()" id="reset-code">Reset Code</button>
+            <button style="display: none; padding: 5px; width: 70px;" class="magic-button" id="confirm-reset-code" onclick="document.getElementById('reset-code').style.display = 'inline'; document.getElementById('confirm-reset-code').style.display = 'none'; document.getElementById('reset-code-message').style.display = 'none'; document.getElementById('clear-output').style.display = ''; resetCode()">Confirm</button>
+            <button style="display: inline; padding: 5px; width: 110px; margin-bottom: 5px;" class="magic-button" onclick="document.getElementById('view').src = '';" id="clear-output">Clear Output</button>
+            <button class="magic-button" style="display: inline; width: 105px; padding: 5px;" onclick="showLibraries()">Get Libraries</button>
+            <p id="reset-code-message" style="display: none;">Copy the segment of code you want to save. Once you're done, click Confirm to reset the entire code.</p>
+        </div>
+        <div id="code" style="float: left; width: 50%;" onkeyup="autoUpdate()"></div>
+        <div style="padding-bottom: 8px;">
+            Result Size: <span id="result-size-display">Result Size</span>&nbsp;
+            <div class="dropdown">
+                <button id="open-export-dropdown" class="magic-button dropdown-button" style="padding: 5px; width: 80px; display: inline-block;" onclick="if (document.getElementById('export-dropdown').style.display == 'none') {document.getElementById('export-dropdown').style.display = 'block'} else {document.getElementById('export-dropdown').style.display = 'none'}">Export&nbsp;<svg preserveAspectRatio="xMidYMin" width="16" height="16" viewBox="0 0 24 24" color="currentColor" stroke="currentColor" stroke-width="2" fill="transparent" style="vertical-align: middle;"><path d="M6 9L12 15L18 9" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+                <div style="margin-top: 8px;" id="export-dropdown" class="dropdown-content">
+                    <a onclick="downloadCode('index.html', editor.getValue())"><svg preserveAspectRatio="xMidYMin" width="20" height="20" viewBox="0 0 24 24" class="jsx-963823043 " style="vertical-align: middle;"><path d="M3.00079 2L4.63875 20.4009L11.9893 22.4446L19.3605 20.3978L21 2H3H3.00079ZM6.40373 6.36681L6.34974 5.76101H11.9925V8.01747H8.81262L9.01826 10.3287H11.9925V12.5851H6.95792L6.40373 6.36602V6.36681ZM17.1755 10.9353L16.6459 16.8765L16.6118 17.2576L11.9893 18.5407L7.37316 17.2576L7.05717 13.7142H9.31917L9.47955 15.5141L11.9909 16.1921L14.5038 15.5125L14.765 12.5859H11.998V10.3295H17.2279L17.1731 10.9353H17.1755ZM17.5836 6.36681L17.4811 7.51092L17.4359 8.01826H12.0004V5.76181H17.6376L17.5836 6.36681Z" fill="#AD5700"></path></svg><span style="vertical-align: middle;">&nbsp;&nbsp;HTML5</span></a>
+                    <a onclick="downloadCode('code.txt', editor.getValue())"><svg preserveAspectRatio="xMidYMin" width="20" height="20" viewBox="0 0 24 24" class="jsx-963823043 " style="vertical-align: middle;" fill="white"><path d="M3 3.5H21V5.5H3V3.5Z" fill="var(--white)"></path><path d="M3 8.5H14V10.5H3V8.5Z" fill="var(--white)"></path><path d="M3 13.5H21V15.5H3V13.5Z" fill="white"></path><path d="M3 18.5H17V20.5H3V18.5Z" fill="white"></path></svg><span style="vertical-align: middle;">&nbsp;&nbsp;Plain Text</span></a>
+                    <a onclick="showExportMenu()"><img src="img_trans.gif" style="width: 20px; height: 20px; vertical-align: middle;" alt="Transparent" /><span style="vertical-align: middle;">&nbsp;&nbsp;Other...</span></a>
+                </div>
+            </div>
+        </div>
+        </div>
+        <iframe id="view" style="width: 33%; float: left; border: none;"></iframe>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/closebrackets.js"></script>
+        <script src="https://codemirror.net/5/addon/edit/matchbrackets.js"></script>
+        <script src="https://codemirror.net/5/addon/edit/matchtags.js"></script>
+        <script src="https://codemirror.net/5/addon/fold/xml-fold.js"></script>
+        <script src="https://codemirror.net/5/addon/hint/html-hint.js"></script>
+        <script src="https://codemirror.net/5/addon/hint/xml-hint.js"></script>
+        <script src="https://codemirror.net/5/addon/hint/css-hint.js"></script>
+        <script src="https://codemirror.net/5/addon/hint/javascript-hint.js"></script>
+        <script src="https://codemirror.net/5/addon/hint/anyword-hint.js"></script>
+        <script src="https://codemirror.net/5/addon/lint/lint.js"></script>
+        <script src="https://codemirror.net/5/addon/lint/html-lint.js"></script>
+        <script src="https://codemirror.net/5/addon/lint/css-lint.js"></script>
+        <script src="https://codemirror.net/5/addon/lint/javascript-lint.js"></script>
+        <script src="https://codemirror.net/5/mode/htmlmixed/htmlmixed.js"></script>
+        <script src="https://codemirror.net/5/mode/xml/xml.js"></script>
+        <script src="https://codemirror.net/5/mode/css/css.js"></script>
+        <script src="https://codemirror.net/5/mode/javascript/javascript.js"></script>
+        <script src="../../show-hint.js"></script>
+        <script src="script.js"></script>
+    </body>
+</html>

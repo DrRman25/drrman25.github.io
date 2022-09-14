@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>JavaScript Checker</title>
+        <link href="style.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <div style="margin: 8px;">
+            <button onclick="location.replace('..')" style="padding: 5px; width: 150px;" class="magic-button" id="home"><svg preserveAspectRatio="xMidYMin" width="24" height="24" viewBox="0 0 24 24" color="currentColor" stroke="currentColor" stroke-width="2" fill="transparent" style="vertical-align:middle" class="jsx-3164811897 "><path d="M9 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H15M9 22V13.5H15V22M9 22H15" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="vertical-align: middle;" id="home-description">&nbsp;&nbsp;Back to Home</span></button>
+            <h1>JavaScript Checker</h1>
+            <button class="magic-button" style="padding: 5px; width: auto;" onclick="startChecks();" id="check-btn">Start the Checks</button>
+            <p style="font-size: 18px;">
+                Your browser supports:<br/>
+                <span id="es1-check-container">Running JavaScript &mdash; <span style="color: red;" id="es1-check">No</span></span><br/>
+                <span id="es5-check-container">ECMAScript 2009 (ES5) &mdash; <span style="color: red;" id="es5-check">No</span></span><br/>
+                <span id="es6-check-container">ECMAScript 2015 (ES6) &mdash; <span style="color: red;" id="es6-check">No</span></span><br/>
+                <span id="es2016-check-container">ECMAScript 2016 &mdash; <span style="color: red;" id="es2016-check">No</span></span><br/>
+                <span id="es2017-check-container">ECMAScript 2017 &mdash; <span style="color: red;" id="es2017-check">No</span></span><br/>
+                <span id="es2018-check-container">ECMAScript 2018 &mdash; <span style="color: red;" id="es2018-check">No</span></span><br/>
+            </p>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>
