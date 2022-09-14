@@ -1,10 +1,10 @@
-import {EditorState, Compartment, StateEffect} from "https://codemirror.net/try/mods/@codemirror-state.js";
+import {EditorState, StateEffect} from "https://codemirror.net/try/mods/@codemirror-state.js";
 import {search, highlightSelectionMatches, searchKeymap} from "https://codemirror.net/try/mods/@codemirror-search.js";
-import {EditorView, keymap, placeholder, lineNumbers, highlightActiveLineGutter, highlightSpecialChars, drawSelection, dropCursor, rectangularSelection, crosshairCursor, highlightActiveLine} from "https://codemirror.net/try/mods/@codemirror-view.js";
-import {insertTab, indentLess, defaultKeymap, history, historyKeymap} from "https://codemirror.net/try/mods/@codemirror-commands.js";
+import {EditorView, keymap, placeholder, lineNumbers, highlightActiveLineGutter, highlightSpecialChars, drawSelection, dropCursor, rectangularSelection, highlightActiveLine} from "https://codemirror.net/try/mods/@codemirror-view.js";
+import {defaultKeymap, history, historyKeymap} from "https://codemirror.net/try/mods/@codemirror-commands.js";
 import {tags} from "https://codemirror.net/try/mods/@lezer-highlight.js";
 import {indentUnit, syntaxHighlighting, HighlightStyle, foldGutter, indentOnInput, defaultHighlightStyle, bracketMatching, foldKeymap} from "https://codemirror.net/try/mods/@codemirror-language.js";
-import {closeBrackets, autocompletion, closeBracketsKeymap, completionKeymap, acceptCompletion} from "https://codemirror.net/try/mods/@codemirror-autocomplete.js";
+import {closeBrackets, autocompletion, closeBracketsKeymap, completionKeymap} from "https://codemirror.net/try/mods/@codemirror-autocomplete.js";
 import {lintKeymap} from "https://codemirror.net/try/mods/@codemirror-lint.js";
 import {vscodeKeymap} from '../node-modules/@replit/codemirror-vscode-keymap/dist/index.js';
 import interact from '../node-modules/@replit/codemirror-interact/dist/index.js';
