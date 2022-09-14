@@ -4,7 +4,7 @@ if (!localStorage.getItem("code-editor-site-theme")) {
 
 document.body.setAttribute("theme", localStorage.getItem("code-editor-site-theme"));
 
-document.getElementById("code-editor-site-theme").value = localStorage.getItem("code-editor-site-theme");
+document.getElementById("site-theme").value = localStorage.getItem("code-editor-site-theme");
 
 function displayNotification(relativeElement, messageText, notificationTime) {
     var notificationElement = document.createElement("div");
