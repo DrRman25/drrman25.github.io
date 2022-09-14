@@ -12,35 +12,35 @@ import {indentationMarkers} from '../node-modules/@replit/codemirror-indentation
 import {html} from "https://codemirror.net/try/mods/@codemirror-lang-html.js";
 import {colorPicker} from '../node-modules/@replit/codemirror-css-color-picker/dist/index.js';
 
-if (!localStorage.getItem("editor-tabSize")) {
-    localStorage.setItem("editor-tabSize", 4);
+if (!localStorage.getItem("code-editor-editor-tabSize")) {
+    localStorage.setItem("code-editor-editor-tabSize", 4);
 }
 
-if (!localStorage.getItem("editor-indentUnit")) {
-    localStorage.setItem("editor-indentUnit", "    ");
+if (!localStorage.getItem("code-editor-editor-indentUnit")) {
+    localStorage.setItem("code-editor-editor-indentUnit", "    ");
 }
 
-if (!localStorage.getItem("editor-vscodeKeymap")) {
-    localStorage.setItem("editor-vscodeKeymap", false);
+if (!localStorage.getItem("code-editor-editor-vscodeKeymap")) {
+    localStorage.setItem("code-editor-editor-vscodeKeymap", false);
 }
 
-if (!localStorage.getItem("editor-colorPicker")) {
-    localStorage.setItem("editor-colorPicker", true);
+if (!localStorage.getItem("code-editor-editor-colorPicker")) {
+    localStorage.setItem("code-editor-editor-colorPicker", true);
 }
 
-if (!localStorage.getItem("editor-indentationMarkers")) {
-    localStorage.setItem("editor-indentationMarkers", true);
+if (!localStorage.getItem("code-editor-editor-indentationMarkers")) {
+    localStorage.setItem("code-editor-editor-indentationMarkers", true);
 }
 
-if (!localStorage.getItem("editor-interact")) {
-    localStorage.setItem("editor-interact", false);
+if (!localStorage.getItem("code-editor-editor-interact")) {
+    localStorage.setItem("code-editor-editor-interact", false);
 }
 
-if (!localStorage.getItem("site-theme")) {
-    localStorage.setItem("site-theme", "light");
+if (!localStorage.getItem("code-editor-site-theme")) {
+    localStorage.setItem("code-editor-site-theme", "light");
 }
 
-document.body.setAttribute("theme", localStorage.getItem("site-theme"));
+document.body.setAttribute("theme", localStorage.getItem("code-editor-site-theme"));
 
 var frame, frameDoc, frameWin;
 var editor;
@@ -129,8 +129,8 @@ function loadCode(code) {
             search({
                 top: true
             }),
-            EditorState.tabSize.of(localStorage.getItem("editor-tabSize")),
-            indentUnit.of(localStorage.getItem("editor-indentUnit")),
+            EditorState.tabSize.of(localStorage.getItem("code-editor-editor-tabSize")),
+            indentUnit.of(localStorage.getItem("code-editor-editor-indentUnit")),
             syntaxHighlighting(theme)
         ]
     });
@@ -143,16 +143,16 @@ function loadCode(code) {
         });
     }
 
-    if (localStorage.getItem("editor-vscodeKeymap") != "false") {
+    if (localStorage.getItem("code-editor-editor-vscodeKeymap") != "false") {
         injectExtension(keymap.of([...vscodeKeymap]));
     }
-    if (localStorage.getItem("editor-colorPicker") != "false") {
+    if (localStorage.getItem("code-editor-editor-colorPicker") != "false") {
         injectExtension(colorPicker);
     }
-    if (localStorage.getItem("editor-indentationMarkers") != "false") {
+    if (localStorage.getItem("code-editor-editor-indentationMarkers") != "false") {
         injectExtension(indentationMarkers());
     }
-    if (localStorage.getItem("editor-interact") != "false") {
+    if (localStorage.getItem("code-editor-editor-interact") != "false") {
         injectExtension(interact({
             rules: [
                 // Number changer
@@ -207,12 +207,12 @@ function getDefaultCode() {
 <html>
 
 <head>
-${localStorage.getItem("editor-indentUnit")}<title>Your Title Here</title>
+${localStorage.getItem("code-editor-editor-indentUnit")}<title>Your Title Here</title>
 </head>
 
 <body>
-${localStorage.getItem("editor-indentUnit")}<h1>My First HTML Page</h1>
-${localStorage.getItem("editor-indentUnit")}<p>Hello, world!</p>
+${localStorage.getItem("code-editor-editor-indentUnit")}<h1>My First HTML Page</h1>
+${localStorage.getItem("code-editor-editor-indentUnit")}<p>Hello, world!</p>
 </body>
 
 </html>

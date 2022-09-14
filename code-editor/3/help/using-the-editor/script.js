@@ -1,8 +1,8 @@
-if (!localStorage.getItem("site-theme")) {
-    localStorage.setItem("site-theme", "light");
+if (!localStorage.getItem("code-editor-site-theme")) {
+    localStorage.setItem("code-editor-site-theme", "light");
 }
 
-document.body.setAttribute("theme", localStorage.getItem("site-theme"));
+document.body.setAttribute("theme", localStorage.getItem("code-editor-site-theme"));
 
 function displayNotification(relativeElement, messageText, notificationTime) {
     var notificationElement = document.createElement("div");
