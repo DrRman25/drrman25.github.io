@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Professional Form</title>
+        <style>
+            input[type="text"], select, textarea {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid lightgray;
+                border-radius: 8px;
+                margin-top: 6px;
+                margin-bottom: 16px;
+                resize: vertical;
+                box-sizing: border-box;
+                font-family: sans-serif;
+            }
+
+            div.form {
+                background-color: lightgray;
+                padding: 16px;
+                border-radius: 16px;
+            }
+
+            input[type="submit"] {
+                background-color: #04aa6d;
+                border: none;
+                padding: 8px;
+                border-radius: 8px;
+                color: white;
+            }
+
+            input[type="submit"]:hover {
+                background-color: #009a5d;
+            }
+
+            input[type="submit"]:active {
+                background-color: #008a4d;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Professional Form</h1>
+        <p>Try to resize the browser window to see the responsive effect!</p>
+        <div class="form">
+            <form action="https://form-action.drrman.repl.co/">
+                <label for="fname">First Name</label>
+                <input type="text" id="fname" name="fname" placeholder="Your first name..." />
+                <label for="lname">Last Name</label>
+                <input type="text" id="lname" name="lname" placeholder="Your last name..." />
+                <label for="country">Country</label>
+                <select id="country" name="country">
+                    <option value="usa">USA</option>
+                    <option value="canada">Canada</option>
+                    <option value="mexico">Mexico</option>
+                    <option value="australia">Australia</option>
+                </select>
+                <label for="subject">Subject</label>
+                <textarea id="subject" name="subject" placeholder="Your subject..." style="height: 200px;"></textarea>
+                <input type="submit" value="Submit" />
+            </form>
+        </div>
+    </body>
+</html>

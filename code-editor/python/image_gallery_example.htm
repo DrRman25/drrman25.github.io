@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Image Gallery</title>
+    <style>
+        div.img {
+            margin: 5px; /* Gives some space around cards */
+            padding: 5px; /* Gives some space inside cards */
+            border: 1px solid #0000ff; /* Adds a border */
+            height: auto; /* Allows browser to calculate height */
+            width: auto; /* Allows browser to calculate width */
+            float: left; /* Makes cards float to the left */
+            text-align: center; /* Center aligns content of containing cards */
+        }
+
+        div.img img {
+            margin: 5px; /* Pushes images to the bottom */
+            border: 1px solid white; /* Adds a border */
+        }
+
+        div.img a:hover img {
+            border: 1px solid #0000ff; /* Adds a colored border when hovering */
+        }
+
+        div.desc {
+            text-align: center; /* Center aligns description text */
+            width: 120px; /* Prevents overstretching of text */
+            margin: 5px; /* Gives some space */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Image Gallery</h1>
+    <p>Try to resize the browser window to see the responsive effect!</p>
+    <div class="img">
+        <a target="_blank" href="klematis_big.htm">
+            <img src="klematis_small.jpg" alt="Klematis" width="110" height="90" />
+        </a>
+        <div class="desc">Add a description of the image here</div>
+    </div>
+    <div class="img">
+        <a target="_blank" href="klematis2_big.htm">
+            <img src="klematis2_small.jpg" alt="Klematis" width="110" height="90" />
+        </a>
+        <div class="desc">Add a description of the image here</div>
+    </div>
+    <div class="img">
+        <a target="_blank" href="klematis3_big.htm">
+            <img src="klematis3_small.jpg" alt="Klematis" width="110" height="90" />
+        </a>
+        <div class="desc">Add a description of the image here</div>
+    </div>
+    <div class="img">
+        <a target="_blank" href="klematis4_big.htm">
+            <img src="klematis4_small.jpg" alt="Klematis" width="110" height="90" />
+        </a>
+        <div class="desc">Add a description of the image here</div>
+    </div>
+</body>
+
+</html>

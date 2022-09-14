@@ -1,0 +1,55 @@
+button.control {
+    font-family: sans-serif;
+    background: #eee;
+    border: 0.0625rem solid #666;
+    border-radius: 0.3125rem;
+    padding: 0.125rem 0.3125rem;
+    cursor: pointer;
+}
+
+button.control:hover {
+    background: white;
+}
+
+button.control:active {
+    background: #ccc;
+}
+
+body[theme="dark"] button.control {
+    background: #111;
+    border-color: #999;
+    color: white;
+}
+
+body[theme="dark"] button.control:hover {
+    background: black;
+}
+
+body[theme="dark"] button.control:active {
+    background: #333;
+}
+
+body[theme="spooky"] button.control {
+    background: #222;
+    border-color: #666;
+    color: white;
+}
+
+body[theme="spooky"] button.control:hover {
+    background: #222;
+}
+
+body[theme="spooky"] button.control:active {
+    background: #555;
+}
+
+.notification {
+    position: fixed;
+    background: lightyellow;
+    border: 0.0625rem solid gold;
+    border-radius: 0.5rem;
+    padding: 0.125rem 0.3125rem;
+    cursor: default;
+    user-select: none;
+    -webkit-user-select: none;
+}

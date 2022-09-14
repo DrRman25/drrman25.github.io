@@ -1,0 +1,195 @@
+.cm-s-drrcraft-light .cm-keyword {
+    color: #7d6c2c;
+}
+
+.cm-s-drrcraft-light .cm-atom {
+    color: #7d6c2c;
+}
+
+.cm-s-drrcraft-light .cm-number {
+    color: #a15412;
+}
+
+.cm-s-drrcraft-light .cm-unit {
+    color: #a15412;
+}
+
+.cm-s-drrcraft-light .cm-def {
+    color: black;
+}
+
+.cm-s-drrcraft-light .cm-variable {
+    color: black;
+}
+
+.cm-s-drrcraft-light .cm-variable-2 { 
+    color: black;
+}
+
+.cm-s-drrcraft-light .cm-property {
+    color: #695466;
+}
+
+.cm-s-drrcraft-light .cm-operator {
+    color: #cccccc;
+}
+
+.cm-s-drrcraft-light .cm-comment {
+    color: #a6a6a6;
+}
+
+.cm-s-drrcraft-light .cm-string {
+    color: #249748;
+}
+
+.cm-s-drrcraft-light .cm-string-2 {
+    color: #000000;
+}
+
+.cm-s-drrcraft-light .cm-meta {
+    color: #a6a6a6;
+}
+
+.cm-s-drrcraft-light .cm-header {
+    color: #953e04;
+}
+
+.cm-s-drrcraft-light .cm-tag {
+    color: #a38b4d;
+}
+
+.cm-s-drrcraft-light .cm-tag.cm-bracket {
+    color: #784e17;
+}
+
+.cm-s-drrcraft-light .cm-attribute {
+    color: #7d6c2c;
+}
+
+.cm-s-drrcraft-light .cm-strong {
+    color: #7d6c2c;
+}
+
+.cm-s-drrcraft-light .cm-em {
+    color: #7d6c2c;
+}
+
+.cm-s-drrcraft-light .cm-qualifier {
+    color: #7d6c2c;
+}
+
+.cm-s-drrcraft-light .cm-builtin {
+    color: #7d6c2c;
+}
+
+.cm-s-drrcraft-light .cm-error {
+    color: #990000;
+}
+
+.cm-s-drrcraft-light .CodeMirror-linenumber {
+    color: #aaaaaa;
+}
+
+.cm-s-drrcraft-light.CodeMirror {
+    background: #fff;
+}
+
+.cm-s-drrcraft-light .CodeMirror-gutters {
+    background: #eee;
+    border-right: none !important;
+}
+
+.cm-s-drrcraft-light .CodeMirror-selected {
+    background: #cce !important;
+}
+
+.cm-s-drrcraft-light .CodeMirror-matchingtag {
+    background: #bbb !important;
+    outline: 1px solid #aaa;
+}
+
+.cm-s-drrcraft-light .CodeMirror-matchingbracket {
+    background: #bbb !important;
+    outline: 1px solid #aaa;
+    color: black !important;
+}
+/*
+.drrcraft-light.CodeMirror-hints {
+    position: absolute;
+    z-index: 10;
+    overflow: hidden;
+    list-style: none;
+    margin: 0;
+    padding: 2px;
+    -webkit-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    background-color: #dcdcdc;
+    background-image: linear-gradient(to bottom right, #dcdcdc, white);
+    font-size: 90%;
+    font-family: 'ReplitHack', "IBM Plex Mono", monospace;
+    max-height: 20em;
+    overflow-y: auto;
+}
+
+.drrcraft-light .CodeMirror-hint {
+    margin: 0;
+    padding: 0 4px;
+    border-radius: 2px;
+    white-space: pre;
+    color: rgba(30, 30, 30, 1);
+    cursor: pointer;
+}
+
+.drrcraft-light li.CodeMirror-hint-active {
+    background: linear-gradient(to bottom right, #999, #ccc);
+    color: #111;
+}*/
+
+.drrcraft-light.CodeMirror-hints {
+    position: absolute;
+    z-index: 10;
+    overflow: hidden;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    -webkit-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    border-radius: 5px;
+    border: 1px solid #aaa;
+    background-color: #dcdcdc;
+    font-size: 90%;
+    font-family: 'ReplitHack', "IBM Plex Mono", monospace;
+    max-height: 20em;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.drrcraft-light .CodeMirror-hint {
+    margin: 0;
+    padding: 2px 6px;
+    white-space: pre;
+    color: rgba(30, 30, 30, 1);
+    cursor: pointer;
+}
+
+.drrcraft-light .CodeMirror-hint::before {
+    content: "t ";
+    font-family: monospace;
+    font-weight: bold;
+    font-style: italic;
+    color: #007bff80;
+}
+
+.drrcraft-light li.CodeMirror-hint-active {
+    background: #6610f280;
+    color: #111;
+}
+
+.drrcraft-light.CodeMirror-hints::-webkit-scrollbar {
+    display: none;
+}

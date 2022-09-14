@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Python Editor v1.0</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.8/codemirror.min.css" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-dark-5@1.1.3/dist/css/bootstrap-dark.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="node-modules/codemirror-addon-indent-guide/src/indent-guide.css" />
+        <link rel="stylesheet" href="../theme/drrcraft-lint.css" />
+        <link rel="stylesheet" href="../fold-gutter.css" />
+        <link rel="stylesheet" href="../theme/drrcraft-dark.css" />
+        <link rel="stylesheet" href="../theme/drrcraft-light.css" />
+        <link href="style.css" rel="stylesheet" type="text/css" />
+        <style>
+            .goog-te-combo {
+                display: block;
+                width: 100%;
+                padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+                -moz-padding-start: calc(0.75rem - 3px);
+                font-size: 1rem !important;
+                font-weight: 400;
+                line-height: 1.5;
+                color: #212529;
+                background-color: #fff;
+                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+                background-repeat: no-repeat;
+                background-position: right 0.75rem center;
+                background-size: 16px 12px;
+                border: 1px solid #ced4da;
+                border-radius: 0.375rem;
+                transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                font-family: 'Source Sans Pro', sans-serif !important;
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .goog-te-combo {
+                    transition: none;
+                }
+            }
+            .goog-te-combo:focus {
+                border-color: #86b7fe;
+                outline: 0;
+                box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+            }
+            .goog-te-combo[multiple], .goog-te-combo[size]:not([size="1"]) {
+                padding-right: 0.75rem;
+                background-image: none;
+            }
+            .goog-te-combo:disabled {
+                background-color: #e9ecef;
+            }
+            .goog-te-combo:-moz-focusring {
+                color: transparent;
+                text-shadow: 0 0 0 #212529;
+            }
+
+            @media (prefers-color-scheme: dark) {
+                .goog-te-combo {
+                    color: #b1b1b1;
+                    background-color: #222;
+                    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23cfcfcf' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+                    border: 1px solid #515151;
+                }
+
+                .goog-te-combo:focus {
+                    border-color: #9badbf;
+                    box-shadow: 0 0 0 0.25rem rgba(55, 90, 127, 0.25);
+                }
+
+                .goog-te-combo[multiple], .goog-te-combo[size]:not([size="1"]) {
+                    background-image: none;
+                }
+
+                .goog-te-combo:disabled {
+                    background-color: #3b3b3b;
+                }
+
+                .goog-te-combo:-moz-focusring {
+                    color: transparent;
+                    text-shadow: 0 0 0 #b1b1b1;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar sticky-top navbar-expand-lg navbar-dark" style="background-color: #510ce9;" id="master-navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand mb-0 h1" href="..">
+                    Python Editor
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="..">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Programming Languages</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="../html"><img src="https://replit.com/public/images/languages/web_project.svg" style="width: 24px;" />&nbsp;&nbsp;HTML</a></li>
+                                <li><a class="dropdown-item active" href="../python"><img src="https://replit.com/cdn-cgi/image/width=1920,quality=80,format=auto/https://storage.googleapis.com/replit/images/1658955765901_2fe77c23238c5cfb8073653e764935e4.png" style="width: 24px;" />&nbsp;&nbsp;Python</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="offcanvas" 
+href="#settings-offcanvas">Settings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="offcanvas" href="#properties-offcanvas">Properties</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" role="button" data-bs-toggle="offcanvas" href="#import-offcanvas">Import</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Export</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="javascript:downloadCode('index.html', editor.getValue())"><img src="https://replit.com/public/images/languages/web_project.svg" style="width: 24px; vertical-align: middle;" />&nbsp;&nbsp;HTML</a></li>
+                                <li><a class="dropdown-item" href="javascript:downloadCode('default.txt', editor.getValue())">
+                                    <svg preserveAspectRatio="xMidYMin" width="24" height="24" viewBox="0 0 24 24" class="jsx-1576278405 " style="vertical-align: middle;" fill="currentColor">
+                                    	<path d="M3 3.5H21V5.5H3V3.5Z" fill="currentColor"></path>
+                                    	<path d="M3 8.5H14V10.5H3V8.5Z" fill="currentColor"></path>
+                                    	<path d="M3 13.5H21V15.5H3V13.5Z" fill="currentColor"></path>
+                                    	<path d="M3 18.5H17V20.5H3V18.5Z" fill="currentColor"></path>
+                                    </svg>&nbsp;
+                                    Plain Text
+                                </a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" data-bs-toggle="offcanvas" href="#export-offcanvas" onclick="getFileSize();">
+                                    <svg preserveAspectRatio="xMidYMin" width="24" height="24" viewBox="0 0 24 24" color="currentColor" stroke="currentColor" stroke-width="2" fill="transparent" class="jsx-3164811897 " style="vertical-align: middle;">
+                                    	<path d="M13 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V9M13 2L20 9M13 2V9H20" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>&nbsp;
+                                    Custom...
+                                </a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-run" id="run-btn" onclick="showOutput(true);" data-bs-toggle="popover" data-bs-trigger="hover" title="" data-bs-animation="false" data-bs-html="true" data-bs-content="Ctrl&nbsp;&nbsp;Enter">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+                                    <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+                                </svg>
+                                Run
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="settings-offcanvas">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title">Settings</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <h6 style='font-size: 1.125rem;'>
+                    <span id="indent-size-label">Indent Size (4)</span>&nbsp;
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16" data-bs-toggle="popover" data-bs-trigger="hover" title="" data-bs-content="Changes the IDE's or editor's default tab or indent size. A smaller value may be faster.">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>
+                    </svg>
+                </h6>
+                <input type="range" class="form-range" min="1" max="8" value="4" onchange="editor.setOption('tabSize', Number(this.value)); editor.setOption('indentUnit', Number(this.value)); document.getElementById('indent-size-label').innerHTML = 'Indent Size (' + this.value + ')'" />
+                <br/>
+                <br/>
+                <h6 style='font-size: 1.125rem;'>
+                    <span id="line-height-label">Line Height (1.5)</span>&nbsp;
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16" data-bs-toggle="popover" data-bs-trigger="hover" title="" data-bs-content="Changes the IDE's default spacing between lines.">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>
+                    </svg>
+                </h6>
+                <input type="range" class="form-range" min="1" max="2" value="1.5" step="0.1" onchange="document.getElementById('code-editor').style.lineHeight = this.value; document.getElementById('line-height-label').innerHTML = 'Line Height (' + this.value + ')'" />
+                <br/>
+                <br/>
+                <h6 style='font-size: 1.125rem;'>
+                    Update Type
+                </h6>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="update-type" onchange="automaticUpdates = false;" checked />
+                    <label class="form-check-label">
+                        Manual&nbsp;
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16" data-bs-toggle="popover" data-bs-trigger="hover" title="" data-bs-content="The output will not automatically update when the code is changed.">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>
+                        </svg>
+                        &nbsp;
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-speedometer2" viewBox="0 0 16 16" data-bs-toggle="popover" data-bs-trigger="hover" title="" data-bs-content="Fastest setting">
+                            <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.518z"></path>
+                            <path fill-rule="evenodd" d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="update-type" onchange="automaticUpdates = true;" />
+                    <label class="form-check-label">
+                        Semi-Automatic&nbsp;
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16" data-bs-toggle="popover" data-bs-trigger="hover" title="" data-bs-content="The output will automatically update after the code is verified.">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>
+                        </svg>
+                    </label>
+                </div>
+                <br/>
+                <h6 style='font-size: 1.125rem;'>
+                    IDE Theme
+                </h6>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="dark-ide" onchange="editor.setOption('theme', 'drrcraft-dark'); document.getElementById('editor-context-menu').classList.add('drrcraft-dark'); document.getElementById('editor-context-menu').classList.remove('drrcraft-light');" />
+                    <label class="form-check-label">
+                        Dark&nbsp;
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16" data-bs-toggle="popover" data-bs-trigger="hover" title="" data-bs-content="Changes the IDE to a dark theme. One coding at night may benefit from enabling this.">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="dark-ide" onchange="editor.setOption('theme', 'drrcraft-light'); document.getElementById('editor-context-menu').classList.add('drrcraft-light'); document.getElementById('editor-context-menu').classList.remove('drrcraft-dark');" />
+                    <label class="form-check-label">
+                        Light&nbsp;
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16" data-bs-toggle="popover" data-bs-trigger="hover" title="" data-bs-content="Changes the IDE to a light theme. Many users will prefer this option during the day.">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="dark-ide" onchange="setSystemDefaultIDE()" checked id="system-default-ide-theme" />
+                    <label class="form-check-label">
+                        Browser Default&nbsp;
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16" data-bs-toggle="popover" data-bs-trigger="hover" title="" data-bs-content="Changes the IDE to your system default theme. Most of the times, there is no need to disable this.">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>
+                        </svg>
+                    </label>
+                </div>
+                <br/>
+                <h6 style='font-size: 1.125rem;'>
+                    Text Size
+                </h6>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="text-size" onchange="document.getElementById('code-editor').style.fontSize = '22px';" />
+                    <label class="form-check-label">
+                        Huge&nbsp;
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16" data-bs-toggle="popover" data-bs-trigger="hover" title="" data-bs-content="A huge text size.">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="text-size" onchange="document.getElementById('code-editor').style.fontSize = '18px';" />
+                    <label class="form-check-label">
+                        Large&nbsp;
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16" data-bs-toggle="popover" data-bs-trigger="hover" title="" data-bs-content="A large text size.">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="text-size" onchange="document.getElementById('code-editor').style.fontSize = '14px';" checked />
+                    <label class="form-check-label">
+                        Medium&nbsp;
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16" data-bs-toggle="popover" data-bs-trigger="hover" title="" data-bs-content="The default text size.">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="text-size" onchange="document.getElementById('code-editor').style.fontSize = '10px';" />
+                    <label class="form-check-label">
+                        Small&nbsp;
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16" data-bs-toggle="popover" data-bs-trigger="hover" title="" data-bs-content="A small text size.">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="text-size" onchange="document.getElementById('code-editor').style.fontSize = '6px';" />
+                    <label class="form-check-label">
+                        Tiny&nbsp;
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16" data-bs-toggle="popover" data-bs-trigger="hover" title="" data-bs-content="An exceptionally small text size.">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>
+                        </svg>
+                        &nbsp;
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-speedometer2" viewBox="0 0 16 16" data-bs-toggle="popover" data-bs-trigger="hover" title="" data-bs-content="Fastest setting">
+                            <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.518z"></path>
+                            <path fill-rule="evenodd" d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z"></path>
+                        </svg>
+                    </label>
+                </div>
+                <br/>
+                <h6 style='font-size: 1.125rem;'>
+                    Writing Mode&nbsp;
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-video3" viewBox="0 0 16 16" data-bs-toggle="popover" data-bs-trigger="hover" title="" data-bs-content="Useful in a teaching or classroom environment">
+                        <path d="M14 9.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm-6 5.7c0 .8.8.8.8.8h6.4s.8 0 .8-.8-.8-3.2-4-3.2-4 2.4-4 3.2Z"></path>
+                        <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h5.243c.122-.326.295-.668.526-1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v7.81c.353.23.656.496.91.783.059-.187.09-.386.09-.593V4a2 2 0 0 0-2-2H2Z"></path>
+                    </svg>
+                </h6>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="view-only-ide" onchange="editor.setOption('readOnly', false);" checked />
+                    <label class="form-check-label">
+                        Editing&nbsp;
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16" data-bs-toggle="popover" data-bs-trigger="hover" title="" data-bs-content="Changes the IDE to a editable state.">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="view-only-ide" onchange="editor.setOption('readOnly', true);" />
+                    <label class="form-check-label">
+                        Viewing&nbsp;
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16" data-bs-toggle="popover" data-bs-trigger="hover" title="" data-bs-content="Changes the IDE to a view only state, where the code cannot be edited. This is normally used for showcasing a code snippet.">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>
+                        </svg>
+                    </label>
+                </div>
+                <br/>
+                <h6 style='font-size: 1.125rem;'>Language</h6>
+                <p><span class="text-danger">WARNING: THIS FEATURE IS HIGHLY EXPERIMENTAL!</span> By changing this option, you may experience very critical bugs and glitches. Other features might not work correctly, or at all. Use this feature if and ONLY if you are able to cope with these issues!</p>
+                <div id="google-translator"></div>
+                <br/>
+                <h6 style='font-size: 1.125rem;'>Why can't I change the look of the website itself?</h6>
+                <p>The look of the full website is specified by your operating system's theme.</p>
+            </div>
+        </div>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="properties-offcanvas">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title">Window & Editor Properties</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div id="window-properties"></div>
+            </div>
+        </div>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="export-offcanvas">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title">Custom Export</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <form class="needs-export-validation" novalidate>
+                    <div class="row g-2 mb-3">
+                        <div class="col-md">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" placeholder="Filename" aria-label="Filename" id="custom-filename" required />
+                                <label for="custom-filename">Filename</label>
+                                <div class="invalid-feedback">
+                                    Please specify a file name.
+                                </div>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" placeholder="Extension" aria-label="Extension" id="custom-file-extension" required />
+                                <label for="custom-file-extension">Extension</label>
+                                <div class="invalid-feedback">
+                                    Please specify a file extension.
+                                </div>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating mt-3 mb-3">
+                        <input type="text" class="form-control" placeholder="Title" aria-label="Title" />
+                        <label>Title</label>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <div class="form-floating mt-3 mb-3">
+                        <textarea class="form-control" placeholder="Description" aria-label="Description"></textarea>
+                        <label>Description</label>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <div class="form-floating mt-3 mb-3">
+                        <input type="text" class="form-control" placeholder="Contributors" aria-label="Contributors" />
+                        <label>Contributors</label>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <input type="submit" class="btn btn-drrcraft-primary" value="Export" />
+                    <span style="vertical-align: middle;">&nbsp;&nbsp;Estimated File Size: <span id="export-file-size">0 bytes</span></span>
+                </form>
+            </div>
+        </div>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="import-offcanvas">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title">
+                    Import a File&nbsp;
+                    <span style="background-image: linear-gradient(to right, darkcyan, green);" class="badge">BETA</span>
+                </h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <p><strong>Supported File Types: </strong><code>.py</code>, <code>.txt</code></p>
+                <p><strong>Note: </strong> Uploaded files may ONLY contain Python code.</p>
+                <input class="form-control" type="file" accept=".py" id="import-file-input" />
+                <br/>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" id="keyboard-shortcut-modal">
+        	<div class="modal-dialog modal-xl">
+        		<div class="modal-content">
+        			<div class="modal-header">
+        				<h5 class="modal-title">Keyboard Shortcuts</h5>
+        				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        			</div>
+        			<div class="modal-body">
+        				<p>Because the default context menu is replaced with a custom one, you need to use some keyboard shortcuts to perform basic functions. Many, if not all of these shortcuts, are listed below.</p>
+                        <table class="table">
+                        	<thead>
+                        		<tr>
+                        			<th scope="col">Description</th>
+                        			<th scope="col">Windows</th>
+                        			<th scope="col">macOS</th>
+                        		</tr>
+                        	</thead>
+                        	<tbody>
+                        		<tr>
+                        			<th scope="row">Select all text</th>
+                        			<td><kbd>Ctrl</kbd> + <kbd>A</kbd></td>
+                        			<td><kbd>Cmd</kbd> + <kbd>A</kbd></td>
+                        		</tr>
+                        		<tr>
+                        			<th scope="row">Copy text</th>
+                        			<td><kbd>Ctrl</kbd> + <kbd>C</kbd></td>
+                        			<td><kbd>Cmd</kbd> + <kbd>C</kbd></td>
+                        		</tr>
+                        		<tr>
+                        			<th scope="row">Adjust text indent</th>
+                        			<td><kbd>Ctrl</kbd> + <kbd>G</kbd></td>
+                        			<td><kbd>Cmd</kbd> + <kbd>G</kbd></td>
+                        		</tr>
+                        		<tr>
+                        			<th scope="row">Paste text</th>
+                        			<td><kbd>Ctrl</kbd> + <kbd>V</kbd></td>
+                        			<td><kbd>Cmd</kbd> + <kbd>V</kbd></td>
+                        		</tr>
+                        		<tr>
+                        			<th scope="row">Cut text</th>
+                        			<td><kbd>Ctrl</kbd> + <kbd>X</kbd></td>
+                        			<td><kbd>Cmd</kbd> + <kbd>X</kbd></td>
+                        		</tr>
+                        		<tr>
+                        			<th scope="row">Redo action</th>
+                        			<td><kbd>Ctrl</kbd> + <kbd>Y</kbd> or <kbd>Shift</kbd> + <kbd>Ctrl</kbd> + <kbd>Z</kbd></td>
+                        			<td><kbd>Shift</kbd> + <kbd>Cmd</kbd> + <kbd>Z</kbd></td>
+                        		</tr>
+                        		<tr>
+                        			<th scope="row">Undo action</th>
+                        			<td><kbd>Ctrl</kbd> + <kbd>Z</kbd></td>
+                        			<td><kbd>Cmd</kbd> + <kbd>Z</kbd></td>
+                        		</tr>
+                        		<tr>
+                        			<th scope="row">Run code</th>
+                        			<td><kbd>Ctrl</kbd> + <kbd>Enter</kbd></td>
+                        			<td><kbd>Cmd</kbd> + <kbd>Enter</kbd></td>
+                        		</tr>
+                        		<tr>
+                        			<th scope="row">Indent less</th>
+                        			<td colspan="2"><kbd>Shift</kbd> + <kbd>Tab</kbd></td>
+                        		</tr>
+                        		<tr>
+                        			<th scope="row">Indent more</th>
+                        			<td colspan="2"><kbd>Tab</kbd></td>
+                        		</tr>
+                        	</tbody>
+                        </table>
+        		    </div>
+        		</div>
+        	</div>
+        </div>
+        <div class="container-fluid mt-3">
+            <div class="btn-group-vertical position-absolute d-none" style="z-index: 2000; font-size: 12px;" id="editor-context-menu">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn" onclick="editor.execCommand('undo'); document.getElementById('editor-context-menu').classList.add('d-none'); editor.focus();">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z"></path>
+                            <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z"></path>
+                        </svg>
+                    </button>
+                    <button type="button" class="btn" onclick="editor.execCommand('redo'); document.getElementById('editor-context-menu').classList.add('d-none'); editor.focus();">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"></path>
+                            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"></path>
+                        </svg>
+                    </button>
+                    <button type="button" class="btn" onclick="navigator.clipboard.writeText(editor.getSelection()); editor.replaceSelection(''); document.getElementById('editor-context-menu').classList.add('d-none'); editor.focus();">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-scissors" viewBox="0 0 16 16">
+                            <path d="M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.538 1.472 1.616.858 2.5L8.81 8.61l1.556 2.661a2.5 2.5 0 1 1-.794.637L8 9.73l-1.572 2.177a2.5 2.5 0 1 1-.794-.637L7.19 8.61 3.5 3.5zm2.5 10a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0zm7 0a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0z"></path>
+                        </svg>
+                    </button>
+                    <button type="button" class="btn" onclick="navigator.clipboard.writeText(editor.getSelection()); document.getElementById('editor-context-menu').classList.add('d-none'); editor.focus();">
+                        <svg preserveAspectRatio="xMidYMin" width="16" height="16" viewBox="0 0 24 24" color="currentColor" stroke="currentColor" stroke-width="2" fill="transparent" class="jsx-3164811897 " style="vertical-align: middle;"><path d="M19 15H20C20.5304 15 21.0391 14.7893 21.4142 14.4142C21.7893 14.0391 22 13.5304 22 13V4C22 3.46957 21.7893 2.96086 21.4142 2.58579C21.0391 2.21071 20.5304 2 20 2H11C10.4696 2 9.96086 2.21071 9.58579 2.58579C9.21071 2.96086 9 3.46957 9 4V5M13 9H4C2.89543 9 2 9.89543 2 11V20C2 21.1046 2.89543 22 4 22H13C14.1046 22 15 21.1046 15 20V11C15 9.89543 14.1046 9 13 9Z" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </button>
+                    <button type="button" class="btn" id="paste-text">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+                            <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"></path>
+                            <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <button type="button" class="btn text-start" onclick="editor.execCommand('selectAll'); document.getElementById('editor-context-menu').classList.add('d-none');" style="border-top-left-radius: 0; border-top-right-radius: 0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-input-cursor-text" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M5 2a.5.5 0 0 1 .5-.5c.862 0 1.573.287 2.06.566.174.099.321.198.44.286.119-.088.266-.187.44-.286A4.165 4.165 0 0 1 10.5 1.5a.5.5 0 0 1 0 1c-.638 0-1.177.213-1.564.434a3.49 3.49 0 0 0-.436.294V7.5H9a.5.5 0 0 1 0 1h-.5v4.272c.1.08.248.187.436.294.387.221.926.434 1.564.434a.5.5 0 0 1 0 1 4.165 4.165 0 0 1-2.06-.566A4.561 4.561 0 0 1 8 13.65a4.561 4.561 0 0 1-.44.285 4.165 4.165 0 0 1-2.06.566.5.5 0 0 1 0-1c.638 0 1.177-.213 1.564-.434.188-.107.335-.214.436-.294V8.5H7a.5.5 0 0 1 0-1h.5V3.228a3.49 3.49 0 0 0-.436-.294A3.166 3.166 0 0 0 5.5 2.5.5.5 0 0 1 5 2z"></path>
+                        <path d="M10 5h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-4v1h4a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-4v1zM6 5V4H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v-1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h4z"></path>
+                    </svg>&nbsp;
+                    Select All
+                    <span class="text-end text-muted" style="font-size: 10px !important; float: right !important; margin-top: auto; position: relative; top: 3px;" translate="no">Ctrl A</span>
+                </button>
+                <button type="button" class="btn text-start" onclick="editor.replaceSelection(''); document.getElementById('editor-context-menu').classList.add('d-none'); editor.focus();" style="border-top-left-radius: 0; border-top-right-radius: 0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"></path>
+                    </svg>&nbsp;
+                    Delete
+                    <span class="text-end text-muted" style="font-size: 10px !important; float: right !important; margin-top: auto; position: relative; top: 3px;" translate="no">Backspace</span>
+                </button>
+                <button type="button" class="btn mt-0 mb-0 pt-0 pb-0" style="border-radius: 0;" disabled></button>
+                <button type="button" class="btn text-start" onclick="showOutput(true); document.getElementById('editor-context-menu').classList.add('d-none');" id="run-btn-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+                        <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"></path>
+                    </svg>&nbsp;
+                    Run
+                    <span class="text-end text-muted" style="font-size: 10px !important; float: right !important; margin-top: auto; position: relative; top: 3px;" translate="no">Ctrl Enter</span>
+                </button>
+                <button type="button" class="btn text-start" data-bs-toggle="offcanvas" data-bs-target="#export-offcanvas" onclick="document.getElementById('editor-context-menu').classList.add('d-none');" style="border-top-left-radius: 0; border-top-right-radius: 0;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path>
+                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path>
+                    </svg>&nbsp;
+                    Export
+                </button>
+                <button type="button" class="btn mt-0 mb-0 pt-0 pb-0" style="border-radius: 0;" disabled></button>
+                <div class="btn-group dropend" role="group">
+                    <button type="button" class="btn text-start dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wrench-adjustable" viewBox="0 0 16 16">
+                            <path d="M16 4.5a4.492 4.492 0 0 1-1.703 3.526L13 5l2.959-1.11c.027.2.041.403.041.61Z"></path>
+                            <path d="M11.5 9c.653 0 1.273-.139 1.833-.39L12 5.5 11 3l3.826-1.53A4.5 4.5 0 0 0 7.29 6.092l-6.116 5.096a2.583 2.583 0 1 0 3.638 3.638L9.908 8.71A4.49 4.49 0 0 0 11.5 9Zm-1.292-4.361-.596.893.809-.27a.25.25 0 0 1 .287.377l-.596.893.809-.27.158.475-1.5.5a.25.25 0 0 1-.287-.376l.596-.893-.809.27a.25.25 0 0 1-.287-.377l.596-.893-.809.27-.158-.475 1.5-.5a.25.25 0 0 1 .287.376ZM3 14a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path>
+                        </svg>&nbsp;
+                        More Tools
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><button class="dropdown-item" onclick="window.open('../utils/color'); document.getElementById('editor-context-menu').classList.add('d-none');" style="border-top-left-radius: 5px; border-top-right-radius: 5px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-palette" viewBox="0 0 16 16">
+                                <path d="M8 5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm4 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM5.5 7a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm.5 6a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"></path>
+                                <path d="M16 8c0 3.15-1.866 2.585-3.567 2.07C11.42 9.763 10.465 9.473 10 10c-.603.683-.475 1.819-.351 2.92C9.826 14.495 9.996 16 8 16a8 8 0 1 1 8-8zm-8 7c.611 0 .654-.171.655-.176.078-.146.124-.464.07-1.119-.014-.168-.037-.37-.061-.591-.052-.464-.112-1.005-.118-1.462-.01-.707.083-1.61.704-2.314.369-.417.845-.578 1.272-.618.404-.038.812.026 1.16.104.343.077.702.186 1.025.284l.028.008c.346.105.658.199.953.266.653.148.904.083.991.024C14.717 9.38 15 9.161 15 8a7 7 0 1 0-7 7z"></path>
+                            </svg>&nbsp;
+                            Color Picker
+                        </button></li>
+                        <li><button class="dropdown-item" onclick="window.open('../utils/conversion'); document.getElementById('editor-context-menu').classList.add('d-none');" style="border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi" viewBox="0 0 16 16"></svg>&nbsp;
+                            Unit Converter
+                        </button></li>
+                    </ul>
+                </div>
+                <div class="btn-group dropend d-none" role="group">
+                    <button type="button" class="btn text-start dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wrench-adjustable" viewBox="0 0 16 16"></svg>&nbsp;
+                        Reset
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><button class="dropdown-item" onclick='editor.setValue("<!DOCTYPE html>\n<html>\n\n<head>\n    <title>Document</title>\n</head>\n\n<body>\n    <h1>My First Heading</h1>\n    <p>My first paragraph.</p>\n</body>\n\n</html>\n"); document.getElementById("editor-context-menu").classList.add("d-none");' style="border-top-left-radius: 5px; border-top-right-radius: 5px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-palette" viewBox="0 0 16 16"></svg>&nbsp;
+                            Basic Reset
+                        </button></li>
+                        <li><button class="dropdown-item" onclick='editor.setValue("<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\" />\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Document</title>\n</head>\n\n<body>\n    <h1>My First Heading</h1>\n    <p>My first paragraph.</p>\n</body>\n\n</html>\n"); document.getElementById("editor-context-menu").classList.add("d-none");' style="border-top-left-radius: 5px; border-top-right-radius: 5px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-palette" viewBox="0 0 16 16"></svg>&nbsp;
+                            Advanced Reset
+                        </button></li>
+                    </ul>
+                </div>
+                <button type="button" class="btn mt-0 mb-0 pt-0 pb-0" style="border-radius: 0;" disabled></button>
+                <button type="button" class="btn text-start" onclick="document.getElementById('editor-context-menu').classList.add('d-none');" data-bs-toggle="modal" data-bs-target="#keyboard-shortcut-modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-keyboard" viewBox="0 0 16 16">
+                        <path d="M14 5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h12zM2 4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H2z"></path>
+                        <path d="M13 10.25a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm0-2a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm-5 0A.25.25 0 0 1 8.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 8 8.75v-.5zm2 0a.25.25 0 0 1 .25-.25h1.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-1.5a.25.25 0 0 1-.25-.25v-.5zm1 2a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm-5-2A.25.25 0 0 1 6.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 6 8.75v-.5zm-2 0A.25.25 0 0 1 4.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 4 8.75v-.5zm-2 0A.25.25 0 0 1 2.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 2 8.75v-.5zm11-2a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm-2 0a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm-2 0A.25.25 0 0 1 9.25 6h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 9 6.75v-.5zm-2 0A.25.25 0 0 1 7.25 6h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 7 6.75v-.5zm-2 0A.25.25 0 0 1 5.25 6h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 5 6.75v-.5zm-3 0A.25.25 0 0 1 2.25 6h1.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-1.5A.25.25 0 0 1 2 6.75v-.5zm0 4a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm2 0a.25.25 0 0 1 .25-.25h5.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-5.5a.25.25 0 0 1-.25-.25v-.5z"></path>
+                    </svg>&nbsp;
+                    Keyboard Shortcuts
+                </button>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div id="code-editor" style="font-size: 14px; height: calc(100vh - 96px) !important; max-width: calc(50vw - 2rem); border-left: 5px solid #a3e3ff;" onkeyup="if (editor.getOption('readOnly')) {var toast = new bootstrap.Toast(document.getElementById('view-only-toast')); toast.show();} currentValue = editor.getValue();"></div>
+                </div>
+                <div class="col" id="output-container">
+                    <iframe frameborder="0" id="code-output" name="code-output" allowfullscreen="true"></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="position-fixed bottom-0 end-0 p-3">
+        	<div id="view-only-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+        		<div class="toast-header">
+        			<svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <rect width="100%" height="100%" fill="#712cf9"></rect>
+                    </svg>
+        			<strong class="me-auto">Editor</strong>
+        			<small>A few seconds ago</small>
+        			<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        		</div>
+        		<div class="toast-body">
+        			You are currently in view-only mode, so you cannot edit the code. Go to Settings to go back into editing mode.
+                    <br/>
+                    <button type="button" class="btn btn-drrcraft-primary btn-sm mt-1" data-bs-toggle="offcanvas" data-bs-target="#settings-offcanvas">Settings</button>
+        		</div>
+        	</div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.8/codemirror.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.8/addon/edit/closebrackets.js"></script>
+        <script src="https://codemirror.net/5/addon/edit/matchbrackets.js"></script>
+        <script src="https://codemirror.net/5/addon/selection/active-line.js"></script>
+        <script src="https://codemirror.net/5/addon/display/placeholder.js"></script>
+        <script src="https://codemirror.net/5/addon/hint/anyword-hint.js"></script>
+        <script src="https://codemirror.net/5/addon/fold/foldcode.js"></script>
+        <script src="https://codemirror.net/5/addon/fold/foldgutter.js"></script>
+        <script src="https://codemirror.net/5/addon/fold/indent-fold.js"></script>
+        <script src="node-modules/codemirror-addon-indent-guide/dist/indent-guide.js"></script>
+        <script src="../keymap/drrcraft.js"></script>
+        <script src="https://codemirror.net/5/mode/python/python.js"></script>
+        <script src="../show-hint.js"></script>
+        <script>
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'en',
+                    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+                }, 'google-translator');
+            }
+        </script>
+        <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="script.js"></script>
+    </body>
+</html>

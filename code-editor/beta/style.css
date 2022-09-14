@@ -1,0 +1,74 @@
+.master-head {
+    padding: 5rem 0;
+    background-image: radial-gradient(ellipse at top left, rgba(13, 110, 253, 0.5), transparent 50%), radial-gradient(ellipse at top right, rgba(255, 228, 132, 0.5), transparent 50%), radial-gradient(ellipse at center right, rgba(112.520718, 44.062154, 249.437846, 0.5), transparent 50%), radial-gradient(ellipse at center left, rgba(214, 51, 132, 0.5), transparent 50%);
+}
+
+.master-head h1 {
+    font-size: calc(1.525rem + 3.3vw);
+    line-height: 1;
+}
+
+@media (min-width: 1200px) {
+    .master-head h1 {
+        font-size: 4rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .display-5 {
+        font-size: 3rem;
+    }
+}
+
+.display-5 {
+    font-size: calc(1.425rem + 2.1vw);
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.master-head .lead {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #7b828a;
+}
+
+@media (min-width: 768px) {
+    .master-head .lead {
+        font-size: calc(1.275rem + .3vw);
+    }
+}
+
+@media (min-width: 768px) and (min-width: 1200px) {
+    .master-head .lead {
+        font-size: 1.5rem;
+    }
+}
+
+.lead {
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+@media (min-width: 768px) {
+    .lead {
+        font-size: 1.25rem;
+    }
+}
+
+.btn-drrcraft-primary {
+    font-weight: 600 !important;
+    color: white !important;
+    background-color: #510ce9 !important;
+    border-color: #510ce9 !important;
+    border-radius: .5rem;
+}
+
+.btn-drrcraft-primary:hover {
+    background-color: #4508c0 !important;
+    border-color: #4508c0 !important;
+}
+
+.btn-drrcraft-primary:active {
+    background-color: #3a03a8 !important;
+    border-color: #3a03a8 !important;
+}

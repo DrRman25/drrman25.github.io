@@ -1,0 +1,217 @@
+.cm-s-drrcraft-dark .cm-keyword {
+    color: #57abff;
+}
+
+.cm-s-drrcraft-dark .cm-atom {
+    color: #57abff;
+}
+
+.cm-s-drrcraft-dark .cm-number {
+    color: #c4e581;
+}
+
+.cm-s-drrcraft-dark .cm-unit {
+    color: #57abff;
+}
+
+.cm-s-drrcraft-dark .cm-def {
+    color: white;
+}
+
+.cm-s-drrcraft-dark .cm-variable {
+    color: white;
+}
+
+.cm-s-drrcraft-dark .cm-variable-2 { 
+    color: white;
+}
+
+.cm-s-drrcraft-dark .cm-variable-3 { 
+    color: #57abff;
+}
+
+.cm-s-drrcraft-dark .cm-m-css.cm-property:last-child {
+    color: #57abff;
+}
+
+.cm-s-drrcraft-dark .cm-property {
+    color: #b2d9ff;
+}
+
+.cm-s-drrcraft-dark .cm-operator {
+    color: white;
+}
+
+.cm-s-drrcraft-dark .cm-comment {
+    color: #009118;
+}
+
+.cm-s-drrcraft-dark .cm-string {
+    color: #ffbd7a;
+}
+
+.cm-s-drrcraft-dark .cm-m-json.cm-string.cm-property {
+    color: #b2d9ff;
+}
+
+.cm-s-drrcraft-dark .cm-string-2 {
+    color: #ff70cf;
+}
+
+.cm-s-drrcraft-dark .cm-meta {
+    color: #57abff;
+}
+
+.cm-s-drrcraft-dark .cm-tag {
+    color: #57abff;
+}
+
+.cm-s-drrcraft-dark .cm-tag.cm-bracket {
+    color: #9da2a6;
+}
+
+.cm-s-drrcraft-dark .cm-attribute {
+    color: #b2d9ff;
+}
+
+.cm-s-drrcraft-dark .cm-qualifier {
+    color: #57abff;
+}
+
+.cm-s-drrcraft-dark .cm-builtin {
+    color: #f2e088;
+}
+
+.cm-s-drrcraft-dark .cm-error {
+    color: white;
+}
+
+.cm-s-drrcraft-dark .cm-callee {
+    color: #57abff;
+}
+
+.cm-s-drrcraft-dark .CodeMirror-linenumber {
+    color: #9da2a6;
+}
+
+.cm-s-drrcraft-dark .CodeMirror-placeholder {
+    color: #9da2a6 !important;
+}
+
+.cm-s-drrcraft-dark.CodeMirror-focused .CodeMirror-activeline-background {
+    background: #333;
+}
+
+.cm-s-drrcraft-dark.CodeMirror-focused .CodeMirror-activeline-gutter {
+    background: #333;
+}
+
+.cm-s-drrcraft-dark .CodeMirror-activeline-background {
+    background: #222;
+}
+
+.cm-s-drrcraft-dark.CodeMirror {
+    color: white;
+    background: #222;
+    padding: 5px;
+}
+
+@media (prefers-color-scheme: dark) {
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background-color: #444;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+    
+    ::-webkit-scrollbar-thumb:active {
+        background-color: #666;
+    }
+}
+
+.cm-s-drrcraft-dark .CodeMirror-gutters {
+    background: #222;
+    border-right: none !important;
+}
+
+.cm-s-drrcraft-dark .CodeMirror-cursor {
+    border-left: 2px solid #0079f2;
+    border-radius: 2px;
+    transform: scaleY(0.88);
+}
+
+.cm-s-drrcraft-dark .CodeMirror-selected {
+	background: #00418280 !important;
+}
+
+.cm-s-drrcraft-dark .CodeMirror-matchingtag {
+    background: #3c445c !important;
+}
+
+.cm-s-drrcraft-dark .CodeMirror-matchingbracket {
+    background: #3c445c !important;
+    color: white !important;
+}
+
+.drrcraft-dark.CodeMirror-hints {
+    position: absolute;
+    z-index: 10;
+    overflow: hidden;
+    list-style: none;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    border-radius: 5px;
+    outline: 1px solid #555;
+    background-color: #222222f8;
+    font-size: 90%;
+    font-family: 'ReplitHack', "IBM Plex Mono", monospace;
+    max-height: 20em;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.drrcraft-dark .CodeMirror-hint {
+    margin: 0;
+    padding: 4px 8px;
+    white-space: pre;
+    color: rgba(225, 225, 225, 1);
+    cursor: pointer;
+}
+
+.drrcraft-dark .CodeMirror-hint::before {
+    content: "t ";
+    font-family: monospace;
+    font-weight: bold;
+    font-style: italic;
+    color: #9da2a6;
+}
+
+.drrcraft-dark li.CodeMirror-hint:hover {
+    background: #18181880;
+}
+
+.drrcraft-dark li.CodeMirror-hint-active {
+    background: #510ce9c0;
+    color: whitesmoke;
+}
+
+.drrcraft-dark li.CodeMirror-hint-active:hover {
+    background: #3100c9c0;
+}
+
+.drrcraft-dark.CodeMirror-hints::-webkit-scrollbar {
+    display: none;
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Code Editor: Site Settings</title>
+        <link rel="stylesheet" href="../../style/site.css" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a class="logo" href="../../">Code Editor</a>
+                <div class="navlinks">
+                    <a href="../../about/">About</a>
+                    <a href="../../help/">Help</a>
+                    <a href="../" class="active">Languages</a>
+                    <a href="../../../">Version 2</a>
+                </div>
+            </nav>
+        </header>
+        <article>
+            <h1>Site Settings</h1>
+            <p>You may change how the entire site looks and feels here. Just remember, you must refresh <em>all</em> of the pages you have opened for the changes to take place!</p>
+            <h2>Styling</h2>
+            <dl>
+                <dt>
+                    <code>
+                        <strong>theme</strong>: <span class="tok-string">&quot;<input type="text" class="tok-string" id="site-theme" maxlength="6" />&quot;</span>
+                    </code>
+                </dt>
+                <dd>
+                    <p>The color scheme (background and text color) of the editor. Can be set to a light, dark, or spooky theme.</p>
+                </dd>
+            </dl>
+            <button id="apply" aria-title="Apply and save changes" class="control">Apply</button>
+            <button id="done" aria-title="Leave" class="control">Done</button>
+        </article>
+        <script src="script.js"></script>
+    </body>
+</html>

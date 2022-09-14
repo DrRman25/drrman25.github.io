@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Unit Converter</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-dark-5@1.1.3/dist/css/bootstrap-dark.min.css" rel="stylesheet" />
+        <link href="style.css" rel="stylesheet" />
+    </head>
+    <body>
+        <nav class="navbar sticky-top navbar-expand-lg navbar-dark" style="background-color: #510ce9;">
+            <div class="container-fluid">
+                <a class="navbar-brand mb-0 h1" href="../../">
+                    Code Editor
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Programming Languages</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="../../html"><img src="https://replit.com/public/images/languages/web_project.svg" style="width: 24px;" />&nbsp;&nbsp;HTML</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active">Utilities</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <br/>
+        <div class="container">
+            <h1>Unit Converter</h1>
+            <div class="container p-3 my-3 text-white" style="background-color: rgba(13, 110, 253, .5); border-radius: 1rem;">
+                <h3 class="mb-3">Your Input:</h3>
+                <div class="row g-2">
+                    <div class="col">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" placeholder="Enter your default font size here..." onkeyup="convertUnit(this.value, document.getElementById('conversion-font-size-input-text').value);" id="default-font-size-input-text" value="16px" />
+                            <label>Default Font Size (Pixels)</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" placeholder="Enter your font size to convert here..." onkeyup="convertUnit(document.getElementById('default-font-size-input-text').value, this.value);" id="conversion-font-size-input-text" value="5px" />
+                            <label>Font Size to Convert (Pixels, Points, Centimeters, Inches, EM, Percent)</label>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <table class="table table-striped table-borderless table-hover" style="font-family: ReplitHack, 'IBM Plex Mono', monospace;">
+                    <tbody>
+                        <tr>
+                            <td>px</td>
+                            <td id="unit-px">5px</td>
+                        </tr>
+                        <tr>
+                            <td>pt</td>
+                            <td id="unit-pt">3.75pt</td>
+                        </tr>
+                        <tr>
+                            <td>cm</td>
+                            <td id="unit-cm">0.1323cm</td>
+                        </tr>
+                        <tr>
+                            <td>in</td>
+                            <td id="unit-in">0.0521in</td>
+                        </tr>
+                        <tr>
+                            <td>em</td>
+                            <td id="unit-em">0.3125em</td>
+                        </tr>
+                        <tr>
+                            <td>%</td>
+                            <td id="unit-percent">31.25%</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- <h3 class="mb-3">Using it in CSS:</h3>
+                <input type="checkbox" id="sample-accent-color" style="accent-color: red;" checked />
+                <label for="sample-accent-color" data-bs-toggle="tooltip" data-bs-html="true" title="Sets the accent color for user-interface controls generated by some elements.<br/><a href='https://developer.mozilla.org/en-US/docs/Web/CSS/accent-color'>MDN Reference</a>" data-bs-delay="1000" data-bs-animation="false">accent-color</label>
+                &nbsp;&nbsp;
+                <span id="sample-background-color" style="background-color: red; padding: 8px; color: white;" data-bs-toggle="tooltip" data-bs-html="true" title="Sets the background color of an element.<br/><a href='https://developer.mozilla.org/en-US/docs/Web/CSS/background-color'>MDN Reference</a>" data-bs-delay="1000" data-bs-animation="false">background-color</span>
+                &nbsp;&nbsp;
+                <span id="sample-border-color" style="border-color: red; border-style: dotted; border-width: 5px; padding: 3px;" data-bs-toggle="tooltip" data-bs-html="true" title="Sets the color of an element's border.<br/><a href='https://developer.mozilla.org/en-US/docs/Web/CSS/border-color'>MDN Reference</a>" data-bs-delay="1000" data-bs-animation="false">border-color</span>
+                &nbsp;&nbsp;
+                <span id="sample-color" style="background-color: white; padding: 8px; color: red;" data-bs-toggle="tooltip" data-bs-html="true" title="Sets the foreground color value of an element's text and text decorations, and sets the <code>currentcolor</code> value. <code>currentcolor</code> may be used as an indirect value on other properties and is the default for other color properties, such as <code>border-color</code>.<br/><a href='https://developer.mozilla.org/en-US/docs/Web/CSS/color'>MDN Reference</a>" data-bs-delay="1000" data-bs-animation="false">color</span>
+                &nbsp;&nbsp;
+                <input id="sample-caret-color" style="caret-color: red; padding: 5.5px;" value="caret-color" data-bs-toggle="tooltip" data-bs-html="true" title="Sets the color of the <strong>insertion caret</strong>, the visible marker where the next character typed will be inserted. This is sometimes referred to as the text input cursor. The caret appears in elements such as <code>&lt;input&gt;</code> or those with the <code>contenteditable</code> attribute. The caret is typically a thin vertical line that flashes to help make it more noticeable. By default, it is black, but its color can be altered with this property.<br/><a href='https://developer.mozilla.org/en-US/docs/Web/CSS/caret-color'>MDN Reference</a>" data-bs-delay="1000" data-bs-animation="false" />
+                &nbsp;&nbsp;&nbsp;
+                <span id="sample-outline-color" style="outline-color: red; outline-style: dotted; outline-width: 5px; outline-offset: 3px;" data-bs-toggle="tooltip" data-bs-html="true" title="Sets the color of an element's outline.<br/><a href='https://developer.mozilla.org/en-US/docs/Web/CSS/outline-color'>MDN Reference</a>" data-bs-delay="1000" data-bs-animation="false">outline-color</span>
+                &nbsp;&nbsp;&nbsp;
+                <span id="sample-text-decoration-color" style="text-decoration-color: red; text-decoration-line: underline; text-decoration-style: dotted; outline-offset: 3px;" data-bs-toggle="tooltip" data-bs-html="true" title="Sets the color of decorations added to text by <code>text-decoration-line</code>.<br/>The color applies to decorations, such as underlines, overlines, strikethroughs, and wavy lines like those used to mark misspellings, in the scope of the property's value.<br/><a href='https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-color'>MDN Reference</a>" data-bs-delay="1000" data-bs-animation="false">text-decoration-color</span> -->
+            </div>
+            <p style="font-size: .75rem;"><strong>Note:</strong> The numbers shown on the table may not be 100% accurate. All programming languages have difficulties with floating-point values, but it should at least look the same to the human eye.</p>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://www.w3schools.com/lib/w3color.js"></script>
+        <script src="script.js"></script>
+    </body>
+</html>

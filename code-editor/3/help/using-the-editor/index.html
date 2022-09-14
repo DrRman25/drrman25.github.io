@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Code Editor: Using the Editor</title>
+        <link rel="stylesheet" href="../../style/site.css" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a class="logo" href="../../">Code Editor</a>
+                <div class="navlinks">
+                    <a href="../../about/">About</a>
+                    <a href="../" class="active">Help</a>
+                    <a href="../../languages/">Languages</a>
+                    <a href="../../../">Version 2</a>
+                </div>
+            </nav>
+        </header>
+        <article>
+            <h1>Using the Editor</h1>
+            <p>This page provides a basic tutorial on using the <a href="../../languages/html-css-js/" target="_blank">HTML, CSS, and JavaScript</a> editor. If you want to learn how to use the editors for other languages, click the 'How to Use' button in the editor you want to use.</p>
+            <h2>The Editor Interface</h2>
+            <p>There are several buttons above the editor, which do different things. They will be mentioned again in a later section. For now, let's look at the editor itself.</p>
+            <p>There are two sections of the editor's interface currently. The first one is the area where you type in code you want to run live. The second one is the output area, where you actually see the output, after you click or tap the "Run" button or press "Ctrl-Enter" on your keyboard.</p>
+            <p>If you have a wide screen (a screen width greater than or equal to 1200px), both the text editor and the output area will always be present on the left and right sides of the screen, respectively. If you have a narrow screen (a screen width less than 1200px), there will be buttons at the top right to switch between the text editor and the output area. If you don't know what your screen width is, use the button below to display it in a tooltip.</p>
+            <button id="screen-width" aria-title="Check screen width" class="control">Check Screen Width</button>
+            <h2>The Buttons</h2>
+            <p>There are normally three buttons at the top left, which you can click or tap to perform certain actions. In the editors for the other languages, there is a fourth "How to Use" button, which opens a page similar to this one. The only difference is that the page tells you how to use that specific editor, NOT the HTML, CSS, and JavaScript editor.</p>
+            <h3>Run</h3>
+            <p>The first button, labeled by "Run", takes the code you typed into the text editor, interprets it, and shows the output. However, there is a 250-millisecond cooldown for this button, to prevent spamming.</p>
+            <h3>Share</h3>
+            <p>This next button, labeled by "Share", encodes the text in the editor, and uses it to create a link, which you can share to others. If it worked, you should see a tooltip right below the button, which as of now says "Link successfully copied!"</p>
+            <h3>Clear Output</h3>
+            <p>The third button, labeled by "Clear Output", clears the output for you. This is useful in cases where you run the code, and it gets a little too hectic.</p>
+        </article>
+        <script src="script.js"></script>
+    </body>
+</html>

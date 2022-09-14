@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Code Editor: Preferences</title>
+        <link rel="stylesheet" href="../../style/site.css" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a class="logo" href="../../">Code Editor</a>
+                <div class="navlinks">
+                    <a href="../../about/">About</a>
+                    <a href="../../help/">Help</a>
+                    <a href="../" class="active">Languages</a>
+                    <a href="../../../">Version 2</a>
+                </div>
+            </nav>
+        </header>
+        <article>
+            <h1>Preferences</h1>
+            <p>You can change the configuration of the editor here, although after applying your changes, you must refresh <em>all</em> instances of the editor for the changes to take effect.</p>
+            <h2>Indentation</h2>
+            <dl>
+                <dt>
+                    <code>
+                        <strong>tabSize</strong>: <input type="number" class="tok-number" id="editor-tabSize" min="1" max="8" />
+                    </code>
+                </dt>
+                <dd>
+                    <p>The size of a tab, in columns.</p>
+                </dd>
+                <dt>
+                    <code>
+                        <strong>indentUnit</strong>: <span class="tok-string">&quot;<input type="text" class="tok-string" id="editor-indentUnit" maxlength="8" style="text-align: center;" />&quot;</span>
+                    </code>
+                </dt>
+                <dd>
+                    <p>The unit in which indentation happens. Must consist of either the same amount of spaces as the tab size, or a single tab character.</p>
+                </dd>
+            </dl>
+            <h2>Key binds</h2>
+            <dl>
+                <dt>
+                    <code>
+                        <strong>vscodeKeymap</strong>: <input type="text" class="tok-bool" id="editor-vscodeKeymap" maxlength="5" style="width: 3em;" />
+                    </code>
+                </dt>
+                <dd>
+                    <p>Whether the editor uses the default CodeMirror 6 key binds or the <a href="http://code.visualstudio.com/docs/getstarted/keybindings#_keyboard-shortcuts-reference">Visual Studio Code key binds</a>.</p>
+                    <p><strong style="color: #f50;">Warning:</strong> This rebinds the Tab key! Many users do not have access to a pointing device, and it is really unfriendly towards said users to not be able to escape from a focusable input!</p>
+                </dd>
+            </dl>
+            <h2>Extensions</h2>
+            <dl>
+                <dt>
+                    <code>
+                        <strong>colorPicker</strong>: <input type="text" class="tok-bool" id="editor-colorPicker" maxlength="5" style="width: 3em;" />
+                    </code>
+                </dt>
+                <dd>
+                    <p>Shows a color picker next to CSS color values.</p>
+                </dd>
+                <dt>
+                    <code>
+                        <strong>indentationMarkers</strong>: <input type="text" class="tok-bool" id="editor-indentationMarkers" maxlength="5" style="width: 3em;" />
+                    </code>
+                </dt>
+                <dd>
+                    <p>Shows indentation markers for users to easily see how much lines are indented.</p>
+                </dd>
+                <dt>
+                    <code>
+                        <strong>interact</strong>: <input type="text" class="tok-bool" id="editor-interact" maxlength="5" style="width: 3em;" />
+                    </code>
+                </dt>
+                <dd>
+                    <p>Allows the user to interact with certain JavaScript values, by pressing "Alt" and clicking and dragging with the mouse.</p>
+                    <p><strong style="color: #f50;">Warning:</strong> When enabling this option on mobile devices, the editor may not behave as expected.</p>
+                </dd>
+            </dl>
+            <button id="apply" aria-title="Apply and save changes" class="control">Apply</button>
+            <button id="done" aria-title="Leave" class="control">Done</button>
+        </article>
+        <script src="script.js"></script>
+    </body>
+</html>

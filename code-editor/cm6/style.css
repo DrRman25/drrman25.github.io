@@ -1,0 +1,325 @@
+@import url("https://fonts.googleapis.com/css?family=IBM+Plex+Mono");
+
+@font-face {
+    font-family: ReplitHack;
+    src: url('/font/hack-regular.woff2') format('woff2'), url('/font/hack-regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: ReplitHack;
+    src: url('/font/hack-bold.woff2') format('woff2'), url('/font/hack-bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: ReplitHack;
+    src: url('/font/hack-italic.woff2') format('woff2'), url('font/hack-italic.woff') format('woff');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: ReplitHack;
+    src: url('/font/hack-bolditalic.woff2') format('woff2'), url('/font/hack-bolditalic.woff') format('woff');
+    font-weight: 700;
+    font-style: italic;
+}
+
+.CodeMirror {
+    font-family: 'ReplitHack', "IBM Plex Mono", monospace;
+}
+
+.btn-run {
+    font-weight: 600 !important;
+    color: white !important;
+    background-color: #0eaf3e !important;
+    border-color: #0eaf3e !important;
+    border-radius: .5rem;
+}
+
+.btn-run:hover {
+    background-color: #0b9334 !important;
+    border-color: #0b9334 !important;
+}
+
+.btn-run:active {
+    background-color: #0a7f2d !important;
+    border-color: #0a7f2d !important;
+}
+
+.btn-run:focus {
+    box-shadow: 0 0 0 0.25rem rgb(14 175 62 / .5);
+}
+
+.btn-drrcraft-primary {
+    font-weight: 600 !important;
+    color: white !important;
+    background-color: #510ce9 !important;
+    border-color: #510ce9 !important;
+    border-radius: .5rem;
+}
+
+.btn-drrcraft-primary:hover {
+    background-color: #4508c0 !important;
+    border-color: #4508c0 !important;
+}
+
+.btn-drrcraft-primary:active {
+    background-color: #3a03a8 !important;
+    border-color: #3a03a8 !important;
+}
+
+.btn-drrcraft-primary:focus {
+    box-shadow: 0 0 0 0.25rem rgb(112.520718 44.062154 249.437846 / .5);
+}
+
+.btn-drrcraft-secondary {
+    font-weight: 600 !important;
+    color: white !important;
+    background-color: #585858 !important;
+    border-color: #585858 !important;
+    border-radius: .5rem;
+}
+
+.btn-drrcraft-secondary:hover {
+    background-color: #4f4f4f !important;
+    border-color: #4f4f4f !important;
+}
+
+.btn-drrcraft-secondary:active {
+    background-color: #464646 !important;
+    border-color: #464646 !important;
+}
+
+.btn-drrcraft-secondary:focus {
+    box-shadow: 0 0 0 0.25rem rgb(88 88 88 / .5);
+}
+
+.btn-drrcraft-danger {
+    font-weight: 600 !important;
+    color: white !important;
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+    border-radius: .5rem;
+}
+
+.btn-drrcraft-danger:hover {
+    background-color: #b42d3a !important;
+    border-color: #b42d3a !important;
+}
+
+.btn-drrcraft-danger:active {
+    background-color: #a02733 !important;
+    border-color: #a02733 !important;
+}
+
+.btn-drrcraft-danger:focus {
+    box-shadow: 0 0 0 0.25rem rgb(220 53 69 / .5);
+}
+
+.btn-group-vertical .btn-drrcraft-secondary {
+    font-weight: normal !important;
+}
+
+#editor-context-menu {
+    z-index: 10;
+    margin: 0;
+    padding: 0;
+    -webkit-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    border-radius: 10px;
+    border: 1px solid #555;
+    background-color: #272727f8;
+    font-family: 'ReplitHack', "IBM Plex Mono", monospace;
+}
+
+#editor-context-menu .dropdown-toggle:not(.dropdown-toggle-split)::after {
+    float: right;
+    position: relative;
+    top: .4rem;
+    right: .2rem;
+}
+
+#editor-context-menu .btn[disabled] {
+    opacity: 0.4;
+    filter: alpha(opacity = 40); /* For IE8 and earlier */
+    cursor: not-allowed;
+}
+
+#editor-context-menu.drrcraft-dark .btn:hover {
+    background-color: #18181880;
+}
+
+#editor-context-menu.drrcraft-dark .btn:active {
+    background-color: #510ce9c0;
+}
+
+#editor-context-menu.drrcraft-dark .btn:focus {
+    box-shadow: none !important;
+}
+
+#editor-context-menu.drrcraft-dark .btn {
+    font-size: 14px !important;
+    padding: 6px 8px;
+    color: white !important;
+}
+
+#editor-context-menu.drrcraft-dark .btn.mt-0.mb-0.pt-0.pb-0 {
+    border-top: 1px solid #555;
+}
+
+#editor-context-menu.drrcraft-dark .dropdown-menu {
+    font-size: 14px !important;
+    z-index: 10;
+    padding: 0;
+    -webkit-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    border-radius: 10px;
+    border: 1px solid #555;
+    background-color: #272727f8;
+    font-family: 'ReplitHack', "IBM Plex Mono", monospace;
+}
+
+#editor-context-menu.drrcraft-dark .dropdown-menu.show {
+    transform: translate3d(197px, 0px, 0px) !important;
+}
+
+#editor-context-menu.drrcraft-dark .dropdown-menu button.dropdown-item:hover {
+    background-color: #18181880;
+}
+
+#editor-context-menu.drrcraft-dark .dropdown-menu button.dropdown-item:active {
+    background-color: #510ce9c0;
+}
+
+#editor-context-menu.drrcraft-dark .dropdown-menu button.dropdown-item:focus {
+    box-shadow: none !important;
+}
+
+#editor-context-menu.drrcraft-dark .dropdown-menu button.dropdown-item {
+    font-size: 14px !important;
+    padding: 6px 8px;
+    color: white !important;
+    transition-duration: .2s;
+}
+
+#editor-context-menu.drrcraft-light {
+    z-index: 10;
+    margin: 0;
+    padding: 0;
+    -webkit-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    border-radius: 10px;
+    border: 1px solid #aaa;
+    background-color: #dcdcdcf8;
+    font-family: 'ReplitHack', "IBM Plex Mono", monospace;
+}
+
+#editor-context-menu.drrcraft-light .btn:hover {
+    background-color: #ededed80;
+}
+
+#editor-context-menu.drrcraft-light .btn:active {
+    background-color: #510ce9c0;
+}
+
+#editor-context-menu.drrcraft-light .btn:focus {
+    box-shadow: none !important;
+}
+
+#editor-context-menu.drrcraft-light .btn {
+    font-size: 14px !important;
+    padding: 6px 8px;
+    color: black !important;
+}
+
+#editor-context-menu.drrcraft-light .btn.mt-0.mb-0.pt-0.pb-0 {
+    border-top: 1px solid #aaa;
+}
+
+#editor-context-menu.drrcraft-light .dropdown-menu {
+    font-size: 14px !important;
+}
+
+#editor-context-menu.drrcraft-light .dropdown-menu {
+    font-size: 14px !important;
+    z-index: 10;
+    padding: 0;
+    -webkit-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    border-radius: 10px;
+    border: 1px solid #aaa;
+    background-color: #dcdcdcf8;
+    font-family: 'ReplitHack', "IBM Plex Mono", monospace;
+}
+
+#editor-context-menu.drrcraft-light .dropdown-menu.show {
+    transform: translate3d(197px, 0px, 0px) !important;
+}
+
+#editor-context-menu.drrcraft-light .dropdown-menu button.dropdown-item:hover {
+    background-color: #ededed80;
+}
+
+#editor-context-menu.drrcraft-light .dropdown-menu button.dropdown-item:active {
+    background-color: #510ce9c0;
+}
+
+#editor-context-menu.drrcraft-light .dropdown-menu button.dropdown-item:focus {
+    box-shadow: none !important;
+}
+
+#editor-context-menu.drrcraft-light .dropdown-menu button.dropdown-item {
+    font-size: 14px !important;
+    padding: 6px 8px;
+    color: black !important;
+    transition-duration: .2s;
+}
+
+@media (prefers-color-scheme: light) {
+    #code-output {
+        width: 100%;
+        float: left;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
+        height: calc(100vh - 96px) !important;
+        background-color: white;
+        overflow: scroll;
+        white-space: pre;
+    }
+
+    .CodeMirror {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    #code-output {
+        width: 100%;
+        float: left;
+        box-shadow: 0 4px 8px 0 rgba(255, 255, 255, .2), 0 6px 20px 0 rgba(255, 255, 255, .19);
+        height: calc(100vh - 96px) !important;
+        background-color: white;
+        overflow: scroll;
+        white-space: pre;
+    }
+
+    .CodeMirror {
+        box-shadow: 0 4px 8px 0 rgba(255, 255, 255, .2), 0 6px 20px 0 rgba(255, 255, 255, .19);
+    }
+}
+
+#editor-context-menu .dropdown-menu {
+    display: none !important;
+}
+
+#editor-context-menu .dropdown-toggle:hover + .dropdown-menu, #editor-context-menu .dropdown-menu:hover {
+    display: block !important;
+    transform: translate3d(197px, 0px, 0px) !important;
+}

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SVG Example</title>
+    </head>
+    <body>
+        <h1>SVG Example</h1>
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50">
+            <circle cx="25" cy="25" r="20" fill="red" stroke="black" stroke-width="2.5"></circle>
+        </svg>
+        <p>Here is the XML code:</p>
+        <div style="border-left: 3px solid silver; padding-left: 8px; font-family: monospace; line-height: 1.5; font-size: 14px;">
+            <span style="color: #5c5f66;">&lt;</span><span style="color: #005cb8;">svg</span> <span style="color: #004182;">xmlns=</span><span style="color: #964b00;">"http://www.w3.org/2000/svg"</span> <span style="color: #004182;">width=</span><span style="color: #964b00;">"100"</span> <span style="color: #004182;">height=</span><span style="color: #964b00;">"100"</span><span style="color: #5c5f66">&gt;</span><br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #5c5f66;">&lt;</span><span style="color: #005cb8;">circle</span> <span style="color: #004182;">cx=</span><span style="color: #964b00;">"50"</span> <span style="color: #004182;">cy=</span><span style="color: #964b00;">"50"</span> <span style="color: #004182;">r=</span><span style="color: #964b00;">"40"</span> <span style="color: #004182;">fill=</span><span style="color: #964b00;">"red"</span> <span style="color: #004182;">stroke=</span><span style="color: #964b00;">"black"</span> <span style="color: #004182;">stroke-width=</span><span style="color: #964b00;">"5"</span> <span style="color: #5c5f66">/&gt;</span><br/>
+            <span style="color: #5c5f66;">&lt;/</span><span style="color: #005cb8;">svg</span><span style="color: #5c5f66;">&gt;</span>
+        </div>
+        <br/>
+        <button onclick='navigator.clipboard.writeText(`<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">\n    <circle cx="50" cy="50" r="40" fill="red" stroke="black" stroke-width="5" />\n</svg>`)'>Copy</button>
+    </body>
+</html>

@@ -1,0 +1,23 @@
+.cm-s-drrcraft-dark .cm-indent-guide {
+    position: relative;
+    border-left: 1px dotted #555;
+    display: inline-block;
+}
+
+.CodeMirror-focused.cm-s-drrcraft-dark .CodeMirror-activeline .cm-indent-guide {
+    position: relative;
+    border-left: 1px dotted #999;
+    display: inline-block;
+}
+
+.cm-s-drrcraft-light .cm-indent-guide {
+    position: relative;
+    border-left: 1px dotted #aaa;
+    display: inline-block;
+}
+
+.CodeMirror-focused.cm-s-drrcraft-light .CodeMirror-activeline .cm-indent-guide {
+    position: relative;
+    border-left: 1px dotted #666;
+    display: inline-block;
+}

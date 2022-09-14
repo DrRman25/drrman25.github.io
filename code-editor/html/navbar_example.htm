@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Navigation Bar</title>
+    <style>
+        main {
+            margin: 8px; /* Gives main content some space */
+        }
+
+        body {
+            margin: 0; /* Keeps navbar on top */
+        }
+
+        ul.navbar {
+            list-style-type: none; /* Removes list markers */
+            margin: 0; /* Removes any browser default */
+            padding: 0; /* Removes any browser default */
+            overflow: hidden; /* Allows changing of background */
+            background-color: black; /* Changes background */
+            opacity: 0.6; /* Adds opacity for modern browsers */
+            filter: alpha(opacity = 60); /* Adds opacity for IE8 and earlier */
+        }
+
+        ul.navbar li {
+            float: left; /* Makes navbar horizontal */
+        }
+
+        ul.navbar a {
+            display: block; /* Allows top and bottom padding */
+            padding: 15px; /* Gives navbar items some space */
+            color: white; /* Changes text color */
+            text-decoration: none; /* Removes underline from links */
+        }
+
+        ul.navbar a.brand {
+            font-weight: bold; /* Boldfaces brand name */
+        }
+
+        ul.navbar a:hover, ul.navbar a:active {
+            background-color: #333; /* Changes background when hovering */
+        }
+    </style>
+</head>
+
+<body>
+    <ul class="navbar">
+        <li><a href="#brand" class="brand">Brand</a></li>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#news">News</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#about">About</a></li>
+    </ul>
+    <main>
+        <h1>My Website</h1>
+        <em>Your content goes here...</em>
+        <p>Resize the page to see the responsive navbar in action!</p>
+    </main>
+</body>
+
+</html>

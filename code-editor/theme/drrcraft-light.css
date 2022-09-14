@@ -1,0 +1,255 @@
+.cm-s-drrcraft-light .cm-keyword {
+    color: #005cb8;
+}
+
+.cm-s-drrcraft-light .cm-atom {
+    color: #005cb8;
+}
+
+.cm-s-drrcraft-light .cm-number {
+    color: #466900;
+}
+
+.cm-s-drrcraft-light .cm-unit {
+    color: #005cb8;
+}
+
+.cm-s-drrcraft-light .cm-def {
+    color: black;
+}
+
+.cm-s-drrcraft-light .cm-variable {
+    color: black;
+}
+
+.cm-s-drrcraft-light .cm-variable-2 { 
+    color: black;
+}
+
+.cm-s-drrcraft-light .cm-variable-3 { 
+    color: #005cb8;
+}
+
+.cm-s-drrcraft-light .cm-m-css.cm-property:last-child {
+    color: #005cb8;
+}
+
+.cm-s-drrcraft-light .cm-property {
+    color: #004182;
+}
+
+.cm-s-drrcraft-light .cm-operator {
+    color: black;
+}
+
+.cm-s-drrcraft-light .cm-comment {
+    color: #98999c;
+}
+
+.cm-s-drrcraft-light .cm-string {
+    color: #964b00;
+}
+
+.cm-s-drrcraft-light .cm-m-json.cm-string.cm-property {
+    color: #004182;
+}
+
+.cm-s-drrcraft-light .cm-string-2 {
+    color: #ab2980;
+}
+
+.cm-s-drrcraft-light .cm-meta {
+    color: #005cb8;
+}
+
+.cm-s-drrcraft-light .cm-tag {
+    color: #005cb8;
+}
+
+.cm-s-drrcraft-light .cm-tag.cm-bracket {
+    color: #5c5f66;
+}
+
+.cm-s-drrcraft-light .cm-attribute {
+    color: #004182;
+}
+
+.cm-s-drrcraft-light .cm-qualifier {
+    color: #005cb8;
+}
+
+.cm-s-drrcraft-light .cm-builtin {
+    color: #736000;
+}
+
+.cm-s-drrcraft-light .cm-error {
+    color: black;
+}
+
+.cm-s-drrcraft-light .cm-callee {
+    color: #005cb8;
+}
+
+.cm-s-drrcraft-light .CodeMirror-activeline-background {
+    background: #fff;
+}
+
+.cm-s-drrcraft-light .CodeMirror-linenumber {
+    color: #5c5f66;
+}
+
+.cm-s-drrcraft-light .CodeMirror-placeholder {
+    color: #5c5f66 !important;
+}
+
+.cm-s-drrcraft-light.CodeMirror-focused .CodeMirror-activeline-background {
+    background: #f0f1f2;
+}
+
+.cm-s-drrcraft-light.CodeMirror-focused .CodeMirror-activeline-gutter {
+    background: #f0f1f2;
+}
+
+.cm-s-drrcraft-light .CodeMirror-cursor {
+    border-left: 2px solid #0f87ff;
+    border-radius: 2px;
+    transform: scaleY(0.88);
+}
+
+.cm-s-drrcraft-light.CodeMirror {
+    background: #fff;
+    padding: 5px;
+}
+
+@media (prefers-color-scheme: light) {
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background-color: #ddd;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #ccc;
+    }
+    
+    ::-webkit-scrollbar-thumb:active {
+        background-color: #bbb;
+    }
+}
+
+.cm-s-drrcraft-light .CodeMirror-gutters {
+    background: #fff;
+    border-right: none !important;
+    padding-right: .5em;
+}
+
+.cm-s-drrcraft-light .CodeMirror-selected {
+    background: #b2d9ff !important;
+}
+
+.cm-s-drrcraft-light .CodeMirror-matchingtag {
+    background: #b3d1ce !important;
+}
+
+.cm-s-drrcraft-light .CodeMirror-matchingbracket {
+    background: #b3d1ce !important;
+    color: black !important;
+}
+/*
+.drrcraft-light.CodeMirror-hints {
+    position: absolute;
+    z-index: 10;
+    overflow: hidden;
+    list-style: none;
+    margin: 0;
+    padding: 2px;
+    -webkit-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    background-color: #dcdcdc;
+    background-image: linear-gradient(to bottom right, #dcdcdc, white);
+    font-size: 90%;
+    font-family: 'ReplitHack', "IBM Plex Mono", monospace;
+    max-height: 20em;
+    overflow-y: auto;
+}
+
+.drrcraft-light .CodeMirror-hint {
+    margin: 0;
+    padding: 0 4px;
+    border-radius: 2px;
+    white-space: pre;
+    color: rgba(30, 30, 30, 1);
+    cursor: pointer;
+}
+
+.drrcraft-light li.CodeMirror-hint-active {
+    background: linear-gradient(to bottom right, #999, #ccc);
+    color: #111;
+}*/
+
+.drrcraft-light.CodeMirror-hints {
+    position: absolute;
+    z-index: 10;
+    overflow: hidden;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    -webkit-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    border-radius: 5px;
+    outline: 1px solid #aaa;
+    background-color: #dcdcdcf8;
+    font-size: 90%;
+    font-family: 'ReplitHack', "IBM Plex Mono", monospace;
+    max-height: 20em;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.drrcraft-light .CodeMirror-hint {
+    margin: 0;
+    padding: 4px 8px;
+    white-space: pre;
+    color: rgba(30, 30, 30, 1);
+    cursor: pointer;
+}
+
+.drrcraft-light .CodeMirror-hint::before {
+    content: "t ";
+    font-family: monospace;
+    font-weight: bold;
+    font-style: italic;
+    color: #5c5f66;
+}
+
+.drrcraft-light li.CodeMirror-hint:hover {
+    background: #ededed80;
+}
+
+.drrcraft-light li.CodeMirror-hint-active {
+    background: #510ce9c0;
+    color: whitesmoke;
+}
+
+.drrcraft-light li.CodeMirror-hint-active::before {
+    color: #a3a099;
+}
+
+.drrcraft-light li.CodeMirror-hint-active:hover {
+    background: #3100c9c0;
+}
+
+.drrcraft-light.CodeMirror-hints::-webkit-scrollbar {
+    display: none;
+}
