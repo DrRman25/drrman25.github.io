@@ -35,5 +35,6 @@ frameDoc1.write(`<!DOCTYPE html>
     <p>Hello, this is my code!</p>
 </body>
 
-</html>`);
+</html>
+`);
 frameDoc1.close();
