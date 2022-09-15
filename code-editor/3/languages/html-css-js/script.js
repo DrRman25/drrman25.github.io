@@ -10,7 +10,6 @@ import {vscodeKeymap} from '../node-modules/@replit/codemirror-vscode-keymap/dis
 import interact from '../node-modules/@replit/codemirror-interact/dist/index.js';
 import {indentationMarkers} from '../node-modules/@replit/codemirror-indentation-markers/dist/index.js';
 import {html} from "https://codemirror.net/try/mods/@codemirror-lang-html.js";
-import {javascriptLanguage} from "https://codemirror.net/try/mods/@codemirror-lang-javascript.js";
 import {colorPicker} from '../node-modules/@replit/codemirror-css-color-picker/dist/index.js';
 
 if (!localStorage.getItem("code-editor-editor-tabSize")) {
@@ -48,13 +47,6 @@ var editor;
 var canRunCode = true;
 var urlCodeQuery = /[?&]c=([^&]+)/.exec(document.location.search);
 var urlExampleQuery = /[?&]example=([^&]+)/.exec(document.location.search);
-
-var javascriptCompletions = completeFromList(Object.getOwnPropertyNames(window).map(function(p) {
-    return {
-        label: p,
-        type: /^[A-Z]/.test(p) ? "class": typeof window[p] == "function" ? "function" : "variable"
-    };
-}));
 
 var theme = HighlightStyle.define([
     {tag: tags.link, class: "tok-link"},
@@ -134,9 +126,6 @@ function loadCode(code) {
             EditorView.lineWrapping,
             placeholder("Not sure where to start? Some templates will be coming soon!"),
             html(),
-            javascriptLanguage.data.of({
-                autocomplete: javascriptCompletions
-            }),
             search({
                 top: true
             }),
