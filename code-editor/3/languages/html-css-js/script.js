@@ -1,17 +1,17 @@
-import { EditorState, StateEffect } from "https://codemirror.net/try/mods/@codemirror-state.js";
-import { search, highlightSelectionMatches, searchKeymap } from "https://codemirror.net/try/mods/@codemirror-search.js";
-import { EditorView, keymap, placeholder, lineNumbers, highlightActiveLineGutter, highlightSpecialChars, drawSelection, dropCursor, rectangularSelection, highlightActiveLine } from "https://codemirror.net/try/mods/@codemirror-view.js";
-import { defaultKeymap, history, historyKeymap } from "https://codemirror.net/try/mods/@codemirror-commands.js";
-import { tags } from "https://codemirror.net/try/mods/@lezer-highlight.js";
-import { indentUnit, syntaxHighlighting, HighlightStyle, foldGutter, indentOnInput, defaultHighlightStyle, bracketMatching, foldKeymap, syntaxTree } from "https://codemirror.net/try/mods/@codemirror-language.js";
-import { closeBrackets, autocompletion, closeBracketsKeymap, completionKeymap } from "https://codemirror.net/try/mods/@codemirror-autocomplete.js";
-import { lintKeymap } from "https://codemirror.net/try/mods/@codemirror-lint.js";
-import { vscodeKeymap } from '../node-modules/@replit/codemirror-vscode-keymap/dist/index.js';
+import {EditorState, StateEffect} from "https://codemirror.net/try/mods/@codemirror-state.js";
+import {search, highlightSelectionMatches, searchKeymap} from "https://codemirror.net/try/mods/@codemirror-search.js";
+import {EditorView, keymap, placeholder, lineNumbers, highlightActiveLineGutter, highlightSpecialChars, drawSelection, dropCursor, rectangularSelection, highlightActiveLine} from "https://codemirror.net/try/mods/@codemirror-view.js";
+import {defaultKeymap, history, historyKeymap} from "https://codemirror.net/try/mods/@codemirror-commands.js";
+import {tags} from "https://codemirror.net/try/mods/@lezer-highlight.js";
+import {indentUnit, syntaxHighlighting, HighlightStyle, foldGutter, indentOnInput, defaultHighlightStyle, bracketMatching, foldKeymap, syntaxTree} from "https://codemirror.net/try/mods/@codemirror-language.js";
+import {closeBrackets, autocompletion, closeBracketsKeymap, completionKeymap} from "https://codemirror.net/try/mods/@codemirror-autocomplete.js";
+import {lintKeymap} from "https://codemirror.net/try/mods/@codemirror-lint.js";
+import {vscodeKeymap} from '../node-modules/@replit/codemirror-vscode-keymap/dist/index.js';
 import interact from '../node-modules/@replit/codemirror-interact/dist/index.js';
-import { indentationMarkers } from '../node-modules/@replit/codemirror-indentation-markers/dist/index.js';
-import { html } from "https://codemirror.net/try/mods/@codemirror-lang-html.js";
-import { javascriptLanguage } from "https://codemirror.net/try/mods/@codemirror-lang-javascript.js";
-import { colorPicker } from '../node-modules/@replit/codemirror-css-color-picker/dist/index.js';
+import {indentationMarkers} from '../node-modules/@replit/codemirror-indentation-markers/dist/index.js';
+import {html} from "https://codemirror.net/try/mods/@codemirror-lang-html.js";
+import {javascriptLanguage} from "https://codemirror.net/try/mods/@codemirror-lang-javascript.js";
+import {colorPicker} from '../node-modules/@replit/codemirror-css-color-picker/dist/index.js';
 
 if (!localStorage.getItem("code-editor-editor-tabSize")) {
     localStorage.setItem("code-editor-editor-tabSize", 4);
