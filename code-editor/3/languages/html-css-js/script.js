@@ -43,7 +43,7 @@ if (!localStorage.getItem("code-editor-site-theme")) {
 
 document.body.setAttribute("theme", localStorage.getItem("code-editor-site-theme"));
 
-var frame, frameDoc, frameWin;
+var frame, frameDoc;
 var editor;
 var canRunCode = true;
 var urlCodeQuery = /[?&]c=([^&]+)/.exec(document.location.search);
