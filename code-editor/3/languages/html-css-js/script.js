@@ -330,6 +330,9 @@ function run(coolDown = true) {
         document.getElementById("output").innerHTML = "";
         document.getElementById("output").appendChild(frame);
         frameWin = frame.contentWindow;
+        frameWin.addEventListener("error", function(e) {
+            alert(e.error);
+        });
         frameDoc = frame.contentDocument || frame.contentWindow.document;
         frameDoc.open();
         frameDoc.write(editor.state.doc.toString());
