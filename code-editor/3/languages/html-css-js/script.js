@@ -326,6 +326,7 @@ function run(coolDown = true) {
             document.getElementById("tab-output").classList.add("active");
         }
         frame = document.createElement("iframe");
+        frame.src = "about:blank";
         document.getElementById("output").innerHTML = "";
         document.getElementById("output").appendChild(frame);
         frameWin = frame.contentWindow;
