@@ -207,7 +207,7 @@ function getDefaultCode() {
 <html>
 
 <head>
-${localStorage.getItem("code-editor-editor-indentUnit")}<title>Your Title Here</title>
+${localStorage.getItem("code-editor-editor-indentUnit")}<title>My Web Site</title>
 </head>
 
 <body>
