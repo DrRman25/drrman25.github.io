@@ -1,16 +1,17 @@
-import {EditorState, StateEffect} from "https://codemirror.net/try/mods/@codemirror-state.js";
-import {search, highlightSelectionMatches, searchKeymap} from "https://codemirror.net/try/mods/@codemirror-search.js";
-import {EditorView, keymap, placeholder, lineNumbers, highlightActiveLineGutter, highlightSpecialChars, drawSelection, dropCursor, rectangularSelection, highlightActiveLine} from "https://codemirror.net/try/mods/@codemirror-view.js";
-import {defaultKeymap, history, historyKeymap} from "https://codemirror.net/try/mods/@codemirror-commands.js";
-import {tags} from "https://codemirror.net/try/mods/@lezer-highlight.js";
-import {indentUnit, syntaxHighlighting, HighlightStyle, foldGutter, indentOnInput, defaultHighlightStyle, bracketMatching, foldKeymap} from "https://codemirror.net/try/mods/@codemirror-language.js";
-import {closeBrackets, autocompletion, closeBracketsKeymap, completionKeymap, completeFromList} from "https://codemirror.net/try/mods/@codemirror-autocomplete.js";
-import {lintKeymap} from "https://codemirror.net/try/mods/@codemirror-lint.js";
-import {vscodeKeymap} from '../node-modules/@replit/codemirror-vscode-keymap/dist/index.js';
+import { EditorState, StateEffect } from "https://codemirror.net/try/mods/@codemirror-state.js";
+import { search, highlightSelectionMatches, searchKeymap } from "https://codemirror.net/try/mods/@codemirror-search.js";
+import { EditorView, keymap, placeholder, lineNumbers, highlightActiveLineGutter, highlightSpecialChars, drawSelection, dropCursor, rectangularSelection, highlightActiveLine } from "https://codemirror.net/try/mods/@codemirror-view.js";
+import { defaultKeymap, history, historyKeymap } from "https://codemirror.net/try/mods/@codemirror-commands.js";
+import { tags } from "https://codemirror.net/try/mods/@lezer-highlight.js";
+import { indentUnit, syntaxHighlighting, HighlightStyle, foldGutter, indentOnInput, defaultHighlightStyle, bracketMatching, foldKeymap, syntaxTree } from "https://codemirror.net/try/mods/@codemirror-language.js";
+import { closeBrackets, autocompletion, closeBracketsKeymap, completionKeymap } from "https://codemirror.net/try/mods/@codemirror-autocomplete.js";
+import { lintKeymap } from "https://codemirror.net/try/mods/@codemirror-lint.js";
+import { vscodeKeymap } from '../node-modules/@replit/codemirror-vscode-keymap/dist/index.js';
 import interact from '../node-modules/@replit/codemirror-interact/dist/index.js';
-import {indentationMarkers} from '../node-modules/@replit/codemirror-indentation-markers/dist/index.js';
-import {html} from "https://codemirror.net/try/mods/@codemirror-lang-html.js";
-import {colorPicker} from '../node-modules/@replit/codemirror-css-color-picker/dist/index.js';
+import { indentationMarkers } from '../node-modules/@replit/codemirror-indentation-markers/dist/index.js';
+import { html } from "https://codemirror.net/try/mods/@codemirror-lang-html.js";
+import { javascriptLanguage } from "https://codemirror.net/try/mods/@codemirror-lang-javascript.js";
+import { colorPicker } from '../node-modules/@replit/codemirror-css-color-picker/dist/index.js';
 
 if (!localStorage.getItem("code-editor-editor-tabSize")) {
     localStorage.setItem("code-editor-editor-tabSize", 4);
@@ -49,43 +50,97 @@ var urlCodeQuery = /[?&]c=([^&]+)/.exec(document.location.search);
 var urlExampleQuery = /[?&]example=([^&]+)/.exec(document.location.search);
 
 var theme = HighlightStyle.define([
-    {tag: tags.link, class: "tok-link"},
-    {tag: tags.heading, class: "tok-heading"},
-    {tag: tags.emphasis, class: "tok-emphasis"},
-    {tag: tags.strong, class: "tok-strong"},
-    {tag: tags.keyword, class: "tok-keyword"},
-    {tag: tags.atom, class: "tok-atom"},
-    {tag: tags.bool, class: "tok-bool"},
-    {tag: tags.url, class: "tok-url"},
-    {tag: tags.labelName, class: "tok-labelName"},
-    {tag: tags.inserted, class: "tok-inserted"},
-    {tag: tags.deleted, class: "tok-deleted"},
-    {tag: tags.literal, class: "tok-literal"},
-    {tag: [tags.string, tags.special(tags.string)], class: "tok-string"},
-    {tag: tags.number, class: "tok-number"},
-    {tag: [tags.regexp, tags.escape], class: "tok-string2"},
-    {tag: tags.variableName, class: "tok-variableName"},
-    {tag: tags.local(tags.variableName), class: "tok-variableName tok-local"},
-    {tag: tags.definition(tags.variableName), class: "tok-variableName tok-definition"},
-    {tag: tags.special(tags.variableName), class: "tok-variableName2"},
-    {tag: tags.definition(tags.propertyName), class: "tok-propertyName tok-definition"},
-    {tag: [tags.function(tags.variableName), tags.function(tags.propertyName)], class: "tok-function"},
-    {tag: tags.typeName, class: "tok-typeName"},
-    {tag: tags.namespace, class: "tok-namespace"},
-    {tag: tags.className, class: "tok-className"},
-    {tag: tags.macroName, class: "tok-macroName"},
-    {tag: tags.propertyName, class: "tok-propertyName"},
-    {tag: tags.operator, class: "tok-operator"},
-    {tag: tags.comment, class: "tok-comment"},
-    {tag: tags.meta, class: "tok-meta"},
-    {tag: tags.invalid, class: "tok-invalid"},
-    {tag: tags.angleBracket, class: "tok-angleBracket"}
+    { tag: tags.link, class: "tok-link" },
+    { tag: tags.heading, class: "tok-heading" },
+    { tag: tags.emphasis, class: "tok-emphasis" },
+    { tag: tags.strong, class: "tok-strong" },
+    { tag: tags.keyword, class: "tok-keyword" },
+    { tag: tags.atom, class: "tok-atom" },
+    { tag: tags.bool, class: "tok-bool" },
+    { tag: tags.url, class: "tok-url" },
+    { tag: tags.labelName, class: "tok-labelName" },
+    { tag: tags.inserted, class: "tok-inserted" },
+    { tag: tags.deleted, class: "tok-deleted" },
+    { tag: tags.literal, class: "tok-literal" },
+    { tag: [tags.string, tags.special(tags.string)], class: "tok-string" },
+    { tag: tags.number, class: "tok-number" },
+    { tag: [tags.regexp, tags.escape], class: "tok-string2" },
+    { tag: tags.variableName, class: "tok-variableName" },
+    { tag: tags.local(tags.variableName), class: "tok-variableName tok-local" },
+    { tag: tags.definition(tags.variableName), class: "tok-variableName tok-definition" },
+    { tag: tags.special(tags.variableName), class: "tok-variableName2" },
+    { tag: tags.definition(tags.propertyName), class: "tok-propertyName tok-definition" },
+    { tag: [tags.function(tags.variableName), tags.function(tags.propertyName)], class: "tok-function" },
+    { tag: tags.typeName, class: "tok-typeName" },
+    { tag: tags.namespace, class: "tok-namespace" },
+    { tag: tags.className, class: "tok-className" },
+    { tag: tags.macroName, class: "tok-macroName" },
+    { tag: tags.propertyName, class: "tok-propertyName" },
+    { tag: tags.operator, class: "tok-operator" },
+    { tag: tags.comment, class: "tok-comment" },
+    { tag: tags.meta, class: "tok-meta" },
+    { tag: tags.invalid, class: "tok-invalid" },
+    { tag: tags.angleBracket, class: "tok-angleBracket" }
 ]);
 
 function injectExtension(extension) {
     editor.dispatch({
         effects: StateEffect.appendConfig.of(extension)
     });
+}
+
+function optionalChain(ops) {
+    var lastAccessLHS = undefined;
+    var value = ops[0];
+    var i = 1;
+    while (i < ops.length) {
+        var op = ops[i];
+        var fn = ops[i + 1];
+        i += 2;
+        if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) {
+            return undefined;
+        }
+        if (op === 'access' || op === 'optionalAccess') { 
+            lastAccessLHS = value;
+            value = fn(value);
+        } else if (op === 'call' || op === 'optionalCall') {
+            value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined;
+        }
+    }
+    return value;
+}
+
+function completeFromGlobalScope(context) {
+    var nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1);
+    if (["PropertyName", ".", "?."].includes(nodeBefore.name) && optionalChain([nodeBefore, 'access', _ => _.parent, 'optionalAccess', _2 => _2.name]) == "MemberExpression") {
+        var object = nodeBefore.parent.getChild("Expression");
+        if (optionalChain([object, 'optionalAccess', _3 => _3.name]) == "VariableName") {
+            var from = /\./.test(nodeBefore.name) ? nodeBefore.to : nodeBefore.from;
+            var variableName = context.state.sliceDoc(object.from, object.to);
+            if (typeof window[variableName] == "object")
+                return completeProperties(from, window[variableName]);
+        }
+    } else if (nodeBefore.name == "VariableName") {
+        return completeProperties(nodeBefore.from, window);
+    } else if (context.explicit && !["TemplateString", "LineComment", "BlockComment", "VariableDefinition", "PropertyDefinition"].includes(nodeBefore.name)) {
+        return completeProperties(context.pos, window);
+    }
+    return null;
+}
+
+function completeProperties(from, object) {
+    var options = [];
+    for (var name in object) {
+        options.push({
+            label: name,
+            type: typeof object[name] == "function" ? "function" : "variable"
+        });
+    }
+    return {
+        from,
+        options,
+        validFor: /^[\w$]*$/
+    };
 }
 
 function loadCode(code) {
@@ -114,7 +169,7 @@ function loadCode(code) {
             highlightActiveLine(),
             highlightSelectionMatches(),
             keymap.of([
-                {key: "Mod-Enter", run: run},
+                { key: "Mod-Enter", run: run },
                 ...closeBracketsKeymap,
                 ...defaultKeymap,
                 ...searchKeymap,
@@ -126,6 +181,10 @@ function loadCode(code) {
             EditorView.lineWrapping,
             placeholder("Not sure where to start? Some templates will be coming soon!"),
             html(),
+            javascriptLanguage.data.of({
+                autocomplete: completeFromGlobalScope
+            }),
+            autocompletion(),
             search({
                 top: true
             }),
@@ -379,21 +438,21 @@ document.getElementById("share-link-copy").addEventListener("click", function(e)
 var link, blob;
 
 document.getElementById("share-export-html").addEventListener("click", function() {
-	link = document.createElement("a");
-	link.download = "index.html";
-	blob = new Blob([editor.state.doc.toString()], {type: "text/plain"});
-	link.href = URL.createObjectURL(blob);
-	link.click();
-	URL.revokeObjectURL(link.href);
+    link = document.createElement("a");
+    link.download = "index.html";
+    blob = new Blob([editor.state.doc.toString()], { type: "text/plain" });
+    link.href = URL.createObjectURL(blob);
+    link.click();
+    URL.revokeObjectURL(link.href);
 });
 
 document.getElementById("share-export-plain-text").addEventListener("click", function() {
-	link = document.createElement("a");
-	link.download = "prog.txt";
-	blob = new Blob([editor.state.doc.toString()], {type: "text/plain"});
-	link.href = URL.createObjectURL(blob);
-	link.click();
-	URL.revokeObjectURL(link.href);
+    link = document.createElement("a");
+    link.download = "prog.txt";
+    blob = new Blob([editor.state.doc.toString()], { type: "text/plain" });
+    link.href = URL.createObjectURL(blob);
+    link.click();
+    URL.revokeObjectURL(link.href);
 });
 
 document.getElementById("modal-share-close").addEventListener("click", function() {
@@ -452,5 +511,3 @@ document.getElementById("tab-output").addEventListener("click", function() {
     document.getElementById("editor").style.display = "none";
     document.getElementById("output").style.display = "block";
 });
-
-// test comment
