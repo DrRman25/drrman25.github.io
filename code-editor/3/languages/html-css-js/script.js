@@ -387,7 +387,6 @@ function run(coolDown = true) {
         frame = document.createElement("iframe");
         document.getElementById("output").innerHTML = "";
         document.getElementById("output").appendChild(frame);
-        frameWin = frame.contentWindow;
         frameDoc = frame.contentDocument || frame.contentWindow.document;
         frameDoc.open();
         frameDoc.write(editor.state.doc.toString());
