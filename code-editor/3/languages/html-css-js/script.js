@@ -3,14 +3,13 @@ import {search, highlightSelectionMatches, searchKeymap} from "https://codemirro
 import {EditorView, keymap, placeholder, lineNumbers, highlightActiveLineGutter, highlightSpecialChars, drawSelection, dropCursor, rectangularSelection, highlightActiveLine} from "https://codemirror.net/try/mods/@codemirror-view.js";
 import {defaultKeymap, history, historyKeymap} from "https://codemirror.net/try/mods/@codemirror-commands.js";
 import {tags} from "https://codemirror.net/try/mods/@lezer-highlight.js";
-import {indentUnit, syntaxHighlighting, HighlightStyle, foldGutter, indentOnInput, defaultHighlightStyle, bracketMatching, foldKeymap, syntaxTree} from "https://codemirror.net/try/mods/@codemirror-language.js";
+import {indentUnit, syntaxHighlighting, HighlightStyle, foldGutter, indentOnInput, defaultHighlightStyle, bracketMatching, foldKeymap} from "https://codemirror.net/try/mods/@codemirror-language.js";
 import {closeBrackets, autocompletion, closeBracketsKeymap, completionKeymap} from "https://codemirror.net/try/mods/@codemirror-autocomplete.js";
 import {lintKeymap} from "https://codemirror.net/try/mods/@codemirror-lint.js";
 import {vscodeKeymap} from '../node-modules/@replit/codemirror-vscode-keymap/dist/index.js';
 import interact from '../node-modules/@replit/codemirror-interact/dist/index.js';
 import {indentationMarkers} from '../node-modules/@replit/codemirror-indentation-markers/dist/index.js';
 import {html} from "https://codemirror.net/try/mods/@codemirror-lang-html.js";
-import {javascriptLanguage} from "https://codemirror.net/try/mods/@codemirror-lang-javascript.js";
 import {colorPicker} from '../node-modules/@replit/codemirror-css-color-picker/dist/index.js';
 
 if (!localStorage.getItem("code-editor-editor-tabSize")) {
@@ -89,60 +88,6 @@ function injectExtension(extension) {
     });
 }
 
-function optionalChain(ops) {
-    var lastAccessLHS = undefined;
-    var value = ops[0];
-    var i = 1;
-    while (i < ops.length) {
-        var op = ops[i];
-        var fn = ops[i + 1];
-        i += 2;
-        if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) {
-            return undefined;
-        }
-        if (op === 'access' || op === 'optionalAccess') { 
-            lastAccessLHS = value;
-            value = fn(value);
-        } else if (op === 'call' || op === 'optionalCall') {
-            value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined;
-        }
-    }
-    return value;
-}
-
-function completeFromGlobalScope(context) {
-    var nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1);
-    if (["PropertyName", ".", "?."].includes(nodeBefore.name) && optionalChain([nodeBefore, 'access', _ => _.parent, 'optionalAccess', _2 => _2.name]) == "MemberExpression") {
-        var object = nodeBefore.parent.getChild("Expression");
-        if (optionalChain([object, 'optionalAccess', _3 => _3.name]) == "VariableName") {
-            var from = /\./.test(nodeBefore.name) ? nodeBefore.to : nodeBefore.from;
-            var variableName = context.state.sliceDoc(object.from, object.to);
-            if (typeof window[variableName] == "object")
-                return completeProperties(from, window[variableName]);
-        }
-    } else if (nodeBefore.name == "VariableName") {
-        return completeProperties(nodeBefore.from, window);
-    } else if (context.explicit && !["TemplateString", "LineComment", "BlockComment", "VariableDefinition", "PropertyDefinition"].includes(nodeBefore.name)) {
-        return completeProperties(context.pos, window);
-    }
-    return null;
-}
-
-function completeProperties(from, object) {
-    var options = [];
-    for (var name in object) {
-        options.push({
-            label: name,
-            type: typeof object[name] == "function" ? "function" : "variable"
-        });
-    }
-    return {
-        from,
-        options,
-        validFor: /^[\w$]*$/
-    };
-}
-
 function loadCode(code) {
     var state = EditorState.create({
         doc: code,
@@ -181,10 +126,6 @@ function loadCode(code) {
             EditorView.lineWrapping,
             placeholder("Not sure where to start? Some templates will be coming soon!"),
             html(),
-            javascriptLanguage,
-            javascriptLanguage.data.of({
-                autocomplete: completeFromGlobalScope
-            }),
             autocompletion(),
             search({
                 top: true
@@ -202,7 +143,6 @@ function loadCode(code) {
             parent: document.getElementById("editor")
         });
     }
-
     if (localStorage.getItem("code-editor-editor-vscodeKeymap") != "false") {
         injectExtension(keymap.of([...vscodeKeymap]));
     }
