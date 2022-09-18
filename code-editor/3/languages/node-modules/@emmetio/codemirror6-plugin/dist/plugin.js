@@ -5563,7 +5563,7 @@ function createPreviewConfig(config2) {
   return __spreadProps(__spreadValues({}, config2), {
     options: __spreadProps(__spreadValues({}, config2.options), {
       "output.field": previewField,
-      "output.indent": "  ",
+      "output.indent": localStorage.getItem("code-editor-editor-indentUnit"),
       "output.baseIndent": ""
     })
   });
