@@ -10,6 +10,7 @@ import {vscodeKeymap} from '../node-modules/@replit/codemirror-vscode-keymap/dis
 import interact from '../node-modules/@replit/codemirror-interact/dist/index.js';
 import {indentationMarkers} from '../node-modules/@replit/codemirror-indentation-markers/dist/index.js';
 import {html} from "https://codemirror.net/try/mods/@codemirror-lang-html.js";
+import {abbreviationTracker} from '../node-modules/@emmetio/codemirror6-plugin/dist/plugin.js';
 import {colorPicker} from '../node-modules/@replit/codemirror-css-color-picker/dist/index.js';
 
 if (!localStorage.getItem("code-editor-editor-tabSize")) {
@@ -126,6 +127,7 @@ function loadCode(code) {
             EditorView.lineWrapping,
             placeholder("Not sure where to start? Some templates will be coming soon!"),
             html(),
+            abbreviationTracker(),
             autocompletion(),
             search({
                 top: true

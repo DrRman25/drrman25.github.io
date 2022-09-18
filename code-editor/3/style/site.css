@@ -777,3 +777,7 @@ body[theme="dark"] .ͼ1 .cm-foldPlaceholder, body[theme="spooky"] .ͼ1 .cm-foldP
     border-color: #444;
     color: white;
 }
+
+.emmet-preview {
+    border-radius: .5rem;
+}
