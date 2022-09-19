@@ -5405,7 +5405,7 @@ function tracker(options) {
     cssCompletion,
     options ? config.of(options) : [],
     keymap.of([{
-      key: "Tab",
+      key: "Enter",
       run: tabKeyHandler
     }, {
       key: "Escape",
