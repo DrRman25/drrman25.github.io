@@ -203,6 +203,7 @@ body[theme="spooky"] #controls select {
 dialog {
     border-radius: 2rem;
     border-width: .125rem;
+    max-width: 50rem;
 }
 
 dialog::backdrop {

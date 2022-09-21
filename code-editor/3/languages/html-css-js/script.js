@@ -47,6 +47,7 @@ var frame, frameDoc;
 var editor;
 var canRunCode = true;
 var urlCodeQuery = /[?&]c=([^&]+)/.exec(document.location.search);
+var urlDataVersionQuery = /[?&]dv=([^&]+)/.exec(document.location.search);
 var urlExampleQuery = /[?&]example=([^&]+)/.exec(document.location.search);
 
 var theme = HighlightStyle.define([
@@ -317,7 +318,20 @@ document.getElementById("examples").addEventListener("change", function() {
     document.getElementById("examples").selectedIndex = 0;
 })
 
-loadCode(urlCodeQuery ? decodeParameter(urlCodeQuery[1]) : (urlExampleQuery && examples.hasOwnProperty(decodeURIComponent(urlExampleQuery[1]))) ? examples[decodeURIComponent(urlExampleQuery[1])] : getDefaultCode());
+loadCode(
+    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) == 1) ? decodeParameter(urlCodeQuery[1])
+    : (urlExampleQuery && examples.hasOwnProperty(decodeURIComponent(urlExampleQuery[1]))) ? examples[decodeURIComponent(urlExampleQuery[1])]
+    : getDefaultCode()
+);
+
+if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) != 1)) {
+    document.getElementById("modal-invalid-dv").showModal();
+    document.getElementById("data-version").textContent = (
+        !urlDataVersionQuery ? "3.0.0.8 or earlier"
+        : (parseInt(urlDataVersionQuery[1]) > 1) ? "(future version - 3.0.0.10+)"
+        : "unknown"
+    );
+}
 
 function run(coolDown = true) {
     if (canRunCode) {
@@ -360,14 +374,14 @@ function displayNotification(relativeElement, parentElement, messageText, notifi
 }
 
 function prepareShareModal() {
-    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString());
     document.getElementById("share-export-filesize").textContent = 
     editor.state.doc.toString().length >= 1125899906842624 ? `${(editor.state.doc.toString().length / 1125899906842624).toFixed(2)} petabytes`
     : editor.state.doc.toString().length >= 1099511627776 ? `${(editor.state.doc.toString().length / 1099511627776).toFixed(2)} terabytes`
     : editor.state.doc.toString().length >= 1073741824 ? `${(editor.state.doc.toString().length / 1073741824).toFixed(2)} gigabytes`
     : editor.state.doc.toString().length >= 1048576 ? `${(editor.state.doc.toString().length / 1048576).toFixed(2)} megabytes`
     : editor.state.doc.toString().length >= 1024 ? `${(editor.state.doc.toString().length / 1024).toFixed(2)} kilobytes`
-    : `${editor.state.doc.toString().length} bytes`
+    : `${editor.state.doc.toString().length} bytes`;
+    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=1";
 }
 
 document.getElementById("run").addEventListener("click", function() {
@@ -380,7 +394,7 @@ document.getElementById("share").addEventListener("click", function() {
 });
 
 document.getElementById("share-link-copy").addEventListener("click", function(e) {
-    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()));
+    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=1");
     displayNotification(e.target, document.getElementById("modal-share"), "Link successfully copied!", 2000);
 });
 
@@ -389,7 +403,7 @@ var link, blob;
 document.getElementById("share-export-html").addEventListener("click", function() {
     link = document.createElement("a");
     link.download = "index.html";
-    blob = new Blob([editor.state.doc.toString()], { type: "text/plain" });
+    blob = new Blob([editor.state.doc.toString()], {type: "text/plain"});
     link.href = URL.createObjectURL(blob);
     link.click();
     URL.revokeObjectURL(link.href);
@@ -398,7 +412,7 @@ document.getElementById("share-export-html").addEventListener("click", function(
 document.getElementById("share-export-plain-text").addEventListener("click", function() {
     link = document.createElement("a");
     link.download = "prog.txt";
-    blob = new Blob([editor.state.doc.toString()], { type: "text/plain" });
+    blob = new Blob([editor.state.doc.toString()], {type: "text/plain"});
     link.href = URL.createObjectURL(blob);
     link.click();
     URL.revokeObjectURL(link.href);
@@ -406,6 +420,15 @@ document.getElementById("share-export-plain-text").addEventListener("click", fun
 
 document.getElementById("modal-share-close").addEventListener("click", function() {
     document.getElementById("modal-share").close();
+});
+
+document.getElementById("invalid-dv-load-anyway").addEventListener("click", function() {
+    loadCode(decodeParameter(urlCodeQuery[1]));
+    document.getElementById("modal-invalid-dv").close();
+});
+
+document.getElementById("invalid-dv-load-default").addEventListener("click", function() {
+    document.getElementById("modal-invalid-dv").close();
 });
 
 document.getElementById("clear").addEventListener("click", function() {
