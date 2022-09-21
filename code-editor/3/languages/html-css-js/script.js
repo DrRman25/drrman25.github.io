@@ -105,6 +105,15 @@ function loadCode(code) {
             drawSelection(),
             dropCursor(),
             EditorState.allowMultipleSelections.of(true),
+            EditorState.phrases.of({
+                "next": ">",
+                "previous": "<",
+                "all": "Find all",
+                "match case": "Match case",
+                "regexp": "RegExp",
+                "replace": "Replace",
+                "replace all": "Replace all",
+            }),
             indentOnInput(),
             syntaxHighlighting(defaultHighlightStyle, {
                 fallback: true
@@ -112,9 +121,10 @@ function loadCode(code) {
             bracketMatching(),
             closeBrackets(),
             autocompletion(),
-            rectangularSelection(),
+            //rectangularSelection(),
             highlightActiveLine(),
             highlightSelectionMatches(),
+            EditorView.clickAddsSelectionRange.of(e => e.altKey),
             keymap.of([
                 {key: "Mod-Enter", run: run},
                 ...closeBracketsKeymap,
@@ -319,16 +329,17 @@ document.getElementById("examples").addEventListener("change", function() {
 })
 
 loadCode(
-    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) == 1) ? decodeParameter(urlCodeQuery[1])
+    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) == 2) ? decodeParameter(urlCodeQuery[1])
     : (urlExampleQuery && examples.hasOwnProperty(decodeURIComponent(urlExampleQuery[1]))) ? examples[decodeURIComponent(urlExampleQuery[1])]
     : getDefaultCode()
 );
 
-if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) != 1)) {
+if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) != 2)) {
     document.getElementById("modal-invalid-dv").showModal();
     document.getElementById("data-version").textContent = (
         !urlDataVersionQuery ? "3.0.0.8 or earlier"
-        : (parseInt(urlDataVersionQuery[1]) > 1) ? "(future version - 3.0.0.10+)"
+        : (parseInt(urlDataVersionQuery[1]) == 1) ? "3.0.0.9"
+        : (parseInt(urlDataVersionQuery[1]) > 2) ? "(future version - 3.0.0.11+)"
         : "unknown"
     );
 }
@@ -381,7 +392,7 @@ function prepareShareModal() {
     : editor.state.doc.toString().length >= 1048576 ? `${(editor.state.doc.toString().length / 1048576).toFixed(2)} megabytes`
     : editor.state.doc.toString().length >= 1024 ? `${(editor.state.doc.toString().length / 1024).toFixed(2)} kilobytes`
     : `${editor.state.doc.toString().length} bytes`;
-    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=1";
+    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=2";
 }
 
 document.getElementById("run").addEventListener("click", function() {
@@ -394,7 +405,7 @@ document.getElementById("share").addEventListener("click", function() {
 });
 
 document.getElementById("share-link-copy").addEventListener("click", function(e) {
-    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=1");
+    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=2");
     displayNotification(e.target, document.getElementById("modal-share"), "Link successfully copied!", 2000);
 });
 

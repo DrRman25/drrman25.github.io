@@ -579,10 +579,6 @@ body[theme="dark"] .ͼ2 .cm-searchMatch, body[theme="spooky"] .ͼ2 .cm-searchMat
     border-radius: 0.5rem;
 }
 
-.ͼ1 .cm-button, .ͼ1 .cm-panel.cm-search label {
-    text-transform: capitalize;
-}
-
 .ͼ1 .cm-button {
     background-image: none;
     background-color: #eff1f5;
