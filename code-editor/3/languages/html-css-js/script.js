@@ -424,6 +424,7 @@ document.getElementById("modal-share-close").addEventListener("click", function(
 
 document.getElementById("invalid-dv-load-anyway").addEventListener("click", function() {
     loadCode(decodeParameter(urlCodeQuery[1]));
+    run(false);
     document.getElementById("modal-invalid-dv").close();
 });
 
