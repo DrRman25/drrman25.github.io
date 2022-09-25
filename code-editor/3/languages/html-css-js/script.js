@@ -1,6 +1,6 @@
 import {EditorState, StateEffect} from "https://codemirror.net/try/mods/@codemirror-state.js";
 import {search, highlightSelectionMatches, searchKeymap} from "https://codemirror.net/try/mods/@codemirror-search.js";
-import {EditorView, keymap, placeholder, lineNumbers, highlightActiveLineGutter, highlightSpecialChars, drawSelection, dropCursor, rectangularSelection, highlightActiveLine} from "https://codemirror.net/try/mods/@codemirror-view.js";
+import {EditorView, keymap, placeholder, lineNumbers, highlightActiveLineGutter, highlightSpecialChars, drawSelection, dropCursor, highlightActiveLine} from "https://codemirror.net/try/mods/@codemirror-view.js";
 import {defaultKeymap, history, historyKeymap} from "https://codemirror.net/try/mods/@codemirror-commands.js";
 import {tags} from "https://codemirror.net/try/mods/@lezer-highlight.js";
 import {indentUnit, syntaxHighlighting, HighlightStyle, foldGutter, indentOnInput, defaultHighlightStyle, bracketMatching, foldKeymap} from "https://codemirror.net/try/mods/@codemirror-language.js";
@@ -51,11 +51,11 @@ var urlDataVersionQuery = /[?&]dv=([^&]+)/.exec(document.location.search);
 var urlExampleQuery = /[?&]example=([^&]+)/.exec(document.location.search);
 
 var theme = HighlightStyle.define([
-    {tag: tags.link, class: "tok-link" },
-    {tag: tags.heading, class: "tok-heading" },
-    {tag: tags.emphasis, class: "tok-emphasis" },
-    {tag: tags.strong, class: "tok-strong" },
-    {tag: tags.keyword, class: "tok-keyword" },
+    {tag: tags.link, class: "tok-link"},
+    {tag: tags.heading, class: "tok-heading"},
+    {tag: tags.emphasis, class: "tok-emphasis"},
+    {tag: tags.strong, class: "tok-strong"},
+    {tag: tags.keyword, class: "tok-keyword"},
     {tag: tags.atom, class: "tok-atom" },
     {tag: tags.bool, class: "tok-bool"},
     {tag: tags.url, class: "tok-url"},
@@ -121,7 +121,6 @@ function loadCode(code) {
             bracketMatching(),
             closeBrackets(),
             autocompletion(),
-            //rectangularSelection(),
             highlightActiveLine(),
             highlightSelectionMatches(),
             EditorView.clickAddsSelectionRange.of(e => e.altKey),
@@ -136,7 +135,7 @@ function loadCode(code) {
                 ...lintKeymap
             ]),
             EditorView.lineWrapping,
-            placeholder("Not sure where to start? Some templates will be coming soon!"),
+            placeholder("Not sure where to start? Look at some examples above (this message will be dismissed after typing)"),
             html(),
             abbreviationTracker(),
             autocompletion(),
@@ -329,17 +328,18 @@ document.getElementById("examples").addEventListener("change", function() {
 })
 
 loadCode(
-    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) == 2) ? decodeParameter(urlCodeQuery[1])
+    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) == 3) ? decodeParameter(urlCodeQuery[1])
     : (urlExampleQuery && examples.hasOwnProperty(decodeURIComponent(urlExampleQuery[1]))) ? examples[decodeURIComponent(urlExampleQuery[1])]
     : getDefaultCode()
 );
 
-if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) != 2)) {
+if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) != 3)) {
     document.getElementById("modal-invalid-dv").showModal();
     document.getElementById("data-version").textContent = (
         !urlDataVersionQuery ? "3.0.0.8 or earlier"
         : (parseInt(urlDataVersionQuery[1]) == 1) ? "3.0.0.9"
-        : (parseInt(urlDataVersionQuery[1]) > 2) ? "(future version - 3.0.0.11+)"
+        : (parseInt(urlDataVersionQuery[1]) == 2) ? "3.0.0.10"
+        : (parseInt(urlDataVersionQuery[1]) > 3) ? "(future version - 3.0.0.12+)"
         : "unknown"
     );
 }
@@ -392,7 +392,7 @@ function prepareShareModal() {
     : editor.state.doc.toString().length >= 1048576 ? `${(editor.state.doc.toString().length / 1048576).toFixed(2)} megabytes`
     : editor.state.doc.toString().length >= 1024 ? `${(editor.state.doc.toString().length / 1024).toFixed(2)} kilobytes`
     : `${editor.state.doc.toString().length} bytes`;
-    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=2";
+    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=3";
 }
 
 document.getElementById("run").addEventListener("click", function() {
@@ -405,7 +405,7 @@ document.getElementById("share").addEventListener("click", function() {
 });
 
 document.getElementById("share-link-copy").addEventListener("click", function(e) {
-    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=2");
+    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=3");
     displayNotification(e.target, document.getElementById("modal-share"), "Link successfully copied!", 2000);
 });
 
