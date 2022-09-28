@@ -522,17 +522,17 @@ body[theme="dark"] .ͼ2 .cm-gutters, body[theme="spooky"] .ͼ2 .cm-gutters {
 }
 
 .ͼ2.cm-focused .cm-activeLineGutter {
-    background: #f0f1f2;
+    background: #f0f1f280;
     color: #2c2f36;
 }
 
 body[theme="dark"] .ͼ2.cm-focused .cm-activeLineGutter {
-    background: #2b3245;
+    background: #2b324580;
     color: #cdd2d6;
 }
 
 body[theme="spooky"] .ͼ2.cm-focused .cm-activeLineGutter {
-    background: #383b42;
+    background: #383b4280;
     color: #cdd2d6;
 }
 
@@ -541,15 +541,15 @@ body[theme="spooky"] .ͼ2.cm-focused .cm-activeLineGutter {
 }
 
 .ͼ2.cm-focused .cm-activeLine {
-    background: #f0f1f2;
+    background: #f0f1f280;
 }
 
 body[theme="dark"] .ͼ2.cm-focused .cm-activeLine {
-    background: #2b3245;
+    background: #2b324580;
 }
 
 body[theme="spooky"] .ͼ2.cm-focused .cm-activeLine {
-    background: #383b42;
+    background: #383b4280;
 }
 
 .ͼ1 .cm-css-color-picker-wrapper {

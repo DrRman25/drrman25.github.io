@@ -3,7 +3,7 @@ import {search, highlightSelectionMatches, searchKeymap} from "https://codemirro
 import {EditorView, keymap, placeholder, lineNumbers, highlightActiveLineGutter, highlightSpecialChars, drawSelection, dropCursor, highlightActiveLine} from "https://codemirror.net/try/mods/@codemirror-view.js";
 import {defaultKeymap, history, historyKeymap} from "https://codemirror.net/try/mods/@codemirror-commands.js";
 import {tags} from "https://codemirror.net/try/mods/@lezer-highlight.js";
-import {indentUnit, syntaxHighlighting, HighlightStyle, foldGutter, indentOnInput, defaultHighlightStyle, bracketMatching, foldKeymap} from "https://codemirror.net/try/mods/@codemirror-language.js";
+import {indentUnit, syntaxHighlighting, HighlightStyle, foldGutter, indentOnInput, bracketMatching, foldKeymap} from "https://codemirror.net/try/mods/@codemirror-language.js";
 import {closeBrackets, autocompletion, closeBracketsKeymap, completionKeymap} from "https://codemirror.net/try/mods/@codemirror-autocomplete.js";
 import {lintKeymap} from "https://codemirror.net/try/mods/@codemirror-lint.js";
 import {vscodeKeymap} from '../node-modules/@replit/codemirror-vscode-keymap/dist/index.js';
@@ -50,38 +50,77 @@ var urlCodeQuery = /[?&]c=([^&]+)/.exec(document.location.search);
 var urlDataVersionQuery = /[?&]dv=([^&]+)/.exec(document.location.search);
 var urlExampleQuery = /[?&]example=([^&]+)/.exec(document.location.search);
 
-var theme = HighlightStyle.define([
-    {tag: tags.link, class: "tok-link"},
-    {tag: tags.heading, class: "tok-heading"},
-    {tag: tags.emphasis, class: "tok-emphasis"},
-    {tag: tags.strong, class: "tok-strong"},
-    {tag: tags.keyword, class: "tok-keyword"},
-    {tag: tags.atom, class: "tok-atom" },
-    {tag: tags.bool, class: "tok-bool"},
-    {tag: tags.url, class: "tok-url"},
-    {tag: tags.labelName, class: "tok-labelName"},
-    {tag: tags.inserted, class: "tok-inserted"},
-    {tag: tags.deleted, class: "tok-deleted"},
-    {tag: tags.literal, class: "tok-literal"},
-    {tag: [tags.string, tags.special(tags.string)], class: "tok-string"},
-    {tag: tags.number, class: "tok-number"},
-    {tag: [tags.regexp, tags.escape], class: "tok-string2"},
-    {tag: tags.variableName, class: "tok-variableName"},
-    {tag: tags.local(tags.variableName), class: "tok-variableName tok-local"},
-    {tag: tags.definition(tags.variableName), class: "tok-variableName tok-definition"},
-    {tag: tags.special(tags.variableName), class: "tok-variableName2"},
-    {tag: tags.definition(tags.propertyName), class: "tok-propertyName tok-definition"},
-    {tag: [tags.function(tags.variableName), tags.function(tags.propertyName)], class: "tok-function"},
-    {tag: tags.typeName, class: "tok-typeName"},
-    {tag: tags.namespace, class: "tok-namespace"},
-    {tag: tags.className, class: "tok-className"},
-    {tag: tags.macroName, class: "tok-macroName"},
-    {tag: tags.propertyName, class: "tok-propertyName"},
-    {tag: tags.operator, class: "tok-operator"},
-    {tag: tags.comment, class: "tok-comment"},
-    {tag: tags.meta, class: "tok-meta"},
-    {tag: tags.invalid, class: "tok-invalid"},
-    {tag: tags.angleBracket, class: "tok-angleBracket"}
+var universalTheme = HighlightStyle.define([
+    {tag: tags.link, textDecoration: "underline"},
+    {tag: tags.heading, textDecoration: "underline", fontWeight: "bold"},
+    {tag: tags.emphasis, fontStyle: "italic"},
+    {tag: tags.strong, fontWeight: "bold"},
+]);
+
+var lightTheme = HighlightStyle.define([
+    {tag: tags.keyword, color: "#005cb8"},
+    {tag: tags.atom, color: "#005cb8"},
+    {tag: tags.bool, color: "#004182"},
+    {tag: tags.labelName, color: "#736000"},
+    {tag: tags.inserted, color: "#736000"},
+    {tag: tags.deleted, color: "#964b00"},
+    {tag: tags.literal, color: "#736000"},
+    {tag: [tags.string, tags.special(tags.string)], color: "#964b00"},
+    {tag: tags.number, color: "#466900"},
+    {tag: [tags.regexp, tags.escape], color: "#ab2980"},
+    {tag: tags.definition(tags.propertyName), color: "#004182"},
+    {tag: [tags.function(tags.variableName), tags.function(tags.propertyName)], color: "#736000"},
+    {tag: tags.typeName, color: "#005cb8"},
+    {tag: tags.className, color: "#005cb8"},
+    {tag: tags.propertyName, color: "#004182"},
+    {tag: tags.operator, color: "#004182"},
+    {tag: tags.comment, color: "#98999c"},
+    {tag: tags.meta, color: "#005cb8"},
+    {tag: tags.angleBracket, color: "#5c5f66"}
+]);
+
+var darkTheme = HighlightStyle.define([
+    {tag: tags.keyword, color: "#57abff"},
+    {tag: tags.atom, color: "#57abff"},
+    {tag: tags.bool, color: "#b2d9ff"},
+    {tag: tags.labelName, color: "#f2e088"},
+    {tag: tags.inserted, color: "#f2e088"},
+    {tag: tags.deleted, color: "#ffbd7a"},
+    {tag: tags.literal, color: "#f2e088"},
+    {tag: [tags.string, tags.special(tags.string)], color: "#ffbd7a"},
+    {tag: tags.number, color: "#c4e581"},
+    {tag: [tags.regexp, tags.escape], color: "#ff70cf"},
+    {tag: tags.definition(tags.propertyName), color: "#b2d9ff"},
+    {tag: [tags.function(tags.variableName), tags.function(tags.propertyName)], color: "#f2e088"},
+    {tag: tags.typeName, color: "#57abff"},
+    {tag: tags.className, color: "#57abff"},
+    {tag: tags.propertyName, color: "#b2d9ff"},
+    {tag: tags.operator, color: "#b2d9ff"},
+    {tag: tags.comment, color: "#009118"},
+    {tag: tags.meta, color: "#57abff"},
+    {tag: tags.angleBracket, color: "#9da2a6"}
+]);
+
+var spookyTheme = HighlightStyle.define([
+    {tag: tags.keyword, color: "#7fbfff"},
+    {tag: tags.atom, color: "#7fbfff"},
+    {tag: tags.bool, color: "#b2d9ff"},
+    {tag: tags.labelName, color: "#fff2b2"},
+    {tag: tags.inserted, color: "#fff2b2"},
+    {tag: tags.deleted, color: "#ffd9b2"},
+    {tag: tags.literal, color: "#fff2b2"},
+    {tag: [tags.string, tags.special(tags.string)], color: "#ffd9b2"},
+    {tag: tags.number, color: "#c4e581"},
+    {tag: [tags.regexp, tags.escape], color: "#ff8ad8"},
+    {tag: tags.definition(tags.propertyName), color: "#b2d9ff"},
+    {tag: [tags.function(tags.variableName), tags.function(tags.propertyName)], color: "#fff2b2"},
+    {tag: tags.typeName, color: "#7fbfff"},
+    {tag: tags.className, color: "#7fbfff"},
+    {tag: tags.propertyName, color: "#b2d9ff"},
+    {tag: tags.operator, color: "#b2d9ff"},
+    {tag: tags.comment, color: "#36b24a"},
+    {tag: tags.meta, color: "#7fbfff"},
+    {tag: tags.angleBracket, color: "#9da2a6"}
 ]);
 
 function injectExtension(extension) {
@@ -115,14 +154,11 @@ function loadCode(code) {
                 "replace all": "Replace all",
             }),
             indentOnInput(),
-            syntaxHighlighting(defaultHighlightStyle, {
-                fallback: true
-            }),
             bracketMatching(),
             closeBrackets(),
             autocompletion(),
-            highlightActiveLine(),
             highlightSelectionMatches(),
+            highlightActiveLine(),
             EditorView.clickAddsSelectionRange.of(e => e.altKey),
             keymap.of([
                 {key: "Mod-Enter", run: run},
@@ -138,13 +174,12 @@ function loadCode(code) {
             placeholder("Not sure where to start? Look at some examples above (this message will be dismissed after typing)"),
             html(),
             abbreviationTracker(),
-            autocompletion(),
             search({
                 top: true
             }),
             EditorState.tabSize.of(localStorage.getItem("code-editor-editor-tabSize")),
             indentUnit.of(localStorage.getItem("code-editor-editor-indentUnit")),
-            syntaxHighlighting(theme)
+            syntaxHighlighting(universalTheme)
         ]
     });
     if (editor) {
@@ -211,6 +246,15 @@ function loadCode(code) {
                 },
             ],
         }));
+    }
+    if (localStorage.getItem("code-editor-site-theme") == "light") {
+        injectExtension(syntaxHighlighting(lightTheme));
+    }
+    if (localStorage.getItem("code-editor-site-theme") == "dark") {
+        injectExtension(syntaxHighlighting(darkTheme));
+    }
+    if (localStorage.getItem("code-editor-site-theme") == "spooky") {
+        injectExtension(syntaxHighlighting(spookyTheme));
     }
 }
 
@@ -328,18 +372,19 @@ document.getElementById("examples").addEventListener("change", function() {
 })
 
 loadCode(
-    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) == 3) ? decodeParameter(urlCodeQuery[1])
+    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) == 4) ? decodeParameter(urlCodeQuery[1])
     : (urlExampleQuery && examples.hasOwnProperty(decodeURIComponent(urlExampleQuery[1]))) ? examples[decodeURIComponent(urlExampleQuery[1])]
     : getDefaultCode()
 );
 
-if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) != 3)) {
+if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) != 4)) {
     document.getElementById("modal-invalid-dv").showModal();
     document.getElementById("data-version").textContent = (
         !urlDataVersionQuery ? "3.0.0.8 or earlier"
         : (parseInt(urlDataVersionQuery[1]) == 1) ? "3.0.0.9"
         : (parseInt(urlDataVersionQuery[1]) == 2) ? "3.0.0.10"
-        : (parseInt(urlDataVersionQuery[1]) > 3) ? "(future version - 3.0.0.12+)"
+        : (parseInt(urlDataVersionQuery[1]) == 3) ? "3.0.0.11"
+        : (parseInt(urlDataVersionQuery[1]) > 4) ? "(future version - 3.0.0.13+)"
         : "unknown"
     );
 }
@@ -392,7 +437,7 @@ function prepareShareModal() {
     : editor.state.doc.toString().length >= 1048576 ? `${(editor.state.doc.toString().length / 1048576).toFixed(2)} megabytes`
     : editor.state.doc.toString().length >= 1024 ? `${(editor.state.doc.toString().length / 1024).toFixed(2)} kilobytes`
     : `${editor.state.doc.toString().length} bytes`;
-    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=3";
+    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=4";
 }
 
 document.getElementById("run").addEventListener("click", function() {
@@ -405,7 +450,7 @@ document.getElementById("share").addEventListener("click", function() {
 });
 
 document.getElementById("share-link-copy").addEventListener("click", function(e) {
-    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=3");
+    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=4");
     displayNotification(e.target, document.getElementById("modal-share"), "Link successfully copied!", 2000);
 });
 
