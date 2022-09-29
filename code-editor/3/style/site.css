@@ -432,6 +432,7 @@ div.figure {
 .tok-labelName, .tok-function {color: #736000;}
 .tok-meta {color: #005cb8;}
 .tok-angleBracket {color: #5c5f66;}
+.tok-invalid {color: #c00;}
 
 body[theme="dark"] .tok-keyword, body[theme="dark"] .fn, body[theme="dark"] .keyword {color: #57abff;}
 body[theme="dark"] .tok-atom {color: #57abff;}
@@ -448,6 +449,7 @@ body[theme="dark"] .tok-operator {color: #b2d9ff;}
 body[theme="dark"] .tok-labelName, body[theme="dark"] .tok-function {color: #f2e088;}
 body[theme="dark"] .tok-meta {color: #57abff;}
 body[theme="dark"] .tok-angleBracket {color: #9da2a6;}
+body[theme="dark"] .tok-invalid {color: #c88;}
 
 body[theme="spooky"] .tok-keyword, body[theme="spooky"] .fn, body[theme="spooky"] .keyword {color: #7fbfff;}
 body[theme="spooky"] .tok-atom {color: #7fbfff;}
@@ -464,6 +466,7 @@ body[theme="spooky"] .tok-operator {color: #b2d9ff;}
 body[theme="spooky"] .tok-labelName, body[theme="spooky"] .tok-function {color: #fff2b2;}
 body[theme="spooky"] .tok-meta {color: #7fbfff;}
 body[theme="spooky"] .tok-angleBracket {color: #9da2a6;}
+body[theme="spooky"] .tok-invalid {color: #c88;}
 
 .ͼ1 .cm-selectionMatch {background: #d2d4d6;}
 .ͼ2.cm-focused .cm-selectionBackground {background: #b2d9ff;}

@@ -9,8 +9,7 @@ import {lintKeymap} from "https://codemirror.net/try/mods/@codemirror-lint.js";
 import {vscodeKeymap} from '../node-modules/@replit/codemirror-vscode-keymap/dist/index.js';
 import interact from '../node-modules/@replit/codemirror-interact/dist/index.js';
 import {indentationMarkers} from '../node-modules/@replit/codemirror-indentation-markers/dist/index.js';
-import {html} from "https://codemirror.net/try/mods/@codemirror-lang-html.js";
-import {abbreviationTracker} from '../node-modules/@emmetio/codemirror6-plugin/dist/plugin.js';
+import {javascript} from "https://codemirror.net/try/mods/@codemirror-lang-javascript.js";
 import {colorPicker} from '../node-modules/@replit/codemirror-css-color-picker/dist/index.js';
 
 if (!localStorage.getItem("code-editor-editor-tabSize")) {
@@ -43,8 +42,9 @@ if (!localStorage.getItem("code-editor-site-theme")) {
 
 document.body.setAttribute("theme", localStorage.getItem("code-editor-site-theme"));
 
-var frame, frameDoc;
+var frame, code, channel;
 var editor;
+var lastWideScreenTab, lastNarrowScreenTab;
 var canRunCode = true;
 var urlCodeQuery = /[?&]c=([^&]+)/.exec(document.location.search);
 var urlDataVersionQuery = /[?&]dv=([^&]+)/.exec(document.location.search);
@@ -172,8 +172,7 @@ function loadCode(code) {
             ]),
             EditorView.lineWrapping,
             placeholder("Not sure where to start? Look at some examples above (this message will be dismissed after typing)"),
-            html(),
-            abbreviationTracker(),
+            javascript(),
             search({
                 top: true
             }),
@@ -259,92 +258,16 @@ function loadCode(code) {
 }
 
 function getDefaultCode() {
-    return `<!DOCTYPE html>
-<html>
-
-<head>
-${localStorage.getItem("code-editor-editor-indentUnit")}<title>My Web Site</title>
-</head>
-
-<body>
-${localStorage.getItem("code-editor-editor-indentUnit")}<h1>My First HTML Page</h1>
-${localStorage.getItem("code-editor-editor-indentUnit")}<p>Hello, world!</p>
-</body>
-
-</html>
+    return `console.log('Hello, world!');
 `;
 }
 
 function getExamples() {
     return {
-        "Minimal HTML": `<!DOCTYPE html>
-<html>
-
-<head>
-    <title>Minimal HTML</title>
-</head>
-
-<body>
-    <p>My paragraph.</p>
-</body>
-
-</html>
-`,
-        "Simple CSS": `<!DOCTYPE html>
-<html>
-
-<head>
-    <title>Simple CSS</title>
-    <style>
-        body {
-            background-color: red;
-            color: white;
-        }
-
-        .heading {
-            text-decoration: overline;
-            font-family: fantasy;
-        }
-
-        #my-paragraph {
-            font-style: italic;
-        }
-    </style>
-</head>
-
-<body>
-    <h1 class="heading">My Simple CSS</h1>
-    <p id="my-paragraph">Hello, world!</p>
-</body>
-
-</html>
-`,
-        "Basic JavaScript": `<!DOCTYPE html>
-<html>
-
-<head>
-    <title>Basic JavaScript</title>
-</head>
-
-<body>
-    <h1>My Basic JavaScript</h1>
-    <button id="date-button">Show date and time</button>
-    <p id="date-time"></p>
-    <script>
-        var dateButton = document.getElementById("date-button");
-        var dateParagraph = document.getElementById("date-time");
-
-        dateButton.onclick = showDate;
-
-        function showDate() {
-            dateParagraph.textContent = Date();
-        }
-    </script>
-</body>
-
-</html>
-`
-    }
+        "Basic console output": `console.log('Hello, this is an informational message!');
+console.warn('Hello, this is a warning message!');
+console.error('Hello, this is an error message!');`
+    };
 }
 
 var examples = getExamples();
@@ -389,6 +312,119 @@ if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !=
     );
 }
 
+function parseStack(stack) {
+    return stack.split("\n").map(line => /^\s*([\w$*.]*)/.exec(line)[1] || "<anonymous>");
+}
+
+function expandError(target, val) {
+    var frames = document.createElement("div");
+    frames.className = "log-frames";
+    for (var fn of parseStack(val.stack)) {
+        frames.appendChild(document.createElement("div")).textContent = fn;
+    }
+    target.parentNode.replaceChild(frames, target);
+}
+
+function span(cls, ...content) {
+    let elt = document.createElement("span");
+    elt.className = cls;
+    for (let c of content) elt.appendChild(typeof c == "string" ? document.createTextNode(c) : c);
+    return elt;
+}
+
+function etcButton(onClick) {
+    let etc = document.createElement("button");
+    etc.textContent = "...";
+    etc.className = "log-etc";
+    etc.onclick = onClick;
+    etc.setAttribute("aria-label", "expand");
+    return etc;
+}
+
+function renderLoggable(value, space, top = false) {
+    if (typeof value == "number") {
+        return span("tok-number", String(value));
+    }
+    if (typeof value == "string") {
+        return top ? document.createTextNode(value) : span("tok-string", JSON.stringify(value));
+    }
+    if (typeof value == "boolean") {
+        return span("tok-atom", String(value));
+    }
+    if (value == null) {
+        return span("tok-keyword", String(value))
+    }
+    var {function: fun, array, object, ctor, error} = value;
+    if (error) {
+        return span("tok-invalid", error, " ", etcButton(e => expandError(e.target , value)))
+    } else if (fun) {
+        return span("", span("tok-keyword", "function "), span("tok-variableName2", fun))
+    } else if (array) {
+        space -= 2;
+        var children = ["["];
+        var wrap;
+        for (var elt of array) {
+            if (children.length > 1) {
+                children.push(", ");
+                space -= 2;
+            }
+            var next = space > 0 && renderLoggable(elt, space);
+            var nextSize = next ? next.textContent.length : 0;
+            if (space - nextSize <= 0) {
+                children.push(etcButton(() => expandObj(wrap, array)));
+                break
+            }
+            space -= nextSize;
+            children.push(next);
+        }
+        children.push("]");
+        return wrap = span("log-array", ...children)
+    } else {
+        space -= 2;
+        var children = [];
+        var wrap;
+        if (ctor && ctor != "Object") {
+            children.push(span("tok-typeName", ctor + " "));
+            space -= ctor.length + 1;
+        }
+        children.push("{");
+        for (var prop of Object.keys(object)) {
+            if (children[children.length - 1] !== "{") {
+                space -= 2;
+                children.push(", ");
+            }
+            var next = null;
+            if (space > 0) {
+                try { next = renderLoggable(object[prop], space); }
+                catch (_) {}
+            }
+            var nextSize = next ? prop.length + 2 + next.textContent.length : 0;
+            if (!next || space - nextSize <= 0) {
+                children.push(etcButton(() => expandObj(wrap, object)));
+                break
+            }
+            space -= nextSize;
+            children.push(span("tok-property", prop + ": "), next);
+        }
+        children.push("}");
+        return wrap = span("log-object", ...children)
+    }
+}
+
+function showLog(values, type) {
+    var wrap = document.createElement("div"), first = true;
+    wrap.className = "log-" + type;
+    for (var val of values) {
+        if (first) {
+            first = false;
+        } else {
+            wrap.appendChild(document.createTextNode(" "));
+        }
+        wrap.appendChild(renderLoggable(val, 60, true));
+    }
+    document.getElementById("log").appendChild(wrap);
+}
+
 function run(coolDown = true) {
     if (canRunCode) {
         if (innerWidth < 1200) {
@@ -397,13 +433,21 @@ function run(coolDown = true) {
             document.getElementById("tab-editor").classList.remove("active");
             document.getElementById("tab-output").classList.add("active");
         }
+        document.getElementById("output").textContent = document.getElementById("log").textContent = "";
         frame = document.createElement("iframe");
-        document.getElementById("output").textContent = "";
+        frame.setAttribute("sandbox", "allow-scripts allow-popups allow-modals allow-forms");
+        frame.src = "resources/sandbox.html";
+        code = editor.state.doc.toString();
+        channel = new MessageChannel();
+        channel.port2.onmessage = function(e) {
+            if (e.data.log) {
+                showLog(e.data.elements, e.data.log);
+            }
+        }
+        frame.onload = function() {
+            frame.contentWindow.postMessage({type: "load", code: code}, "*", [channel.port1]);
+        }
         document.getElementById("output").appendChild(frame);
-        frameDoc = frame.contentDocument || frame.contentWindow.document;
-        frameDoc.open();
-        frameDoc.write(editor.state.doc.toString());
-        frameDoc.close();
         if (coolDown) {
             canRunCode = false;
             document.getElementById("run").textContent = ". . .";
@@ -456,9 +500,18 @@ document.getElementById("share-link-copy").addEventListener("click", function(e)
 
 var link, blob;
 
-document.getElementById("share-export-html").addEventListener("click", function() {
+document.getElementById("share-export-typescript").addEventListener("click", function() {
     link = document.createElement("a");
-    link.download = "index.html";
+    link.download = "index.ts";
+    blob = new Blob([editor.state.doc.toString()], {type: "text/plain"});
+    link.href = URL.createObjectURL(blob);
+    link.click();
+    URL.revokeObjectURL(link.href);
+});
+
+document.getElementById("share-export-javascript").addEventListener("click", function() {
+    link = document.createElement("a");
+    link.download = "index.js";
     blob = new Blob([editor.state.doc.toString()], {type: "text/plain"});
     link.href = URL.createObjectURL(blob);
     link.click();
@@ -490,12 +543,8 @@ document.getElementById("invalid-dv-load-default").addEventListener("click", fun
 
 document.getElementById("clear").addEventListener("click", function() {
     frame = document.createElement("iframe");
-    document.getElementById("output").innerHTML = "";
+    document.getElementById("output").textContent = document.getElementById("log").textContent = "";
     document.getElementById("output").appendChild(frame);
-    frameDoc = frame.contentDocument || frame.contentWindow.document;
-    frameDoc.open();
-    frameDoc.write("");
-    frameDoc.close();
 });
 
 run(false);
@@ -504,39 +553,110 @@ addEventListener("load", function() {
     if (innerWidth < 1200) {
         document.getElementById("editor").style.display = "none";
         document.getElementById("output").style.display = "block";
+        document.getElementById("log").style.display = "none";
         document.getElementById("tab-output").classList.add("active");
+        lastWideScreenTab = "output";
     } else {
         document.getElementById("editor").style.display = "block";
         document.getElementById("output").style.display = "block";
-        document.getElementById("tab-editor").classList.add("active");
+        document.getElementById("log").style.display = "none";
+        document.getElementById("tab-output").classList.add("active");
+        lastNarrowScreenTab = "editor";
     }
 });
 
 addEventListener("resize", function() {
     if (innerWidth < 1200) {
-        if (document.getElementById("tab-editor").classList.contains("active")) {
+        lastWideScreenTab = (
+            document.getElementById("tab-output").classList.contains("active") ? "output"
+            : document.getElementById("tab-log").classList.contains("active") ? "log"
+            : "output"
+        );
+        if (lastNarrowScreenTab == "editor") {
+            document.getElementById("tab-editor").classList.add("active");
+            document.getElementById("tab-output").classList.remove("active");
+            document.getElementById("tab-log").classList.remove("active");
             document.getElementById("editor").style.display = "block";
             document.getElementById("output").style.display = "none";
-        } else if (document.getElementById("tab-output").classList.contains("active")) {
+            document.getElementById("log").style.display = "none";
+        } else if (lastNarrowScreenTab == "output") {
+            document.getElementById("tab-editor").classList.remove("active");
+            document.getElementById("tab-output").classList.remove("active");
+            document.getElementById("tab-log").classList.add("active");
             document.getElementById("editor").style.display = "none";
             document.getElementById("output").style.display = "block";
+            document.getElementById("log").style.display = "none";
+        } else if (lastNarrowScreenTab == "log") {
+            document.getElementById("tab-editor").classList.remove("active");
+            document.getElementById("tab-output").classList.remove("active");
+            document.getElementById("tab-log").classList.add("active");
+            document.getElementById("editor").style.display = "none";
+            document.getElementById("output").style.display = "none";
+            document.getElementById("editor").style.display = "block";
         }
     } else {
+        lastNarrowScreenTab = (
+            document.getElementById("tab-editor").classList.contains("active") ? "editor"
+            : document.getElementById("tab-output").classList.contains("active") ? "output"
+            : document.getElementById("tab-log").classList.contains("active") ? "log"
+            : "editor"
+        );
         document.getElementById("editor").style.display = "block";
-        document.getElementById("output").style.display = "block";
+        if (lastWideScreenTab == "output") {
+            document.getElementById("tab-output").classList.add("active");
+            document.getElementById("tab-log").classList.remove("active");
+            document.getElementById("output").style.display = "block";
+            document.getElementById("log").style.display = "none";
+        } else if (lastWideScreenTab == "log") {
+            document.getElementById("tab-output").classList.remove("active");
+            document.getElementById("tab-log").classList.add("active");
+            document.getElementById("output").style.display = "none";
+            document.getElementById("log").style.display = "block";
+        }
     }
 });
 
 document.getElementById("tab-editor").addEventListener("click", function() {
     document.getElementById("tab-editor").classList.add("active");
     document.getElementById("tab-output").classList.remove("active");
+    document.getElementById("tab-log").classList.remove("active");
     document.getElementById("editor").style.display = "block";
     document.getElementById("output").style.display = "none";
+    document.getElementById("log").style.display = "none";
 });
 
 document.getElementById("tab-output").addEventListener("click", function() {
-    document.getElementById("tab-editor").classList.remove("active");
-    document.getElementById("tab-output").classList.add("active");
-    document.getElementById("editor").style.display = "none";
-    document.getElementById("output").style.display = "block";
+    if (innerWidth < 1200) {
+        document.getElementById("tab-editor").classList.remove("active");
+        document.getElementById("tab-output").classList.add("active");
+        document.getElementById("tab-log").classList.remove("active");
+        document.getElementById("editor").style.display = "none";
+        document.getElementById("output").style.display = "block";
+        document.getElementById("log").style.display = "none";
+    } else {
+        document.getElementById("tab-editor").classList.remove("active");
+        document.getElementById("tab-output").classList.add("active");
+        document.getElementById("tab-log").classList.remove("active");
+        document.getElementById("editor").style.display = "block";
+        document.getElementById("output").style.display = "block";
+        document.getElementById("log").style.display = "none";
+    }
+});
+
+document.getElementById("tab-log").addEventListener("click", function() {
+    if (innerWidth < 1200) {
+        document.getElementById("tab-editor").classList.remove("active");
+        document.getElementById("tab-output").classList.remove("active");
+        document.getElementById("tab-log").classList.add("active");
+        document.getElementById("editor").style.display = "none";
+        document.getElementById("output").style.display = "none";
+        document.getElementById("log").style.display = "block";
+    } else {
+        document.getElementById("tab-editor").classList.remove("active");
+        document.getElementById("tab-output").classList.remove("active");
+        document.getElementById("tab-log").classList.add("active");
+        document.getElementById("editor").style.display = "block";
+        document.getElementById("output").style.display = "none";
+        document.getElementById("log").style.display = "block";
+    }
 });

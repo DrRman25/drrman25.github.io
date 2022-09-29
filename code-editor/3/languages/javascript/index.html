@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>DrRcraft JavaScript Editor</title>
+        <link rel="stylesheet" href="../../style/site.css" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a class="logo" href="../../">Code Editor</a>
+                <div class="navlinks">
+                    <a href="../../about/">About</a>
+                    <a href="../../help/">Help</a>
+                    <a href="../" class="active">Languages</a>
+                    <a href="../../../">Version 2</a>
+                </div>
+            </nav>
+        </header>
+        <article>
+            <h1>JavaScript Editor <span class="version">v3.0.0.12</span></h1>
+            <p><strong style="color: #f50;">Note:</strong> This editor is currently in a testing phase. Some features may be missing, or completely not working.<br/>If you don't know JavaScript, please read <a href="https://developer.mozilla.org/en-US/docs/Learn/Front-end_web_developer" target="_blank">this MDN article on JavaScript basics.</a></p>
+            <div id="controls">
+                <button id="run" title="Run code (Ctrl-Enter)" aria-title="Run code (Ctrl-Enter)">Run</button>
+                <button id="share" aria-title="Share code">Share</button>
+                <button id="clear" title="Clear output" aria-title="Clear output">Clear Output</button>
+                <select id="examples" aria-title="List of examples">
+                    <option>Select example...</option>
+                </select>
+                <div style="flex-grow: 1;"></div>
+                <button id="tab-editor" title="Show editor" aria-title="Show editor">Code</button>
+                <button id="tab-output" title="Show output" aria-title="Show output">Output</button>
+                <button id="tab-log" title="Show log" aria-title="Show log">Log</button>
+            </div>
+            <div id="surface">
+                <div id="editor"></div>
+                <div id="output"></div>
+                <div id="log"></div>
+            </div>
+        </article>
+        <dialog id="modal-share">
+            <h2 style="margin-top: 0;">Share</h2>
+            <p style="margin-bottom: .9375rem;">Want to share your code with others? Use the below box!</p>
+            <input type="text" id="share-link" readonly="true" style="width: 19rem;" />
+            <button id="share-link-copy" aria-title="Copy link">Copy link</button>
+            <h3>Other options</h3>
+            <p style="margin-bottom: .9375rem;">If you need a way to share a program, but do not want to send a long link, here are some other options for you.<br/><strong style="color: #f50;">Note:</strong> If you click any buttons that contain "Export" or "Download" in their title, it will download a file to your computer, which will be about <span id="share-export-filesize">? bytes</span>.</p>
+            <button id="share-export-typescript" aria-title="Download as TypeScript">Export / Download as TypeScript</button>
+            <button id="share-export-javascript" aria-title="Download as JavaScript">Export / Download as JavaScript</button>
+            <button id="share-export-plain-text" aria-title="Download as Plain Text">Export / Download as Plain Text</button>
+            <br/>
+            <button id="modal-share-close" aria-title="Close modal" style="margin-top: .9375rem;">Close</button>
+        </dialog>
+        <dialog id="modal-invalid-dv">
+            <h2 style="margin-top: 0;">Invalid Data Version</h2>
+            <p style="margin-bottom: .9375rem;">This link, which most likely came from the 'Share' tool, was created specifically in version <span id="data-version"></span>, while you are on version 3.0.0.12. If you received this link from someone, please ask them to send you a more up-to-date link! If that is not possible, you can try loading the code anyway, or just use the default template.</p>
+            <button id="invalid-dv-load-anyway" aria-title="Try to load code anyway">Try to Load Anyway</button>
+            <button id="invalid-dv-load-default" aria-title="Use default template">Use Default Code</button>
+        </dialog>
+        <script type="module" src="script.js"></script>
+    </body>
+</html>
