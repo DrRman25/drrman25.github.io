@@ -266,7 +266,8 @@ function getExamples() {
     return {
         "Basic console output": `console.log('Hello, this is an informational message!');
 console.warn('Hello, this is a warning message!');
-console.error('Hello, this is an error message!');`
+console.error('Hello, this is an error message!');
+`
     };
 }
 
@@ -395,13 +396,17 @@ function renderLoggable(value, space, top = false) {
             }
             var next = null;
             if (space > 0) {
-                try { next = renderLoggable(object[prop], space); }
-                catch (_) {}
+                try {
+                    next = renderLoggable(object[prop], space);
+                }
+                catch (err) {
+                    // nothing here lol
+                }
             }
             var nextSize = next ? prop.length + 2 + next.textContent.length : 0;
             if (!next || space - nextSize <= 0) {
                 children.push(etcButton(() => expandObj(wrap, object)));
-                break
+                break;
             }
             space -= nextSize;
             children.push(span("tok-property", prop + ": "), next);
@@ -425,6 +430,167 @@ function showLog(values, type) {
     document.getElementById("log").appendChild(wrap);
 }
 
+var codemirrorLezerPackages = [
+    '@codemirror/autocomplete',
+    '@codemirror/collab',
+    '@codemirror/commands',
+    '@codemirror/lang-cpp',
+    '@codemirror/lang-css',
+    '@codemirror/lang-html',
+    '@codemirror/lang-java',
+    '@codemirror/lang-javascript',
+    '@codemirror/lang-json',
+    '@codemirror/lang-lezer',
+    '@codemirror/lang-markdown',
+    '@codemirror/lang-php',
+    '@codemirror/lang-python',
+    '@codemirror/lang-rust',
+    '@codemirror/lang-sql',
+    '@codemirror/lang-wast',
+    '@codemirror/lang-xml',
+    '@codemirror/language-data',
+    '@codemirror/language',
+    '@codemirror/legacy-modes/mode/apl',
+    '@codemirror/legacy-modes/mode/asciiarmor',
+    '@codemirror/legacy-modes/mode/asn1',
+    '@codemirror/legacy-modes/mode/asterisk',
+    '@codemirror/legacy-modes/mode/brainfuck',
+    '@codemirror/legacy-modes/mode/clike',
+    '@codemirror/legacy-modes/mode/clojure',
+    '@codemirror/legacy-modes/mode/cmake',
+    '@codemirror/legacy-modes/mode/cobol',
+    '@codemirror/legacy-modes/mode/coffeescript',
+    '@codemirror/legacy-modes/mode/commonlisp',
+    '@codemirror/legacy-modes/mode/crystal',
+    '@codemirror/legacy-modes/mode/css',
+    '@codemirror/legacy-modes/mode/cypher',
+    '@codemirror/legacy-modes/mode/d',
+    '@codemirror/legacy-modes/mode/diff',
+    '@codemirror/legacy-modes/mode/dockerfile',
+    '@codemirror/legacy-modes/mode/dtd',
+    '@codemirror/legacy-modes/mode/dylan',
+    '@codemirror/legacy-modes/mode/ebnf',
+    '@codemirror/legacy-modes/mode/ecl',
+    '@codemirror/legacy-modes/mode/eiffel',
+    '@codemirror/legacy-modes/mode/elm',
+    '@codemirror/legacy-modes/mode/erlang',
+    '@codemirror/legacy-modes/mode/factor',
+    '@codemirror/legacy-modes/mode/fcl',
+    '@codemirror/legacy-modes/mode/forth',
+    '@codemirror/legacy-modes/mode/fortran',
+    '@codemirror/legacy-modes/mode/gas',
+    '@codemirror/legacy-modes/mode/gherkin',
+    '@codemirror/legacy-modes/mode/go',
+    '@codemirror/legacy-modes/mode/groovy',
+    '@codemirror/legacy-modes/mode/haskell',
+    '@codemirror/legacy-modes/mode/haxe',
+    '@codemirror/legacy-modes/mode/http',
+    '@codemirror/legacy-modes/mode/idl',
+    '@codemirror/legacy-modes/mode/javascript',
+    '@codemirror/legacy-modes/mode/jinja2',
+    '@codemirror/legacy-modes/mode/julia',
+    '@codemirror/legacy-modes/mode/livescript',
+    '@codemirror/legacy-modes/mode/lua',
+    '@codemirror/legacy-modes/mode/mathematica',
+    '@codemirror/legacy-modes/mode/mbox',
+    '@codemirror/legacy-modes/mode/mirc',
+    '@codemirror/legacy-modes/mode/mllike',
+    '@codemirror/legacy-modes/mode/modelica',
+    '@codemirror/legacy-modes/mode/mscgen',
+    '@codemirror/legacy-modes/mode/mumps',
+    '@codemirror/legacy-modes/mode/nginx',
+    '@codemirror/legacy-modes/mode/nsis',
+    '@codemirror/legacy-modes/mode/ntriples',
+    '@codemirror/legacy-modes/mode/octave',
+    '@codemirror/legacy-modes/mode/oz',
+    '@codemirror/legacy-modes/mode/pascal',
+    '@codemirror/legacy-modes/mode/perl',
+    '@codemirror/legacy-modes/mode/pig',
+    '@codemirror/legacy-modes/mode/powershell',
+    '@codemirror/legacy-modes/mode/properties',
+    '@codemirror/legacy-modes/mode/protobuf',
+    '@codemirror/legacy-modes/mode/puppet',
+    '@codemirror/legacy-modes/mode/python',
+    '@codemirror/legacy-modes/mode/q',
+    '@codemirror/legacy-modes/mode/r',
+    '@codemirror/legacy-modes/mode/rpm',
+    '@codemirror/legacy-modes/mode/ruby',
+    '@codemirror/legacy-modes/mode/rust',
+    '@codemirror/legacy-modes/mode/sas',
+    '@codemirror/legacy-modes/mode/sass',
+    '@codemirror/legacy-modes/mode/scheme',
+    '@codemirror/legacy-modes/mode/shell',
+    '@codemirror/legacy-modes/mode/sieve',
+    '@codemirror/legacy-modes/mode/simple-mode',
+    '@codemirror/legacy-modes/mode/smalltalk',
+    '@codemirror/legacy-modes/mode/solr',
+    '@codemirror/legacy-modes/mode/sparql',
+    '@codemirror/legacy-modes/mode/spreadsheet',
+    '@codemirror/legacy-modes/mode/sql',
+    '@codemirror/legacy-modes/mode/stex',
+    '@codemirror/legacy-modes/mode/stylus',
+    '@codemirror/legacy-modes/mode/swift',
+    '@codemirror/legacy-modes/mode/tcl',
+    '@codemirror/legacy-modes/mode/textile',
+    '@codemirror/legacy-modes/mode/tiddlywiki',
+    '@codemirror/legacy-modes/mode/tiki',
+    '@codemirror/legacy-modes/mode/toml',
+    '@codemirror/legacy-modes/mode/troff',
+    '@codemirror/legacy-modes/mode/ttcn-cfg',
+    '@codemirror/legacy-modes/mode/ttcn',
+    '@codemirror/legacy-modes/mode/turtle',
+    '@codemirror/legacy-modes/mode/vb',
+    '@codemirror/legacy-modes/mode/vbscript',
+    '@codemirror/legacy-modes/mode/velocity',
+    '@codemirror/legacy-modes/mode/verilog',
+    '@codemirror/legacy-modes/mode/vhdl',
+    '@codemirror/legacy-modes/mode/wast',
+    '@codemirror/legacy-modes/mode/webidl',
+    '@codemirror/legacy-modes/mode/xml',
+    '@codemirror/legacy-modes/mode/xquery',
+    '@codemirror/legacy-modes/mode/yacas',
+    '@codemirror/legacy-modes/mode/yaml',
+    '@codemirror/legacy-modes/mode/z80',
+    '@codemirror/lint',
+    '@codemirror/search',
+    '@codemirror/state',
+    '@codemirror/theme-one-dark',
+    '@codemirror/view',
+    '@lezer/common',
+    '@lezer/cpp',
+    '@lezer/css',
+    '@lezer/highlight',
+    '@lezer/html',
+    '@lezer/java',
+    '@lezer/javascript',
+    '@lezer/json',
+    '@lezer/lezer',
+    '@lezer/lr',
+    '@lezer/markdown',
+    '@lezer/php',
+    '@lezer/python',
+    '@lezer/rust',
+    '@lezer/xml',
+    'codemirror',
+    'crelt',
+    'style-mod',
+    'w3c-keyname'
+]
+
+function rewriteImports(code) {
+    for (var packageName of codemirrorLezerPackages) {
+        var importRegexp = new RegExp(`import( |	){0,}"${packageName}"`);
+        code = code.replace(importRegexp, `import "https://codemirror.net/try/mods/${packageName.replace("/", "-")}.js"`);
+        var importRegexp2 = new RegExp(`import( |	){0,}'${packageName}'`);
+        code = code.replace(importRegexp2, `import 'https://codemirror.net/try/mods/${packageName.replace("/", "-")}.js'`);
+        var fromRegexp = new RegExp(`from( |	){0,}"${packageName}"`);
+        code = code.replace(fromRegexp, `from "https://codemirror.net/try/mods/${packageName.replace("/", "-")}.js"`);
+        var fromRegexp2 = new RegExp(`from( |	){0,}'${packageName}'`);
+        code = code.replace(fromRegexp2, `from 'https://codemirror.net/try/mods/${packageName.replace("/", "-")}.js'`);
+    }
+    return code;
+}
+
 function run(coolDown = true) {
     if (canRunCode) {
         if (innerWidth < 1200) {
@@ -445,7 +611,7 @@ function run(coolDown = true) {
             }
         }
         frame.onload = function() {
-            frame.contentWindow.postMessage({type: "load", code: code}, "*", [channel.port1]);
+            frame.contentWindow.postMessage({type: "load", code: rewriteImports(code)}, "*", [channel.port1]);
         }
         document.getElementById("output").appendChild(frame);
         if (coolDown) {
