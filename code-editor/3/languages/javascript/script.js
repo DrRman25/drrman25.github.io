@@ -579,13 +579,13 @@ var codemirrorLezerPackages = [
 
 function rewriteImports(code) {
     for (var packageName of codemirrorLezerPackages) {
-        var importRegexp = new RegExp(`import( |	){0,}"${packageName}"`);
+        var importRegexp = new RegExp(`import( |	){0,}"${packageName}"`, "g");
         code = code.replace(importRegexp, `import "https://codemirror.net/try/mods/${packageName.replace(/\//g, "-")}.js"`);
-        var importRegexp2 = new RegExp(`import( |	){0,}'${packageName}'`);
+        var importRegexp2 = new RegExp(`import( |	){0,}'${packageName}'`, "g");
         code = code.replace(importRegexp2, `import 'https://codemirror.net/try/mods/${packageName.replace(/\//g, "-")}.js'`);
-        var fromRegexp = new RegExp(`from( |	){0,}"${packageName}"`);
+        var fromRegexp = new RegExp(`from( |	){0,}"${packageName}"`, "g");
         code = code.replace(fromRegexp, `from "https://codemirror.net/try/mods/${packageName.replace(/\//g, "-")}.js"`);
-        var fromRegexp2 = new RegExp(`from( |	){0,}'${packageName}'`);
+        var fromRegexp2 = new RegExp(`from( |	){0,}'${packageName}'`, "g");
         code = code.replace(fromRegexp2, `from 'https://codemirror.net/try/mods/${packageName.replace(/\//g, "-")}.js'`);
     }
     return code;
