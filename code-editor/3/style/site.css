@@ -573,7 +573,7 @@ body[theme="spooky"] .ͼ2.cm-focused .cm-activeLine {
     transform: translateY(0.125rem);
 }
 
-body[theme="dark"] .ͼ1 .cm-css-color-picker-wrapper {
+body[theme="dark"] .ͼ1 .cm-css-color-picker-wrapper, body[theme="spooky"] .ͼ1 .cm-css-color-picker-wrapper {
     outline-color: white;
 }
 
