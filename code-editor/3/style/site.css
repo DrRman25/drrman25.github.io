@@ -120,8 +120,7 @@ h4 {
 }
 
 a {
-    text-decoration-color: gray;
-    text-underline-offset: .125rem;
+    text-decoration: none;
 }
 
 header {
