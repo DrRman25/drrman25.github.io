@@ -10,6 +10,10 @@
     <rect x="100" y="50" width="100" height="100" fill="#850"></rect>
     <polygon points="100, 50 200, 50 200, 70 150, 100 100, 70" fill="#a80"></polygon>
     <line x1="100" y1="50" x2="200" y2="50" stroke-width="3" stroke="#650"></line>
+    <ellipse cx="100" cy="60" rx="8" ry="5" fill="#aa5"></ellipse>
+    <ellipse cx="100" cy="35" rx="8" ry="5" fill="#aa5"></ellipse>
+    <rect x="92" y="35" width="16" height="25" fill="#aa5"></rect>
+    <circle cx="100" cy="32" r="4" fill="#f80" stroke-width="2" stroke="#fa5"></circle>
     <ellipse cx="150" cy="50" rx="30" ry="25" fill="#a50" stroke-width="3" stroke="#840"></ellipse>
     <circle cx="135" cy="43" r="5" fill="#ff0" stroke-width="2" stroke="#bb0"></circle>
     <circle cx="165" cy="45" r="5" fill="#ff0" stroke-width="2" stroke="#bb0"></circle>
@@ -18,6 +22,10 @@
     <rect x="200" y="50" width="100" height="100" fill="#850"></rect>
     <polygon points="200, 50 300, 50 300, 70 250, 100 200, 70" fill="#a80"></polygon>
     <line x1="200" y1="50" x2="300" y2="50" stroke-width="3" stroke="#650"></line>
+    <ellipse cx="200" cy="60" rx="8" ry="5" fill="#aa5"></ellipse>
+    <ellipse cx="200" cy="45" rx="8" ry="5" fill="#aa5"></ellipse>
+    <rect x="192" y="45" width="16" height="15" fill="#aa5"></rect>
+    <circle cx="200" cy="42" r="4" fill="#f80" stroke-width="2" stroke="#fa5"></circle>
     <ellipse cx="250" cy="50" rx="25" ry="23" fill="#777" stroke-width="3" stroke="#555"></ellipse>
     <ellipse cx="260" cy="65" rx="15" ry="15" fill="#777"></ellipse>
     <circle cx="240" cy="50" r="7" fill="#fff" stroke-width="2" stroke="#bbb"></circle>
@@ -26,6 +34,10 @@
     <rect x="300" y="50" width="100" height="100" fill="#850"></rect>
     <polygon points="300, 50 400, 50 400, 70 350, 100 300, 70" fill="#a80"></polygon>
     <line x1="300" y1="50" x2="400" y2="50" stroke-width="3" stroke="#650"></line>
+    <ellipse cx="300" cy="60" rx="8" ry="5" fill="#aa5"></ellipse>
+    <ellipse cx="300" cy="40" rx="8" ry="5" fill="#aa5"></ellipse>
+    <rect x="292" y="40" width="16" height="20" fill="#aa5"></rect>
+    <circle cx="300" cy="37" r="4" fill="#f80" stroke-width="2" stroke="#fa5"></circle>
     <rect x="325" y="25" width="50" height="40" fill="#555"></rect>
     <circle cx="350" cy="25" r="25" fill="#555"></circle>
     <rect x="330" y="22" width="40" height="5" fill="#fff" stroke-width="1" stroke="#bbb"></rect>
