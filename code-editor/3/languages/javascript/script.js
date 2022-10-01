@@ -47,22 +47,22 @@ if (!localStorage.getItem("code-editor-site-seasonalExtras")) {
 document.body.setAttribute("theme", localStorage.getItem("code-editor-site-theme"));
 document.body.setAttribute("seasonal-extras", localStorage.getItem("code-editor-site-seasonalExtras"));
 
-var frame, code, channel;
-var editor;
-var lastWideScreenTab, lastNarrowScreenTab;
-var canRunCode = true;
-var urlCodeQuery = /[?&]c=([^&]+)/.exec(document.location.search);
-var urlDataVersionQuery = /[?&]dv=([^&]+)/.exec(document.location.search);
-var urlExampleQuery = /[?&]example=([^&]+)/.exec(document.location.search);
+let frame, code, channel;
+let editor;
+let lastWideScreenTab, lastNarrowScreenTab;
+let canRunCode = true;
+const urlCodeQuery = /[?&]c=([^&]+)/.exec(document.location.search);
+const urlDataVersionQuery = /[?&]dv=([^&]+)/.exec(document.location.search);
+const urlExampleQuery = /[?&]example=([^&]+)/.exec(document.location.search);
 
-var universalTheme = HighlightStyle.define([
+const universalTheme = HighlightStyle.define([
     {tag: tags.link, textDecoration: "underline"},
     {tag: tags.heading, textDecoration: "underline", fontWeight: "bold"},
     {tag: tags.emphasis, fontStyle: "italic"},
     {tag: tags.strong, fontWeight: "bold"},
 ]);
 
-var lightTheme = HighlightStyle.define([
+const lightTheme = HighlightStyle.define([
     {tag: tags.keyword, color: "#005cb8"},
     {tag: tags.atom, color: "#005cb8"},
     {tag: tags.bool, color: "#004182"},
@@ -84,7 +84,7 @@ var lightTheme = HighlightStyle.define([
     {tag: tags.angleBracket, color: "#5c5f66"}
 ]);
 
-var darkTheme = HighlightStyle.define([
+const darkTheme = HighlightStyle.define([
     {tag: tags.keyword, color: "#57abff"},
     {tag: tags.atom, color: "#57abff"},
     {tag: tags.bool, color: "#b2d9ff"},
@@ -106,7 +106,7 @@ var darkTheme = HighlightStyle.define([
     {tag: tags.angleBracket, color: "#9da2a6"}
 ]);
 
-var spookyTheme = HighlightStyle.define([
+const spookyTheme = HighlightStyle.define([
     {tag: tags.keyword, color: "#7fbfff"},
     {tag: tags.atom, color: "#7fbfff"},
     {tag: tags.bool, color: "#b2d9ff"},
@@ -135,7 +135,7 @@ function injectExtension(extension) {
 }
 
 function loadCode(code) {
-    var state = EditorState.create({
+    let state = EditorState.create({
         doc: code,
         extensions: [
             lineNumbers(),
@@ -211,7 +211,7 @@ function loadCode(code) {
                     regexp: /-?\b\d+\.?\d*\b/g,
                     cursor: 'ew-resize',
                     onDrag: (text, setText, e) => {
-                        var newVal = Number(text) + e.movementX;
+                        let newVal = Number(text) + e.movementX;
                         if (isNaN(newVal)) return;
                         setText(newVal.toString());
                     }
@@ -232,9 +232,9 @@ function loadCode(code) {
                     regexp: /vec2\(-?\b\d+\.?\d*\b\s*(,\s*-?\b\d+\.?\d*\b)?\)/g,
                     cursor: "move",
                     onDrag: (text, setText, e) => {
-                        var res = /vec2\((?<x>-?\b\d+\.?\d*\b)\s*(,\s*(?<y>-?\b\d+\.?\d*\b))?\)/.exec(text);
-                        var x = Number(res?.groups?.x);
-                        var y = Number(res?.groups?.y);
+                        let res = /vec2\((?<x>-?\b\d+\.?\d*\b)\s*(,\s*(?<y>-?\b\d+\.?\d*\b))?\)/.exec(text);
+                        let x = Number(res?.groups?.x);
+                        let y = Number(res?.groups?.y);
                         if (isNaN(x)) return;
                         if (isNaN(y)) y = x;
                         setText(`vec2(${x + e.movementX}, ${y + e.movementY})`);
@@ -276,9 +276,9 @@ console.error('Hello, this is an error message!');
     };
 }
 
-var examples = getExamples();
+let examples = getExamples();
 
-for (var exampleName of Object.keys(examples)) {
+for (let exampleName of Object.keys(examples)) {
     document.getElementById("examples").appendChild(document.createElement("option")).textContent = exampleName;
 }
 
@@ -291,7 +291,7 @@ function decodeParameter(param) {
 }
 
 document.getElementById("examples").addEventListener("change", function() {
-    var exampleValue = document.getElementById("examples").value;
+    let exampleValue = document.getElementById("examples").value;
     if (examples.hasOwnProperty(exampleValue)) {
         window.history.pushState({}, "", document.location.toString().replace(/[#?].*/, "") + "?example=" + encodeURIComponent(exampleValue));
         loadCode(examples[exampleValue]);
@@ -323,9 +323,9 @@ function parseStack(stack) {
 }
 
 function expandError(target, val) {
-    var frames = document.createElement("div");
+    let frames = document.createElement("div");
     frames.className = "log-frames";
-    for (var fn of parseStack(val.stack)) {
+    for (let fn of parseStack(val.stack)) {
         frames.appendChild(document.createElement("div")).textContent = fn;
     }
     target.parentNode.replaceChild(frames, target);
@@ -360,22 +360,22 @@ function renderLoggable(value, space, top = false) {
     if (value == null) {
         return span("tok-keyword", String(value))
     }
-    var {function: fun, array, object, ctor, error} = value;
+    let {function: fun, array, object, ctor, error} = value;
     if (error) {
         return span("tok-invalid", error, " ", etcButton(e => expandError(e.target , value)))
     } else if (fun) {
         return span("", span("tok-keyword", "function "), span("tok-variableName2", fun))
     } else if (array) {
         space -= 2;
-        var children = ["["];
-        var wrap;
-        for (var elt of array) {
+        let children = ["["];
+        let wrap;
+        for (let elt of array) {
             if (children.length > 1) {
                 children.push(", ");
                 space -= 2;
             }
-            var next = space > 0 && renderLoggable(elt, space);
-            var nextSize = next ? next.textContent.length : 0;
+            let next = space > 0 && renderLoggable(elt, space);
+            let nextSize = next ? next.textContent.length : 0;
             if (space - nextSize <= 0) {
                 children.push(etcButton(() => expandObj(wrap, array)));
                 break
@@ -387,19 +387,19 @@ function renderLoggable(value, space, top = false) {
         return wrap = span("log-array", ...children)
     } else {
         space -= 2;
-        var children = [];
-        var wrap;
+        let children = [];
+        let wrap;
         if (ctor && ctor != "Object") {
             children.push(span("tok-typeName", ctor + " "));
             space -= ctor.length + 1;
         }
         children.push("{");
-        for (var prop of Object.keys(object)) {
+        for (let prop of Object.keys(object)) {
             if (children[children.length - 1] !== "{") {
                 space -= 2;
                 children.push(", ");
             }
-            var next = null;
+            let next = null;
             if (space > 0) {
                 try {
                     next = renderLoggable(object[prop], space);
@@ -408,7 +408,7 @@ function renderLoggable(value, space, top = false) {
                     // nothing here lol
                 }
             }
-            var nextSize = next ? prop.length + 2 + next.textContent.length : 0;
+            let nextSize = next ? prop.length + 2 + next.textContent.length : 0;
             if (!next || space - nextSize <= 0) {
                 children.push(etcButton(() => expandObj(wrap, object)));
                 break;
@@ -422,9 +422,9 @@ function renderLoggable(value, space, top = false) {
 }
 
 function showLog(values, type) {
-    var wrap = document.createElement("div"), first = true;
+    let wrap = document.createElement("div"), first = true;
     wrap.className = "log-" + type;
-    for (var val of values) {
+    for (let val of values) {
         if (first) {
             first = false;
         } else {
@@ -435,7 +435,7 @@ function showLog(values, type) {
     document.getElementById("log").appendChild(wrap);
 }
 
-var codemirrorLezerPackages = [
+const codemirrorLezerPackages = [
     '@codemirror/autocomplete',
     '@codemirror/collab',
     '@codemirror/commands',
@@ -583,14 +583,14 @@ var codemirrorLezerPackages = [
 ]
 
 function rewriteImports(code) {
-    for (var packageName of codemirrorLezerPackages) {
-        var importRegexp = new RegExp(`import( |	){0,}"${packageName}"`, "g");
+    for (let packageName of codemirrorLezerPackages) {
+        let importRegexp = new RegExp(`import( |	){0,}"${packageName}"`, "g");
         code = code.replace(importRegexp, `import "https://codemirror.net/try/mods/${packageName.replace(/\//g, "-")}.js"`);
-        var importRegexp2 = new RegExp(`import( |	){0,}'${packageName}'`, "g");
+        let importRegexp2 = new RegExp(`import( |	){0,}'${packageName}'`, "g");
         code = code.replace(importRegexp2, `import 'https://codemirror.net/try/mods/${packageName.replace(/\//g, "-")}.js'`);
-        var fromRegexp = new RegExp(`from( |	){0,}"${packageName}"`, "g");
+        let fromRegexp = new RegExp(`from( |	){0,}"${packageName}"`, "g");
         code = code.replace(fromRegexp, `from "https://codemirror.net/try/mods/${packageName.replace(/\//g, "-")}.js"`);
-        var fromRegexp2 = new RegExp(`from( |	){0,}'${packageName}'`, "g");
+        let fromRegexp2 = new RegExp(`from( |	){0,}'${packageName}'`, "g");
         code = code.replace(fromRegexp2, `from 'https://codemirror.net/try/mods/${packageName.replace(/\//g, "-")}.js'`);
     }
     return code;
@@ -632,10 +632,10 @@ function run(coolDown = true) {
 }
 
 function displayNotification(relativeElement, parentElement, messageText, notificationTime) {
-    var notificationElement = document.createElement("div");
+    let notificationElement = document.createElement("div");
     notificationElement.classList.add("notification");
     notificationElement.textContent = messageText;
-    var notificationCoords = relativeElement.getBoundingClientRect();
+    let notificationCoords = relativeElement.getBoundingClientRect();
     notificationElement.style.left = notificationCoords.left + "px";
     notificationElement.style.top = (notificationCoords.bottom + 3) + "px";
     parentElement.appendChild(notificationElement);
@@ -669,7 +669,7 @@ document.getElementById("share-link-copy").addEventListener("click", function(e)
     displayNotification(e.target, document.getElementById("modal-share"), "Link successfully copied!", 2000);
 });
 
-var link, blob;
+let link, blob;
 
 document.getElementById("share-export-typescript").addEventListener("click", function() {
     link = document.createElement("a");

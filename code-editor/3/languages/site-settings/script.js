@@ -13,10 +13,10 @@ document.getElementById("site-theme").value = localStorage.getItem("code-editor-
 document.getElementById("site-seasonalExtras").value = localStorage.getItem("code-editor-site-seasonalExtras");
 
 function displayNotification(relativeElement, messageText, notificationTime) {
-    var notificationElement = document.createElement("div");
+    let notificationElement = document.createElement("div");
     notificationElement.classList.add("notification");
     notificationElement.textContent = messageText;
-    var notificationCoords = relativeElement.getBoundingClientRect();
+    let notificationCoords = relativeElement.getBoundingClientRect();
     notificationElement.style.left = notificationCoords.left + "px";
     notificationElement.style.top = (notificationCoords.bottom + 3) + "px";
     document.body.appendChild(notificationElement);

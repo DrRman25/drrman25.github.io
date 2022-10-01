@@ -41,10 +41,10 @@ document.getElementById("editor-indentationMarkers").value = localStorage.getIte
 document.getElementById("editor-interact").value = localStorage.getItem("code-editor-editor-interact");
 
 function displayNotification(relativeElement, messageText, notificationTime) {
-    var notificationElement = document.createElement("div");
+    let notificationElement = document.createElement("div");
     notificationElement.classList.add("notification");
     notificationElement.textContent = messageText;
-    var notificationCoords = relativeElement.getBoundingClientRect();
+    let notificationCoords = relativeElement.getBoundingClientRect();
     notificationElement.style.left = notificationCoords.left + "px";
     notificationElement.style.top = (notificationCoords.bottom + 3) + "px";
     document.body.appendChild(notificationElement);
