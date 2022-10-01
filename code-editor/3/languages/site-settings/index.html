@@ -26,11 +26,19 @@
             <dl>
                 <dt>
                     <code>
-                        <strong>theme</strong>: <span class="tok-string">&quot;<input type="text" class="tok-string" id="site-theme" maxlength="6" />&quot;</span>
+                        <strong>theme</strong>: <span class="tok-string">&quot;<input type="text" class="tok-string" id="site-theme" maxlength="6" style="text-align: center;" />&quot;</span>
                     </code>
                 </dt>
                 <dd>
                     <p>The color scheme (background and text color) of the editor. Can be set to a light, dark, or spooky theme.</p>
+                </dd>
+                <dt>
+                    <code>
+                        <strong>seasonalExtras</strong>: <input type="text" class="tok-bool" id="site-seasonalExtras" maxlength="5" style="width: 3em;" />
+                    </code>
+                </dt>
+                <dd>
+                    <p>Changes the look of the editor and the site, depending on the current season in the United States.</p>
                 </dd>
             </dl>
             <button id="apply" aria-title="Apply and save changes" class="control">Apply</button>

@@ -61,6 +61,11 @@ body {
     background: white;
     font-size: 1rem;
     position: relative;
+    min-height: 100vh;
+}
+
+body[seasonal-extras="true"] {
+    background: white url("light-spooky-grass.svg") repeat-x bottom;
 }
 
 body[theme="dark"] {
@@ -68,9 +73,17 @@ body[theme="dark"] {
     color: white;
 }
 
+body[theme="dark"][seasonal-extras="true"] {
+    background: #1c2333 url("dark-spooky-grass.svg") repeat-x bottom;
+}
+
 body[theme="spooky"] {
     background: #292c33;
     color: white;
+}
+
+body[theme="spooky"][seasonal-extras="true"] {
+    background: #292c33 url("dark-spooky-grass.svg") repeat-x bottom;
 }
 
 header, article, footer nav {
@@ -233,7 +246,7 @@ nav#toc a.current-section {
 }
 
 article {
-    padding: 0.625rem 0.1875rem 6.25rem;
+    padding: 0.625rem 0.1875rem 10rem;
 }
 
 footer {

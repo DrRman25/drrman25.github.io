@@ -2,9 +2,15 @@ if (!localStorage.getItem("code-editor-site-theme")) {
     localStorage.setItem("code-editor-site-theme", "light");
 }
 
+if (!localStorage.getItem("code-editor-site-seasonalExtras")) {
+    localStorage.setItem("code-editor-site-seasonalExtras", false);
+}
+
 document.body.setAttribute("theme", localStorage.getItem("code-editor-site-theme"));
+document.body.setAttribute("seasonal-extras", localStorage.getItem("code-editor-site-seasonalExtras"));
 
 document.getElementById("site-theme").value = localStorage.getItem("code-editor-site-theme");
+document.getElementById("site-seasonalExtras").value = localStorage.getItem("code-editor-site-seasonalExtras");
 
 function displayNotification(relativeElement, messageText, notificationTime) {
     var notificationElement = document.createElement("div");
@@ -22,6 +28,7 @@ function displayNotification(relativeElement, messageText, notificationTime) {
 document.getElementById("apply").addEventListener("click", function(e) {
     displayNotification(e.target, "Changes saved!", 2000);
     localStorage.setItem("code-editor-site-theme", (document.getElementById("site-theme").value.trim().toLowerCase() == "spooky") ? "spooky" : (document.getElementById("site-theme").value.trim().toLowerCase() == "dark") ? "dark" : "light");
+    localStorage.setItem("code-editor-site-seasonalExtras", (document.getElementById("site-seasonalExtras").value.trim() == "true") ? true : false);
 });
 
 document.getElementById("site-theme").style.width = 0.35 + (0.5625 * document.getElementById("site-theme").value.length) + "em";
