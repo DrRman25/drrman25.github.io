@@ -155,6 +155,7 @@ function loadCode(code) {
                 "all": "Find all",
                 "match case": "Match case",
                 "regexp": "RegExp",
+                "by word": "By word",
                 "replace": "Replace",
                 "replace all": "Replace all",
             }),
