@@ -1,0 +1,122 @@
+.bs-table {
+    border: .0625rem solid #ccc;
+    border-radius: .5rem;
+    border-spacing: 0;
+    margin: 1rem 0;
+    width: 100%;
+}
+
+.bs-browser {
+    background-color: black;
+    display: inline-block;
+    width: 1.25rem;
+    height: 1.25rem;
+    vertical-align: text-bottom;
+}
+
+body[theme="dark"] .bs-browser, body[theme="spooky"] .bs-browser {
+    background-color: white;
+}
+
+.bs-chrome {
+    -webkit-mask-image: url("resources/bs-chrome.svg");
+    mask-image: url("resources/bs-chrome.svg");
+}
+
+.bs-edge {
+    -webkit-mask-image: url("resources/bs-edge.svg");
+    mask-image: url("resources/bs-edge.svg");
+}
+
+.bs-ie {
+    -webkit-mask-image: url("resources/bs-ie.svg");
+    mask-image: url("resources/bs-ie.svg");
+}
+
+.bs-firefox {
+    -webkit-mask-image: url("resources/bs-firefox.svg");
+    mask-image: url("resources/bs-firefox.svg");
+}
+
+.bs-opera {
+    -webkit-mask-image: url("resources/bs-opera.svg");
+    mask-image: url("resources/bs-opera.svg");
+}
+
+.bs-safari {
+    -webkit-mask-image: url("resources/bs-safari.svg");
+    mask-image: url("resources/bs-safari.svg");
+}
+
+.bs-table td {
+    text-align: center;
+}
+
+.bs-icon-yes, .bs-icon-partial, .bs-icon-no {
+    display: inline-block;
+    width: 1.25rem;
+    height: 1.25rem;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 80%;
+    mask-size: 80%;
+    -webkit-mask-position: center;
+    mask-position: center;
+}
+
+.bs-icon-yes {
+    background-color: gray;
+    vertical-align: text-bottom;
+    -webkit-mask-image: url("resources/bs-yes.svg");
+    mask-image: url("resources/bs-yes.svg");
+}
+
+.bs-icon-partial {
+    background-color: gray;
+    vertical-align: text-bottom;
+    -webkit-mask-image: url("resources/bs-partial.svg");
+    mask-image: url("resources/bs-partial.svg");
+}
+
+.bs-icon-no {
+    background-color: darkred;
+    vertical-align: text-bottom;
+    -webkit-mask-image: url("resources/bs-no.svg");
+    mask-image: url("resources/bs-no.svg");
+}
+
+body[theme="dark"] .bs-icon-yes, body[theme="spooky"] .bs-icon-yes {
+    background-color: white;
+}
+
+body[theme="dark"] .bs-icon-partial, body[theme="spooky"] .bs-icon-partial {
+    background-color: white;
+}
+
+body[theme="dark"] .bs-icon-no, body[theme="spooky"] .bs-icon-no {
+    background-color: red;
+}
+
+.bs-yes {
+    color: green;
+}
+
+.bs-partial {
+    color: darkgoldenrod;
+}
+
+.bs-no {
+    color: darkred;
+}
+
+body[theme="dark"] .bs-yes, body[theme="spooky"] .bs-yes {
+    color: lime;
+}
+
+body[theme="dark"] .bs-partial, body[theme="spooky"] .bs-partial {
+    color: yellow;
+}
+
+body[theme="dark"] .bs-no, body[theme="spooky"] .bs-no {
+    color: red;
+}
