@@ -50,6 +50,10 @@
     src: url('font/hack-bolditalic.woff2') format("woff2"), url('font/hack-bolditalic.woff') format("woff");
 }
 
+html, body {
+    min-height: 100%;
+}
+
 html {
     font-family: 'Source Sans Pro', sans-serif;
 }
@@ -61,7 +65,6 @@ body {
     background: white;
     font-size: 1rem;
     position: relative;
-    min-height: 100vh;
 }
 
 body[seasonal-extras="true"] {
