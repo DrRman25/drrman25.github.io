@@ -1,6 +1,6 @@
 'use strict';
 
-var outChannel = null;
+let outChannel = null;
 
 addEventListener("message", function(e) {
     if (e.origin != document.location.origin) {
@@ -8,7 +8,7 @@ addEventListener("message", function(e) {
     }
     if (e.data.type == "load") {
         outChannel = e.ports[0];
-        var scriptTag = document.createElement("script");
+        let scriptTag = document.createElement("script");
         scriptTag.type = "module";
         scriptTag.textContent = e.data.code;
         document.body.appendChild(scriptTag);
@@ -16,16 +16,16 @@ addEventListener("message", function(e) {
 });
 
 function ctorName(obj) {
-    var ctor = obj.constructor?.name;
+    let ctor = obj.constructor?.name;
     if (ctor) {
         return ctor;
     }
-    var m = /\[object (\w+)\]/.exec(obj + "");
+    let m = /\[object (\w+)\]/.exec(obj + "");
     return m ? m[1] : null;
 }
 
 function serialize(val) {
-    var seen = new Set();
+    let seen = new Set();
     function inner(val) {
         if (val instanceof Error) {
             return {
@@ -52,11 +52,11 @@ function serialize(val) {
                 array: val.map(inner)
             };
         }
-        var result = {
+        let result = {
             object: Object.create(null),
             ctor: ctorName(val)
         };
-        for (var prop of Object.keys(val)) {
+        for (let prop of Object.keys(val)) {
             try {
                 result.object[prop] = inner(val[prop]);
             } catch(err) {
@@ -69,7 +69,7 @@ function serialize(val) {
 }
 
 function wrapConsole(level) {
-    var old = console[level];
+    let old = console[level];
     console[level] = function(...args) {
         old.apply(console, args);
         if (outChannel) {
