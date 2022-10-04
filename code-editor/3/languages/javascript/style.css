@@ -102,6 +102,7 @@ body[theme="spooky"] #controls select {
     padding: 0.1875rem 0.4375rem;
     font-size: .875rem;
     font-family: "DrRcraft Hack", monospace;
+    white-space: pre-wrap;
 }
 
 #output iframe {
