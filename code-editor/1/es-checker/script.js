@@ -45,7 +45,7 @@ function startChecks() {
                                             setTimeout(function() {
                                                 document.getElementById("es2018-check-container").style.display = "";
                                                 try {
-                                                    (new RegExp("d", "s")).dotAll;
+                                                    /d/s.dotAll;
                                                     document.getElementById("es2018-check").innerHTML = "Yes";
                                                     document.getElementById("es2018-check").style.color = "green";
                                                 } catch(err) {
