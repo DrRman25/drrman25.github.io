@@ -48,7 +48,7 @@ if (!localStorage.getItem("code-editor-site-seasonalExtras")) {
 document.body.setAttribute("theme", localStorage.getItem("code-editor-site-theme"));
 document.body.setAttribute("seasonal-extras", localStorage.getItem("code-editor-site-seasonalExtras"));
 
-let frame, frameDoc;
+let frame, frameDoc, frameContainer, titleBar;
 let editor;
 let canRunCode = true;
 const urlCodeQuery = /[?&]c=([^&]+)/.exec(document.location.search);
@@ -378,19 +378,20 @@ document.getElementById("examples").addEventListener("change", function() {
 })
 
 loadCode(
-    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) == 4) ? decodeParameter(urlCodeQuery[1])
+    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) == 5) ? decodeParameter(urlCodeQuery[1])
     : (urlExampleQuery && examples.hasOwnProperty(decodeURIComponent(urlExampleQuery[1]))) ? examples[decodeURIComponent(urlExampleQuery[1])]
     : getDefaultCode()
 );
 
-if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) != 4)) {
+if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) != 5)) {
     document.getElementById("modal-invalid-dv").showModal();
     document.getElementById("data-version").textContent = (
         !urlDataVersionQuery ? "3.0.0.8 or earlier"
         : (parseInt(urlDataVersionQuery[1]) == 1) ? "3.0.0.9"
         : (parseInt(urlDataVersionQuery[1]) == 2) ? "3.0.0.10"
         : (parseInt(urlDataVersionQuery[1]) == 3) ? "3.0.0.11"
-        : (parseInt(urlDataVersionQuery[1]) > 4) ? "(future version - 3.0.0.13+)"
+        : (parseInt(urlDataVersionQuery[1]) == 4) ? "3.0.0.12"
+        : (parseInt(urlDataVersionQuery[1]) > 5) ? "(future version - 3.0.0.14+)"
         : "unknown"
     );
 }
@@ -403,20 +404,28 @@ function run(coolDown = true) {
             document.getElementById("tab-editor").classList.remove("active");
             document.getElementById("tab-output").classList.add("active");
         }
-        frame = document.createElement("iframe");
         document.getElementById("output").textContent = "";
-        document.getElementById("output").appendChild(frame);
+        titleBar = document.createElement("div");
+        titleBar.setAttribute("id", "output-title-bar");
+        document.getElementById("output").appendChild(titleBar);
+        frameContainer = document.createElement("div");
+        frameContainer.setAttribute("id", "output-iframe-container");
+        document.getElementById("output").appendChild(frameContainer);
+        frame = document.createElement("iframe");
+        frameContainer.appendChild(frame);
         frameDoc = frame.contentDocument || frame.contentWindow.document;
         frameDoc.open();
         frameDoc.write(editor.state.doc.toString());
         frameDoc.close();
+        titleBar.textContent = frameDoc.title;
+        titleBar.style.backgroundColor = "transparent";
         if (coolDown) {
             canRunCode = false;
             document.getElementById("run").textContent = ". . .";
             setTimeout(function() {
                 canRunCode = true;
                 document.getElementById("run").textContent = "Run";
-            }, 250);
+            }, 500);
         }
     }
     return true;
@@ -443,7 +452,7 @@ function prepareShareModal() {
     : editor.state.doc.toString().length >= 1048576 ? `${(editor.state.doc.toString().length / 1048576).toFixed(2)} megabytes`
     : editor.state.doc.toString().length >= 1024 ? `${(editor.state.doc.toString().length / 1024).toFixed(2)} kilobytes`
     : `${editor.state.doc.toString().length} bytes`;
-    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=4";
+    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=5";
 }
 
 document.getElementById("run").addEventListener("click", function() {
@@ -456,7 +465,7 @@ document.getElementById("share").addEventListener("click", function() {
 });
 
 document.getElementById("share-link-copy").addEventListener("click", function(e) {
-    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=4");
+    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=5");
     displayNotification(e.target, document.getElementById("modal-share"), "Link successfully copied!", 2000);
 });
 
