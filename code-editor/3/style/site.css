@@ -60,7 +60,7 @@ html {
 
 body {
     overflow-x: hidden;
-    margin: 0 0 0.3125rem;
+    margin: 0 0 .3125rem;
     line-height: 1.45rem;
     background: white;
     font-size: 1rem;
@@ -107,19 +107,19 @@ h1 {
 h2 {
     font-size: 1.625rem;
     line-height: 2.0625rem;
-    margin: 2.3125rem 0 0.75rem;
+    margin: 2.3125rem 0 .75rem;
 }
 
 h3 {
     font-size: 1.375rem;
     line-height: 1.625rem;
-    margin: 1.625rem 0 0.75rem;
+    margin: 1.625rem 0 .75rem;
 }
 
 h4 {
     font-size: 1.125rem;
     line-height: 1.375rem;
-    margin: 1.5625rem 0 0.75rem;
+    margin: 1.5625rem 0 .75rem;
 }
 
 a {
@@ -127,7 +127,7 @@ a {
 }
 
 header {
-    padding: 3.875rem 0.1875rem 0;
+    padding: 3.875rem .1875rem 0;
 }
 
 header > h1 {
@@ -144,7 +144,7 @@ header nav, footer nav {
 
 a.logo {
     padding-left: 3.125rem;
-    letter-spacing: -0.0625rem;
+    letter-spacing: -.0625rem;
     background-image: url("logo.png");
     background-size: contain;
     background-position: center left;
@@ -162,7 +162,7 @@ nav a:link, nav a:visited, a.blocklink:link, a.blocklink:visited, code a:link, c
 }
 
 code, pre {
-    font-size: 0.875rem;
+    font-size: .875rem;
 }
 
 pre {
@@ -189,7 +189,7 @@ body[theme="spooky"] a.blocklink:hover, body[theme="spooky"] nav a.active, body[
 
 .navlinks {
     flex-grow: 1;
-    font-size: 0.875rem;
+    font-size: .875rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
@@ -202,7 +202,7 @@ footer .navlinks {
 
 .navlinks > a {
     margin-left: 1.0625rem;
-    padding-bottom: 0.1875rem;
+    padding-bottom: .1875rem;
 }
 
 .navlinks > a:hover {
@@ -228,9 +228,9 @@ nav#toc {
     width: fit-content;
     width: -moz-fit-content;
     width: -webkit-fit-content;
-    padding: 0.625rem 2.5rem 1.875rem 0.625rem;
+    padding: .625rem 2.5rem 1.875rem .625rem;
     direction: rtl;
-    font-size: 0.875rem;
+    font-size: .875rem;
     line-height: 1.45rem;
     font-weight: 600;
 }
@@ -241,24 +241,24 @@ nav#toc a.current-section {
 
 #searchbox ul.results {
     font-size: 85%;
-    padding-left: 0.1875rem;
+    padding-left: .1875rem;
 }
 
 #searchbox input.active {
-    border-bottom: 0.0625rem solid silver;
+    border-bottom: .0625rem solid silver;
 }
 
 article {
-    padding: 0.625rem 0.1875rem 10rem;
+    padding: .625rem .1875rem 10rem;
 }
 
 footer {
     margin-bottom: 3.375rem;
-    padding: 0.875rem 0.1875rem 0;
+    padding: .875rem .1875rem 0;
 }
 
 h2.hr {
-    font-size: 0.75rem;
+    font-size: .75rem;
     margin: 1.875rem 0 1.375rem;
 }
 
@@ -266,8 +266,8 @@ hr, h2.hr:after {
     display: block;
     content: "";
     border: none;
-    border-bottom: 0.125rem solid #e5e5e5;
-    margin-top: -0.125rem;
+    border-bottom: .125rem solid #e5e5e5;
+    margin-top: -.125rem;
 }
 
 hr {
@@ -275,8 +275,8 @@ hr {
 }
 
 h2.above-list {
-    font-size: 0.75rem;
-    line-height: 0.9375rem;
+    font-size: .75rem;
+    line-height: .9375rem;
     margin-bottom: 2.3125rem;
     margin-top: 2.625rem;
 }
@@ -285,8 +285,8 @@ h2.module {
     margin-top: 15.625rem;
     font-size: 1.75rem;
     line-height: 1.875rem;
-    padding-top: 0.625rem;
-    border-bottom: 0.0625rem solid black;
+    padding-top: .625rem;
+    border-bottom: .0625rem solid black;
 }
 
 ul.grid-list {
@@ -299,7 +299,7 @@ ul.grid-list {
 
 ul.grid-list > li {
     display: block;
-    font-size: 0.875rem;
+    font-size: .875rem;
     line-height: 1.25rem;
 }
 
@@ -324,7 +324,7 @@ ul.grid-list-3 h3 {
 }
 
 ul.grid-list-3 p {
-    margin: 0.5rem 0 0.75rem;
+    margin: .5rem 0 .75rem;
 }
 
 ul.grid-list-5 {
@@ -354,7 +354,7 @@ p, dl {
 }
 
 ul.grid-list h3 {
-    margin: 0 0 0.5625rem;
+    margin: 0 0 .5625rem;
     line-height: 1.25rem;
     font-size: 1.25rem;
 }
@@ -366,7 +366,7 @@ ul.grid-list h3 {
 
     a.logo {
         padding-left: 2.125rem;
-        letter-spacing: -0.0625rem;
+        letter-spacing: -.0625rem;
         background-size: 1.875rem;
         background-position: center left;
         background-repeat: no-repeat;
@@ -375,7 +375,7 @@ ul.grid-list h3 {
     }
 
     body {
-        margin: 0 0.1875rem;
+        margin: 0 .1875rem;
     }
 }
 
@@ -397,7 +397,7 @@ dt {
 
 h2 .keyword, h3 .keyword, h4 .keyword {
     font-weight: 600;
-    margin-bottom: -0.25rem;
+    margin-bottom: -.25rem;
     color: black;
 }
 
@@ -410,7 +410,7 @@ h3 .keyword {
 }
 
 h4 .keyword {
-    font-size: 0.875rem;
+    font-size: .875rem;
 }
 
 div.figure {
@@ -424,8 +424,8 @@ div.figure {
 
 .cm-editor {
     max-height: 12.5rem;
-    border: 0.0625rem solid silver;
-    font-size: 0.875rem;
+    border: .0625rem solid silver;
+    font-size: .875rem;
 }
 
 .cm-scroller {
@@ -494,8 +494,8 @@ body[theme="dark"] .ͼ2.cm-focused .cm-selectionBackground {background: #004182;
 body[theme="spooky"] .ͼ2.cm-focused .cm-selectionBackground {background: #753b00;}
 
 .ͼ1 .cm-cursor, .ͼ1 .cm-dropCursor {
-    border-left: 0.125rem solid #0f87ff;
-    border-radius: 0.125rem;
+    border-left: .125rem solid #0f87ff;
+    border-radius: .125rem;
 }
 
 body[theme="spooky"] .ͼ1 .cm-cursor, body[theme="spooky"] .ͼ1 .cm-dropCursor {
@@ -513,23 +513,23 @@ body[theme="dark"] .ͼ2 .cm-gutters, body[theme="spooky"] .ͼ2 .cm-gutters {
 }
 
 .ͼ1 .cm-lineNumbers .cm-gutterElement {
-    padding-left: 0.5rem;
-    padding-right: 0.25rem;
+    padding-left: .5rem;
+    padding-right: .25rem;
 }
 
 .ͼ1 .cm-foldGutter .cm-gutterElement {
-    padding-right: 0.25rem;
+    padding-right: .25rem;
 }
 
 .ͼ1 .cm-foldGutter .cm-gutterElement span {
-    transform: translate(-0.21875rem, -0.03125rem) scale(1.125, 1.5) rotate(-90deg);
+    transform: translate(-.21875rem, -.03125rem) scale(1.125, 1.5) rotate(-90deg);
     display: inline-block;
 }
 
 .ͼ1 .cm-foldGutter .cm-gutterElement span[title="Fold line"] {
     opacity: 0;
     transition: opacity .2s;
-    transform: translateY(-0.3125rem) scale(1.5, 1.125);
+    transform: translateY(-.3125rem) scale(1.5, 1.125);
 }
 
 .ͼ1 .cm-foldGutter:hover .cm-gutterElement span {
@@ -572,8 +572,8 @@ body[theme="spooky"] .ͼ2.cm-focused .cm-activeLine {
 }
 
 .ͼ1 .cm-css-color-picker-wrapper {
-    outline: 0.0625rem solid black;
-    transform: translateY(0.125rem);
+    outline: .0625rem solid black;
+    transform: translateY(.125rem);
 }
 
 body[theme="dark"] .ͼ1 .cm-css-color-picker-wrapper, body[theme="spooky"] .ͼ1 .cm-css-color-picker-wrapper {
@@ -581,7 +581,7 @@ body[theme="dark"] .ͼ1 .cm-css-color-picker-wrapper, body[theme="spooky"] .ͼ1 
 }
 
 .ͼ1 .cm-css-color-picker-wrapper input[type="color"] {
-    transform: translateY(-0.0625rem);
+    transform: translateY(-.0625rem);
 }
 
 .ͼ2 .cm-searchMatch {
@@ -595,7 +595,7 @@ body[theme="dark"] .ͼ2 .cm-searchMatch, body[theme="spooky"] .ͼ2 .cm-searchMat
 .ͼ1 .cm-textfield, .ͼ1 .cm-button, .ͼ1 .cm-panel.cm-search label {
     font-size: 1rem;
     font-family: 'Source Sans Pro', sans-serif;
-    border-radius: 0.5rem;
+    border-radius: .5rem;
 }
 
 .ͼ1 .cm-button {
@@ -628,7 +628,7 @@ body[theme="dark"] .ͼ2 .cm-panels {
 }
 
 body[theme="dark"] .ͼ2 .cm-panels-top {
-    border-bottom: 0.0625rem solid #5f677a;
+    border-bottom: .0625rem solid #5f677a;
 }
 
 body[theme="dark"] .ͼ1 .cm-textfield {
@@ -655,7 +655,7 @@ body[theme="spooky"] .ͼ2 .cm-panels {
 }
 
 body[theme="spooky"] .ͼ2 .cm-panels-top {
-    border-bottom: 0.0625rem solid #5f677a;
+    border-bottom: .0625rem solid #5f677a;
 }
 
 body[theme="spooky"] .ͼ1 .cm-textfield {
@@ -686,7 +686,7 @@ body[theme="spooky"] .ͼ1 .cm-button:active {
 
 .cm-tooltip-autocomplete > ul > li {
     width: 100%;
-    font-size: 0.875rem;
+    font-size: .875rem;
     min-height: 1.4375rem;
     display: flex;
     align-items: center;
