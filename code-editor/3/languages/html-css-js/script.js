@@ -417,7 +417,7 @@ function run(coolDown = true) {
         frameDoc.open();
         frameDoc.write(editor.state.doc.toString());
         frameDoc.close();
-        titleBar.textContent = frameDoc.title;
+        titleBar.textContent = frameDoc.title || "Untitled document";
         titleBar.style.backgroundColor = "transparent";
         if (coolDown) {
             canRunCode = false;
