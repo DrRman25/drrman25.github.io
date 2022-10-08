@@ -754,8 +754,8 @@ addEventListener("resize", function() {
             document.getElementById("log").style.display = "none";
         } else if (lastNarrowScreenTab == "output") {
             document.getElementById("tab-editor").classList.remove("active");
-            document.getElementById("tab-output").classList.remove("active");
-            document.getElementById("tab-log").classList.add("active");
+            document.getElementById("tab-output").classList.add("active");
+            document.getElementById("tab-log").classList.remove("active");
             document.getElementById("editor").style.display = "none";
             document.getElementById("output").style.display = "block";
             document.getElementById("log").style.display = "none";
@@ -765,7 +765,7 @@ addEventListener("resize", function() {
             document.getElementById("tab-log").classList.add("active");
             document.getElementById("editor").style.display = "none";
             document.getElementById("output").style.display = "none";
-            document.getElementById("editor").style.display = "block";
+            document.getElementById("log").style.display = "block";
         }
     } else {
         lastNarrowScreenTab = (
