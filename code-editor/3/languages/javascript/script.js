@@ -639,6 +639,9 @@ function run(coolDown = true) {
         channel.port2.onmessage = function(e) {
             if (e.data.log) {
                 showLog(e.data.elements, e.data.log);
+                if (!document.getElementById("tab-log").classList.contains("new-logs")) {
+                    document.getElementById("tab-log").classList.add("new-logs");
+                }
             }
         }
         frame.onload = function() {
@@ -742,6 +745,7 @@ document.getElementById("clear").addEventListener("click", function() {
     frame = document.createElement("iframe");
     document.getElementById("output").textContent = document.getElementById("log").textContent = "";
     document.getElementById("output").appendChild(frame);
+    document.getElementById("tab-log").classList.remove("new-logs");
 });
 
 run(false);
@@ -841,6 +845,7 @@ document.getElementById("tab-output").addEventListener("click", function() {
 });
 
 document.getElementById("tab-log").addEventListener("click", function() {
+    document.getElementById("tab-log").classList.remove("new-logs");
     if (innerWidth < 1200) {
         document.getElementById("tab-editor").classList.remove("active");
         document.getElementById("tab-output").classList.remove("active");
