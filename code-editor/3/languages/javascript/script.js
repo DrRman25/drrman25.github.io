@@ -333,6 +333,30 @@ function expandError(target, val) {
     target.parentNode.replaceChild(frames, target);
 }
 
+function expandObj(node, val) {
+    let content = document.createElement("div");
+    content.className = "log-prop-table";
+    function addProp(name) {
+        let rendered;
+        try {
+            rendered = renderLoggable(val[name], 40);
+        } catch(err) {
+            return
+        }
+        content.appendChild(span("tok-property", name + ": "));
+        content.appendChild(rendered);
+    }
+    if (Array.isArray(val)) {
+        for (let i = 0; i < val.length; i++) addProp(String(i));
+        node.parentNode.replaceChild(span("log-array", "[", content, "]"), node);
+    } else {
+        for (let prop of Object.keys(val)) addProp(prop);
+        let children = ["{", content, "}"];
+        if ((node.firstChild ).className == "tok-typeName") children.unshift(node.firstChild);
+        node.parentNode.replaceChild(span("log-object", ...children), node);
+    }
+}
+
 function span(cls, ...content) {
     let elt = document.createElement("span");
     elt.className = cls;
