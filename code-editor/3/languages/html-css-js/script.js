@@ -52,6 +52,7 @@ let frame, frameDoc, frameContainer, titleBar;
 let editor;
 let canRunCode = true;
 const urlCodeQuery = /[?&]c=([^&]+)/.exec(document.location.search);
+const urlFilenameQuery = /[?&]file=([^&]+)/.exec(document.location.search);
 const urlDataVersionQuery = /[?&]dv=([^&]+)/.exec(document.location.search);
 const urlExampleQuery = /[?&]example=([^&]+)/.exec(document.location.search);
 
@@ -375,10 +376,13 @@ document.getElementById("examples").addEventListener("change", function() {
         run(false);
     }
     document.getElementById("examples").selectedIndex = 0;
-})
+});
+
+import files from "./resources/files.js";
 
 loadCode(
     (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) == 5) ? decodeParameter(urlCodeQuery[1])
+    : (urlFilenameQuery && files.hasOwnProperty(urlFilenameQuery[1])) ? files[urlFilenameQuery[1]]
     : (urlExampleQuery && examples.hasOwnProperty(decodeURIComponent(urlExampleQuery[1]))) ? examples[decodeURIComponent(urlExampleQuery[1])]
     : getDefaultCode()
 );
