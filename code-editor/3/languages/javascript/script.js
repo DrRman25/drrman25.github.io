@@ -639,7 +639,7 @@ function run(coolDown = true) {
         channel.port2.onmessage = function(e) {
             if (e.data.log) {
                 showLog(e.data.elements, e.data.log);
-                if (!document.getElementById("tab-log").classList.contains("new-logs")) {
+                if (!document.getElementById("tab-log").classList.contains("active")) {
                     document.getElementById("tab-log").classList.add("new-logs");
                 }
             }
