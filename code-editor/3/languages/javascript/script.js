@@ -627,8 +627,10 @@ function run(coolDown = true) {
         if (innerWidth < 1200) {
             document.getElementById("editor").style.display = "none";
             document.getElementById("output").style.display = "block";
+            document.getElementById("log").style.display = "none";
             document.getElementById("tab-editor").classList.remove("active");
             document.getElementById("tab-output").classList.add("active");
+            document.getElementById("tab-log").classList.remove("active");
         }
         document.getElementById("output").textContent = document.getElementById("log").textContent = "";
         frame = document.createElement("iframe");
