@@ -1,1 +1,1 @@
-location.assign("home");
+location.assign("home/");
