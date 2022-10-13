@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Code Editor: Site Settings</title>
+        <link rel="stylesheet" href="../../style/site.css" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a class="logo" href="../../">Code Editor</a>
+                <div class="navlinks">
+                    <a href="../../about/">About</a>
+                    <a href="../../help/">Help</a>
+                    <a href="../" class="active">Languages</a>
+                    <a href="../../../">Version 2</a>
+                </div>
+            </nav>
+        </header>
+        <article>
+            <h1>My Programs</h1>
+            <p>This is where you can save, view, and edit all of your programs, with just one click!</p>
+            <ul id="my-programs-list" class="grid-list-5"></ul>
+            <section id="no-programs" style="display: none; background-color: #add8e680; text-align: center; padding: .5rem 0; border-radius: 2rem;">
+                <h2>You have no programs</h2>
+                <p>Let's add some programs by clicking "Save" in one of the editors.</p>
+            </section>
+            <h2>Deleting a Program</h2>
+            <p>Did you realize just now that you didn't need to save that program? No problem! You can remove it from the programs list below. Enter the name of the program you want to remove, and click "Remove from Programs".</p>
+            <input type="text" id="remove-name" style="width: 19rem;" />
+            <button id="remove-from-programs">Remove from Programs</button>
+        </article>
+        <script defer="true" src="script.js"></script>
+    </body>
+</html>

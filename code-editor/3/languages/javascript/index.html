@@ -20,11 +20,12 @@
             </nav>
         </header>
         <article>
-            <h1>JavaScript Editor <span class="version">v3.0.0.13</span></h1>
+            <h1>JavaScript Editor <span class="version">v3.0.0.14</span></h1>
             <p><strong style="color: #f50;">Note:</strong> This editor is currently in a testing phase. Some features may be missing, or completely not working.<br/>If you don't know JavaScript, please read <a href="https://developer.mozilla.org/en-US/docs/Learn/Front-end_web_developer" target="_blank">this MDN article on JavaScript basics.</a></p>
             <div id="controls">
                 <button id="run" title="Run code (Ctrl-Enter)" aria-title="Run code (Ctrl-Enter)">Run</button>
                 <button id="share" aria-title="Share code">Share</button>
+                <button id="save" aria-title="Save code to My Programs">Save</button>
                 <button id="clear" title="Clear output" aria-title="Clear output">Clear Output</button>
                 <select id="examples" aria-title="List of examples">
                     <option>Select example...</option>
@@ -53,12 +54,20 @@
             <br/>
             <button id="modal-share-close" aria-title="Close modal" style="margin-top: .9375rem;">Close</button>
         </dialog>
+        <dialog id="modal-save">
+            <h2 style="margin-top: 0;">Save Code to My Programs</h2>
+            <p style="margin-bottom: .9375rem;">My Programs is a place where you can save a program with just one click. If you haven't saved the code before, type in a new name below, and click "Save code". If you have saved the code before, but changed something since your last save, just click "Save code" again.</p>
+            <input type="text" id="save-name" style="width: 19rem;" />
+            <button id="save-to-programs" aria-title="Save code">Save code</button>
+            <br/>
+            <button id="modal-save-close" aria-title="Close modal" style="margin-top: .9375rem;">Close</button>
+        </dialog>
         <dialog id="modal-invalid-dv">
             <h2 style="margin-top: 0;">Invalid Data Version</h2>
-            <p style="margin-bottom: .9375rem;">This link, which most likely came from the 'Share' tool, was created specifically in version <span id="data-version"></span>, while you are on version 3.0.0.13. If you received this link from someone, please ask them to send you a more up-to-date link! If that is not possible, you can try loading the code anyway, or just use the default template.</p>
+            <p style="margin-bottom: .9375rem;">This link, which most likely came from the 'Share' tool, was created specifically in version <span id="data-version"></span>, while you are on version 3.0.0.14. If you received this link from someone, please ask them to send you a more up-to-date link! If that is not possible, you can try loading the code anyway, or just use the default template.</p>
             <button id="invalid-dv-load-anyway" aria-title="Try to load code anyway">Try to Load Anyway</button>
             <button id="invalid-dv-load-default" aria-title="Use default template">Use Default Code</button>
         </dialog>
-        <script defer="true" type="module" src="script.js"></script>
+        <script type="module" src="script.js"></script>
     </body>
 </html>

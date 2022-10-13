@@ -600,26 +600,51 @@ body[theme="dark"] .ͼ2 .cm-searchMatch, body[theme="spooky"] .ͼ2 .cm-searchMat
 
 .ͼ1 .cm-button {
     background-image: none;
-    background-color: #eff1f5;
+    background-color: #dfe1e5;
     padding: .2em .4em;
     cursor: pointer;
 }
 
 .ͼ1 .cm-button:hover {
-    background-color: #d9d9d9;
+    background-color: #c9c9c9;
 }
 
 .ͼ1 .cm-button:active {
     background-image: none;
-    background-color: #b4b4b4;
+    background-color: #a4a4a4;
+}
+
+.ͼ1 .cm-textfield, .ͼ2 .cm-button {
+    border: none;
+    outline: none;
+}
+
+.ͼ1 .cm-textfield {
+    background-color: lightgray;
+}
+
+.ͼ1 .cm-textfield:focus {
+    background-color: #b3b3b3;
 }
 
 .ͼ1 .cm-panel.cm-search label input {
     accent-color: #066adf;
 }
 
+body[theme="dark"] .ͼ1 .cm-panel.cm-search label input {
+    accent-color: #4bafff;
+}
+
+body[theme="spooky"] .ͼ1 .cm-panel.cm-search label input {
+    accent-color: #d96d00;
+}
+
 .ͼ1 .cm-panel.cm-gotoLine label {
     font-size: 1rem;
+}
+
+body[theme="dark"] .ͼ1 .cm-textfield::placeholder, body[theme="spooky"] .ͼ1 .cm-textfield::placeholder {
+    color: #ccc;
 }
 
 body[theme="dark"] .ͼ2 .cm-panels {
@@ -634,6 +659,10 @@ body[theme="dark"] .ͼ2 .cm-panels-top {
 body[theme="dark"] .ͼ1 .cm-textfield {
     background-color: #3c445c;
     border-color: #5f677a;
+}
+
+body[theme="dark"] .ͼ1 .cm-textfield:focus {
+    background-color: #5c647c;
 }
 
 body[theme="dark"] .ͼ1 .cm-button {
@@ -663,6 +692,10 @@ body[theme="spooky"] .ͼ1 .cm-textfield {
     border-color: #5f677a;
 }
 
+body[theme="spooky"] .ͼ1 .cm-textfield:focus {
+    background-color: #676a72;
+}
+
 body[theme="spooky"] .ͼ1 .cm-button {
     background-color: #474a52;
     border-color: #5f677a;
@@ -673,7 +706,7 @@ body[theme="spooky"] .ͼ1 .cm-button:hover {
 }
 
 body[theme="spooky"] .ͼ1 .cm-button:active {
-    background-color: #80889c;
+    background-color: #9098ac;
 }
 
 .ͼ1 .cm-panel.cm-search [name="close"] {
@@ -699,27 +732,36 @@ body[theme="spooky"] .ͼ1 .cm-button:active {
     height: 100%;
     max-height: 40vh;
     border-radius: .5rem;
-    box-shadow: 0 0 .5rem black;
+    box-shadow: 0 0 .5rem rgba(0, 0, 0, .5);
 }
 
 body[theme="dark"] .cm-tooltip-autocomplete > ul {
     background: #2b3245;
-}
-
-body[theme="dark"] .cm-tooltip-autocomplete {
-    border-color: #3f4557;
+    box-shadow: 0 0 .25rem rgba(255, 255, 255, .25);
 }
 
 body[theme="spooky"] .cm-tooltip-autocomplete > ul {
     background: #383b42;
+    box-shadow: 0 0 .25rem rgba(255, 255, 255, .25);
 }
 
-body[theme="spooky"] .cm-tooltip-autocomplete {
-    border-color: #414757;
-}
-
-.cm-tooltip-autocomplete {
+.ͼ1 .cm-tooltip-autocomplete {
     border-radius: .5rem;
+    border: none;
+    outline: none;
+}
+
+.ͼ1 .cm-tooltip.cm-completionInfo {
+    border: none;
+    border-radius: .5rem;
+}
+
+body[theme="dark"] .ͼ1 .cm-tooltip.cm-completionInfo {
+    background: #2b3245;
+}
+
+body[theme="spooky"] .ͼ1 .cm-tooltip.cm-completionInfo {
+    background: #383b42;
 }
 
 .ͼ2 .cm-tooltip-autocomplete ul li:hover {
@@ -795,13 +837,13 @@ body[theme="dark"] .ͼ1 .cm-foldPlaceholder, body[theme="spooky"] .ͼ1 .cm-foldP
 
 .emmet-preview {
     border-radius: .5rem;
+    border: none;
 }
 
 body[theme="dark"] .emmet-preview, body[theme="spooky"] .emmet-preview {
-    border-color: #4e5569;
-    background-color: #1c2333;
+    background-color: #2b3245;
 }
 
 body[theme="spooky"] .emmet-preview {
-    background-color: #292c33;
+    background-color: #383b42;
 }

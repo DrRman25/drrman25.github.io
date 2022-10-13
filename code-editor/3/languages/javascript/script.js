@@ -52,6 +52,7 @@ let editor;
 let lastWideScreenTab, lastNarrowScreenTab;
 let canRunCode = true;
 const urlCodeQuery = /[?&]c=([^&]+)/.exec(document.location.search);
+const urlMyProgramQuery = /[?&]prog=([^&]+)/.exec(document.location.search);
 const urlDataVersionQuery = /[?&]dv=([^&]+)/.exec(document.location.search);
 const urlExampleQuery = /[?&]example=([^&]+)/.exec(document.location.search);
 
@@ -299,15 +300,18 @@ document.getElementById("examples").addEventListener("change", function() {
         run(false);
     }
     document.getElementById("examples").selectedIndex = 0;
-})
+});
+
+import myPrograms from "./scripts/my-programs.js";
 
 loadCode(
-    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) == 5) ? decodeParameter(urlCodeQuery[1])
+    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) == 6) ? decodeParameter(urlCodeQuery[1])
+    : (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) ? myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["program"]
     : (urlExampleQuery && examples.hasOwnProperty(decodeURIComponent(urlExampleQuery[1]))) ? examples[decodeURIComponent(urlExampleQuery[1])]
     : getDefaultCode()
 );
 
-if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) != 5)) {
+if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) != 6)) {
     document.getElementById("modal-invalid-dv").showModal();
     document.getElementById("data-version").textContent = (
         !urlDataVersionQuery ? "3.0.0.8 or earlier"
@@ -315,7 +319,8 @@ if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !=
         : (parseInt(urlDataVersionQuery[1]) == 2) ? "3.0.0.10"
         : (parseInt(urlDataVersionQuery[1]) == 3) ? "3.0.0.11"
         : (parseInt(urlDataVersionQuery[1]) == 4) ? "3.0.0.12"
-        : (parseInt(urlDataVersionQuery[1]) > 5) ? "(future version - 3.0.0.14+)"
+        : (parseInt(urlDataVersionQuery[1]) == 5) ? "3.0.0.13"
+        : (parseInt(urlDataVersionQuery[1]) > 6) ? "(future version - 3.0.0.15+)"
         : "unknown"
     );
 }
@@ -683,7 +688,13 @@ function prepareShareModal() {
     : editor.state.doc.toString().length >= 1048576 ? `${(editor.state.doc.toString().length / 1048576).toFixed(2)} megabytes`
     : editor.state.doc.toString().length >= 1024 ? `${(editor.state.doc.toString().length / 1024).toFixed(2)} kilobytes`
     : `${editor.state.doc.toString().length} bytes`;
-    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=5";
+    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=6";
+}
+
+function prepareSaveModal() {
+    if (urlMyProgramQuery && files.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) {
+        document.getElementById("save-name").value = decodeURIComponent(urlMyProgramQuery[1]);
+    }
 }
 
 document.getElementById("run").addEventListener("click", function() {
@@ -695,8 +706,13 @@ document.getElementById("share").addEventListener("click", function() {
     prepareShareModal();
 });
 
+document.getElementById("save").addEventListener("click", function() {
+    document.getElementById("modal-save").showModal();
+    prepareSaveModal();
+});
+
 document.getElementById("share-link-copy").addEventListener("click", function(e) {
-    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=5");
+    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=6");
     displayNotification(e.target, document.getElementById("modal-share"), "Link successfully copied!", 2000);
 });
 
@@ -731,6 +747,18 @@ document.getElementById("share-export-plain-text").addEventListener("click", fun
 
 document.getElementById("modal-share-close").addEventListener("click", function() {
     document.getElementById("modal-share").close();
+});
+
+document.getElementById("save-to-programs").addEventListener("click", function(e) {
+    myPrograms[document.getElementById("save-name").value] = {};
+    myPrograms[document.getElementById("save-name").value]["language"] = "javascript";
+    myPrograms[document.getElementById("save-name").value]["program"] = editor.state.doc.toString();
+    displayNotification(e.target, document.getElementById("modal-save"), "Program successfully saved!", 2000);
+    localStorage.setItem("code-editor-my-programs", JSON.stringify(myPrograms));
+});
+
+document.getElementById("modal-save-close").addEventListener("click", function() {
+    document.getElementById("modal-save").close();
 });
 
 document.getElementById("invalid-dv-load-anyway").addEventListener("click", function() {
