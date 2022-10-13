@@ -692,7 +692,7 @@ function prepareShareModal() {
 }
 
 function prepareSaveModal() {
-    if (urlMyProgramQuery && files.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) {
+    if (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) {
         document.getElementById("save-name").value = decodeURIComponent(urlMyProgramQuery[1]);
     }
 }
