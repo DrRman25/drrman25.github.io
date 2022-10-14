@@ -835,15 +835,15 @@ body[theme="dark"] .ͼ1 .cm-foldPlaceholder, body[theme="spooky"] .ͼ1 .cm-foldP
     color: white;
 }
 
-.emmet-preview {
+.ͼ1 .emmet-preview {
     border-radius: .5rem;
     border: none;
 }
 
-body[theme="dark"] .emmet-preview, body[theme="spooky"] .emmet-preview {
+body[theme="dark"] .ͼ1 .emmet-preview, body[theme="spooky"] .ͼ1 .emmet-preview {
     background-color: #2b3245;
 }
 
-body[theme="spooky"] .emmet-preview {
+body[theme="spooky"] .ͼ1 .emmet-preview {
     background-color: #383b42;
 }

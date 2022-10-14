@@ -205,11 +205,29 @@
     </div>
     <script>
         const board = [];
+        let playing = true;
 
         $("#up").click(shiftUp);
         $("#left").click(shiftLeft);
         $("#right").click(shiftRight);
         $("#down").click(shiftDown);
+
+        function anotherPlayIsPossible() {
+            for (let i = 0; i < board.length; i++) {
+                for (let j = 0; j < board[i].length; j++) {
+                    // Check for empty tiles
+                    if (board[i][j].value == 0) {
+                        // Found empty tile
+                        return true;
+                    } else if (j < board.length - 1 && board[i][j].value == board[i][j + 1].value) {
+                        return true;
+                    } else if (i < board.length - 1 && board[i][j].value == board[i + 1][j].value) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
 
         function createGrid() {
             for (i = 0; i < 4; i++) {
@@ -250,6 +268,7 @@
         }
 
         function init() {
+            playing = true;
             for (let i = 0; i < 2; i++) {
                 // Create two starting tiles
                 addRandom();
@@ -278,6 +297,10 @@
             if (moved) {
                 reDrawTiles();
                 addRandom();
+                playing = anotherPlayIsPossible();
+                if (!playing) {
+                    setTimeout(() => alert("Game over!"), 500);
+                }
             }
         }
 
@@ -393,23 +416,25 @@
             createGrid();
             init();
             $(this).keydown(function(e) {
-                switch (e.key) {
-                    case "ArrowLeft":
-                        e.preventDefault();
-                        shiftLeft();
-                        break;
-                    case "ArrowUp":
-                        e.preventDefault();
-                        shiftUp();
-                        break;
-                    case "ArrowRight":
-                        e.preventDefault();
-                        shiftRight();
-                        break;
-                    case "ArrowDown":
-                        e.preventDefault();
-                        shiftDown();
-                        break;
+                if (playing) {
+                    switch (e.key) {
+                        case "ArrowLeft":
+                            e.preventDefault();
+                            shiftLeft();
+                            break;
+                        case "ArrowUp":
+                            e.preventDefault();
+                            shiftUp();
+                            break;
+                        case "ArrowRight":
+                            e.preventDefault();
+                            shiftRight();
+                            break;
+                        case "ArrowDown":
+                            e.preventDefault();
+                            shiftDown();
+                            break;
+                    }
                 }
             });
         });

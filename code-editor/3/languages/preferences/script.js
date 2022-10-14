@@ -10,6 +10,10 @@ if (!localStorage.getItem("code-editor-editor-vscodeKeymap")) {
     localStorage.setItem("code-editor-editor-vscodeKeymap", false);
 }
 
+if (!localStorage.getItem("code-editor-editor-abbreviationTracker")) {
+    localStorage.setItem("code-editor-editor-abbreviationTracker", false);
+}
+
 if (!localStorage.getItem("code-editor-editor-colorPicker")) {
     localStorage.setItem("code-editor-editor-colorPicker", true);
 }
@@ -36,6 +40,7 @@ document.body.setAttribute("seasonal-extras", localStorage.getItem("code-editor-
 document.getElementById("editor-tabSize").value = localStorage.getItem("code-editor-editor-tabSize");
 document.getElementById("editor-indentUnit").value = localStorage.getItem("code-editor-editor-indentUnit");
 document.getElementById("editor-vscodeKeymap").value = localStorage.getItem("code-editor-editor-vscodeKeymap");
+document.getElementById("editor-abbreviationTracker").value = localStorage.getItem("code-editor-editor-abbreviationTracker");
 document.getElementById("editor-colorPicker").value = localStorage.getItem("code-editor-editor-colorPicker");
 document.getElementById("editor-indentationMarkers").value = localStorage.getItem("code-editor-editor-indentationMarkers");
 document.getElementById("editor-interact").value = localStorage.getItem("code-editor-editor-interact");
@@ -58,6 +63,7 @@ document.getElementById("apply").addEventListener("click", function(e) {
     localStorage.setItem("code-editor-editor-tabSize", (document.getElementById("editor-tabSize").value > 8) ? 8 : (document.getElementById("editor-tabSize").value < 1) ? 1 : parseInt(document.getElementById("editor-tabSize").value));
     localStorage.setItem("code-editor-editor-indentUnit", document.getElementById("editor-indentUnit").value.toString());
     localStorage.setItem("code-editor-editor-vscodeKeymap", (document.getElementById("editor-vscodeKeymap").value.trim() == "true") ? true : false);
+    localStorage.setItem("code-editor-editor-abbreviationTracker", (document.getElementById("editor-abbreviationTracker").value.trim() == "true") ? true : false);
     localStorage.setItem("code-editor-editor-colorPicker", (document.getElementById("editor-colorPicker").value.trim() == "true") ? true : false);
     localStorage.setItem("code-editor-editor-indentationMarkers", (document.getElementById("editor-indentationMarkers").value.trim() == "true") ? true : false);
     localStorage.setItem("code-editor-editor-interact", (document.getElementById("editor-interact").value.trim() == "true") ? true : false);

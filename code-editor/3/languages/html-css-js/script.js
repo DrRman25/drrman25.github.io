@@ -25,6 +25,10 @@ if (!localStorage.getItem("code-editor-editor-vscodeKeymap")) {
     localStorage.setItem("code-editor-editor-vscodeKeymap", false);
 }
 
+if (!localStorage.getItem("code-editor-editor-abbreviationTracker")) {
+    localStorage.setItem("code-editor-editor-abbreviationTracker", false);
+}
+
 if (!localStorage.getItem("code-editor-editor-colorPicker")) {
     localStorage.setItem("code-editor-editor-colorPicker", true);
 }
@@ -181,7 +185,6 @@ function loadCode(code) {
             EditorView.lineWrapping,
             placeholder("Not sure where to start? Look at some examples above (this message will be dismissed after typing)"),
             html(),
-            abbreviationTracker(),
             search({
                 top: true
             }),
@@ -200,6 +203,9 @@ function loadCode(code) {
     }
     if (localStorage.getItem("code-editor-editor-vscodeKeymap") != "false") {
         injectExtension(keymap.of([...vscodeKeymap]));
+    }
+    if (localStorage.getItem("code-editor-editor-abbreviationTracker") != "false") {
+        injectExtension(abbreviationTracker());
     }
     if (localStorage.getItem("code-editor-editor-colorPicker") != "false") {
         injectExtension(colorPicker);
@@ -383,14 +389,14 @@ import files from "./scripts/files.js";
 import myPrograms from "./scripts/my-programs.js";
 
 loadCode(
-    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) == 6) ? decodeParameter(urlCodeQuery[1])
+    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) == 7) ? decodeParameter(urlCodeQuery[1])
     : (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) ? myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["program"]
     : (urlFilenameQuery && files.hasOwnProperty(urlFilenameQuery[1])) ? files[urlFilenameQuery[1]]
     : (urlExampleQuery && examples.hasOwnProperty(decodeURIComponent(urlExampleQuery[1]))) ? examples[decodeURIComponent(urlExampleQuery[1])]
     : getDefaultCode()
 );
 
-if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) != 6)) {
+if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) != 7)) {
     document.getElementById("modal-invalid-dv").showModal();
     document.getElementById("data-version").textContent = (
         !urlDataVersionQuery ? "3.0.0.8 or earlier"
@@ -399,7 +405,8 @@ if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !=
         : (parseInt(urlDataVersionQuery[1]) == 3) ? "3.0.0.11"
         : (parseInt(urlDataVersionQuery[1]) == 4) ? "3.0.0.12"
         : (parseInt(urlDataVersionQuery[1]) == 5) ? "3.0.0.13"
-        : (parseInt(urlDataVersionQuery[1]) > 6) ? "(future version - 3.0.0.15+)"
+        : (parseInt(urlDataVersionQuery[1]) == 6) ? "3.0.0.14"
+        : (parseInt(urlDataVersionQuery[1]) > 7) ? "(future version - 3.0.0.16+)"
         : "unknown"
     );
 }
@@ -460,7 +467,7 @@ function prepareShareModal() {
     : editor.state.doc.toString().length >= 1048576 ? `${(editor.state.doc.toString().length / 1048576).toFixed(2)} megabytes`
     : editor.state.doc.toString().length >= 1024 ? `${(editor.state.doc.toString().length / 1024).toFixed(2)} kilobytes`
     : `${editor.state.doc.toString().length} bytes`;
-    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=6";
+    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=7";
 }
 
 function prepareSaveModal() {
@@ -484,7 +491,7 @@ document.getElementById("save").addEventListener("click", function() {
 });
 
 document.getElementById("share-link-copy").addEventListener("click", function(e) {
-    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=6");
+    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=7");
     displayNotification(e.target, document.getElementById("modal-share"), "Link successfully copied!", 2000);
 });
 
