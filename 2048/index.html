@@ -230,9 +230,9 @@
         }
 
         function createGrid() {
-            for (i = 0; i < 4; i++) {
+            for (let i = 0; i < 4; i++) {
                 const row = [];
-                for (j = 0; j < 4; j++) {
+                for (let j = 0; j < 4; j++) {
                     row.push(new BoardTile(i, j));
                     $("#grid").append($("<div>", {class: "square"}));
                 }
