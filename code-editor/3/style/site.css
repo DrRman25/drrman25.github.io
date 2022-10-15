@@ -571,6 +571,14 @@ body[theme="spooky"] .ͼ2.cm-focused .cm-activeLine {
     background: #383b4280;
 }
 
+.ͼ1 .cm-tooltip, .ͼ1 .cm-diagnostic {
+    border-radius: .5rem;
+}
+
+.ͼ1 .cm-diagnosticSource {
+    line-height: 1.5;
+}
+
 .ͼ1 .cm-css-color-picker-wrapper {
     outline: .0625rem solid black;
     transform: translateY(.125rem);

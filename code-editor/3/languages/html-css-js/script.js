@@ -5,14 +5,15 @@ import {defaultKeymap, history, historyKeymap} from "https://codemirror.net/try/
 import {tags} from "https://codemirror.net/try/mods/@lezer-highlight.js";
 import {indentUnit, syntaxHighlighting, HighlightStyle, foldGutter, indentOnInput, bracketMatching, foldKeymap} from "https://codemirror.net/try/mods/@codemirror-language.js";
 import {closeBrackets, autocompletion, closeBracketsKeymap, completionKeymap} from "https://codemirror.net/try/mods/@codemirror-autocomplete.js";
-import {lintKeymap} from "https://codemirror.net/try/mods/@codemirror-lint.js";
+import {linter, lintKeymap} from "https://codemirror.net/try/mods/@codemirror-lint.js";
 import {vscodeKeymap} from '../node-modules/@replit/codemirror-vscode-keymap/dist/index.js';
 import interact from '../node-modules/@replit/codemirror-interact/dist/index.js';
 import {indentationMarkers} from '../node-modules/@replit/codemirror-indentation-markers/dist/index.js';
 import {html} from "https://codemirror.net/try/mods/@codemirror-lang-html.js";
-import {javascriptLanguage, scopeCompletionSource} from "https://codemirror.net/try/mods/@codemirror-lang-javascript.js";
+import {esLint} from "https://codemirror.net/try/mods/@codemirror-lang-javascript.js";
 import {abbreviationTracker} from '../node-modules/@emmetio/codemirror6-plugin/dist/plugin.js';
 import {colorPicker} from '../node-modules/@replit/codemirror-css-color-picker/dist/index.js';
+import Linter from '../node-modules/eslint4b-prebuilt/dist/eslint4b.es.js';
 
 if (!localStorage.getItem("code-editor-editor-tabSize")) {
     localStorage.setItem("code-editor-editor-tabSize", 4);
@@ -189,7 +190,7 @@ function loadCode(code) {
             EditorView.lineWrapping,
             placeholder("Not sure where to start? Look at some examples above (this message will be dismissed after typing)"),
             html(),
-            javascriptLanguage.data.of({autocomplete: scopeCompletionSource(globalThis)}),
+            linter(esLint(new Linter())),
             search({
                 top: true
             }),
