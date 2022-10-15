@@ -1,6 +1,6 @@
 import {EditorState, StateEffect} from "https://codemirror.net/try/mods/@codemirror-state.js";
 import {search, highlightSelectionMatches, searchKeymap} from "https://codemirror.net/try/mods/@codemirror-search.js";
-import {EditorView, keymap, placeholder, lineNumbers, highlightActiveLineGutter, highlightSpecialChars, drawSelection, dropCursor, highlightActiveLine} from "https://codemirror.net/try/mods/@codemirror-view.js";
+import {EditorView, keymap, placeholder, lineNumbers, highlightActiveLineGutter, highlightSpecialChars, drawSelection, dropCursor, highlightActiveLine, rectangularSelection, crosshairCursor} from "https://codemirror.net/try/mods/@codemirror-view.js";
 import {defaultKeymap, history, historyKeymap} from "https://codemirror.net/try/mods/@codemirror-commands.js";
 import {tags} from "https://codemirror.net/try/mods/@lezer-highlight.js";
 import {indentUnit, syntaxHighlighting, HighlightStyle, foldGutter, indentOnInput, bracketMatching, foldKeymap} from "https://codemirror.net/try/mods/@codemirror-language.js";
@@ -10,6 +10,7 @@ import {vscodeKeymap} from '../node-modules/@replit/codemirror-vscode-keymap/dis
 import interact from '../node-modules/@replit/codemirror-interact/dist/index.js';
 import {indentationMarkers} from '../node-modules/@replit/codemirror-indentation-markers/dist/index.js';
 import {html} from "https://codemirror.net/try/mods/@codemirror-lang-html.js";
+import {javascriptLanguage, scopeCompletionSource} from "https://codemirror.net/try/mods/@codemirror-lang-javascript.js";
 import {abbreviationTracker} from '../node-modules/@emmetio/codemirror6-plugin/dist/plugin.js';
 import {colorPicker} from '../node-modules/@replit/codemirror-css-color-picker/dist/index.js';
 
@@ -39,6 +40,10 @@ if (!localStorage.getItem("code-editor-editor-indentationMarkers")) {
 
 if (!localStorage.getItem("code-editor-editor-interact")) {
     localStorage.setItem("code-editor-editor-interact", false);
+}
+
+if (!localStorage.getItem("code-editor-editor-rectangularSelection")) {
+    localStorage.setItem("code-editor-editor-rectangularSelection", false);
 }
 
 if (!localStorage.getItem("code-editor-site-theme")) {
@@ -171,7 +176,6 @@ function loadCode(code) {
             autocompletion(),
             highlightSelectionMatches(),
             highlightActiveLine(),
-            EditorView.clickAddsSelectionRange.of(e => e.altKey),
             keymap.of([
                 {key: "Mod-Enter", run: run},
                 ...closeBracketsKeymap,
@@ -185,6 +189,7 @@ function loadCode(code) {
             EditorView.lineWrapping,
             placeholder("Not sure where to start? Look at some examples above (this message will be dismissed after typing)"),
             html(),
+            javascriptLanguage.data.of({autocomplete: scopeCompletionSource(globalThis)}),
             search({
                 top: true
             }),
@@ -260,6 +265,12 @@ function loadCode(code) {
                 },
             ],
         }));
+    }
+    if (localStorage.getItem("code-editor-editor-rectangularSelection") != "false") {
+        injectExtension(rectangularSelection());
+        injectExtension(crosshairCursor());
+    } else {
+        injectExtension(EditorView.clickAddsSelectionRange.of(e => e.altKey));
     }
     if (localStorage.getItem("code-editor-site-theme") == "light") {
         injectExtension(syntaxHighlighting(lightTheme));
@@ -389,14 +400,14 @@ import files from "./scripts/files.js";
 import myPrograms from "./scripts/my-programs.js";
 
 loadCode(
-    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) == 7) ? decodeParameter(urlCodeQuery[1])
+    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) == 8) ? decodeParameter(urlCodeQuery[1])
     : (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) ? myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["program"]
     : (urlFilenameQuery && files.hasOwnProperty(urlFilenameQuery[1])) ? files[urlFilenameQuery[1]]
     : (urlExampleQuery && examples.hasOwnProperty(decodeURIComponent(urlExampleQuery[1]))) ? examples[decodeURIComponent(urlExampleQuery[1])]
     : getDefaultCode()
 );
 
-if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) != 7)) {
+if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) != 8)) {
     document.getElementById("modal-invalid-dv").showModal();
     document.getElementById("data-version").textContent = (
         !urlDataVersionQuery ? "3.0.0.8 or earlier"
@@ -406,7 +417,8 @@ if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !=
         : (parseInt(urlDataVersionQuery[1]) == 4) ? "3.0.0.12"
         : (parseInt(urlDataVersionQuery[1]) == 5) ? "3.0.0.13"
         : (parseInt(urlDataVersionQuery[1]) == 6) ? "3.0.0.14"
-        : (parseInt(urlDataVersionQuery[1]) > 7) ? "(future version - 3.0.0.16+)"
+        : (parseInt(urlDataVersionQuery[1]) == 7) ? "3.0.0.15"
+        : (parseInt(urlDataVersionQuery[1]) > 8) ? "(future version - 3.0.0.17+)"
         : "unknown"
     );
 }
@@ -467,7 +479,7 @@ function prepareShareModal() {
     : editor.state.doc.toString().length >= 1048576 ? `${(editor.state.doc.toString().length / 1048576).toFixed(2)} megabytes`
     : editor.state.doc.toString().length >= 1024 ? `${(editor.state.doc.toString().length / 1024).toFixed(2)} kilobytes`
     : `${editor.state.doc.toString().length} bytes`;
-    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=7";
+    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=8";
 }
 
 function prepareSaveModal() {
@@ -491,7 +503,7 @@ document.getElementById("save").addEventListener("click", function() {
 });
 
 document.getElementById("share-link-copy").addEventListener("click", function(e) {
-    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=7");
+    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=8");
     displayNotification(e.target, document.getElementById("modal-share"), "Link successfully copied!", 2000);
 });
 

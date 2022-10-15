@@ -26,6 +26,10 @@ if (!localStorage.getItem("code-editor-editor-interact")) {
     localStorage.setItem("code-editor-editor-interact", false);
 }
 
+if (!localStorage.getItem("code-editor-editor-rectangularSelection")) {
+    localStorage.setItem("code-editor-editor-rectangularSelection", false);
+}
+
 if (!localStorage.getItem("code-editor-site-theme")) {
     localStorage.setItem("code-editor-site-theme", "light");
 }
@@ -44,6 +48,7 @@ document.getElementById("editor-abbreviationTracker").value = localStorage.getIt
 document.getElementById("editor-colorPicker").value = localStorage.getItem("code-editor-editor-colorPicker");
 document.getElementById("editor-indentationMarkers").value = localStorage.getItem("code-editor-editor-indentationMarkers");
 document.getElementById("editor-interact").value = localStorage.getItem("code-editor-editor-interact");
+document.getElementById("editor-rectangularSelection").value = localStorage.getItem("code-editor-editor-rectangularSelection");
 
 function displayNotification(relativeElement, messageText, notificationTime) {
     let notificationElement = document.createElement("div");
@@ -67,6 +72,7 @@ document.getElementById("apply").addEventListener("click", function(e) {
     localStorage.setItem("code-editor-editor-colorPicker", (document.getElementById("editor-colorPicker").value.trim() == "true") ? true : false);
     localStorage.setItem("code-editor-editor-indentationMarkers", (document.getElementById("editor-indentationMarkers").value.trim() == "true") ? true : false);
     localStorage.setItem("code-editor-editor-interact", (document.getElementById("editor-interact").value.trim() == "true") ? true : false);
+    localStorage.setItem("code-editor-editor-rectangularSelection", (document.getElementById("editor-rectangularSelection").value.trim() == "true") ? true : false);
 });
 
 document.getElementById("editor-indentUnit").style.width = 0.35 + (0.5625 * document.getElementById("editor-indentUnit").value.length) + "em";
