@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Minecraft Features for the Combat Tests</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@latest/dist/css/bootstrap.min.css" />
+    </head>
+    <body>
+        <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand mb-0 h1" href="../">
+                    Minecraft Features
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbar-content">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="../">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Features</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item active" href="../combat-tests">Combat</a></li>
+                                <li><a class="dropdown-item" href="../other">Other</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../about">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <br/>
+        <div class="container">
+            <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider: '›';">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="../">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Combat Tests</li>
+                </ol>
+            </nav>
+            <h1>Minecraft Features for the Combat Tests</h1>
+            <div class="alert alert-info" role="alert" id="wip-alert">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-info-circle-fill flex-shrink-0 me-2" viewBox="0 0 16 16">
+                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"></path>
+                </svg>
+                <strong style="display: inline; vertical-align: middle;">This section is a work in progress.</strong>
+                <p class="mb-0">Not all features of the experimental snapshots are in the table yet. Please consider adding more items to this list by creating a pull request on GitHub.</p>
+            </div>
+            <p>The table below lists all<sup><a href="#wip-alert">[↑]</a></sup> of the upcoming features in Minecraft's Combat Tests.</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name of Feature</th>
+                        <th scope="col">Combat Test Added</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Cleaving</td>
+                        <td>Combat Test 3</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Shield Indicator</td>
+                        <td>Combat Test 3</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td><code>generic.attack_reach</code>&nbsp;Attribute</td>
+                        <td>1.14.3 - Combat Test</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@latest/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
