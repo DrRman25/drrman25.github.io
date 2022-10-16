@@ -571,8 +571,17 @@ body[theme="spooky"] .ͼ2.cm-focused .cm-activeLine {
     background: #383b4280;
 }
 
-.ͼ1 .cm-tooltip, .ͼ1 .cm-diagnostic {
+.ͼ1 .cm-tooltip {
     border-radius: .5rem;
+    border: none;
+}
+
+body[theme="dark"] .ͼ1 .cm-tooltip {
+    background-color: #2b3245;
+}
+
+body[theme="spooky"] .ͼ1 .cm-tooltip {
+    background-color: #383b42;
 }
 
 .ͼ1 .cm-diagnosticSource {
