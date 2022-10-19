@@ -58,7 +58,6 @@ if (!localStorage.getItem("code-editor-site-seasonalExtras")) {
 document.body.setAttribute("theme", localStorage.getItem("code-editor-site-theme"));
 document.body.setAttribute("seasonal-extras", localStorage.getItem("code-editor-site-seasonalExtras"));
 
-let frame, frameDoc, frameContainer, titleBar;
 let editor;
 let canRunCode = true;
 const urlCodeQuery = /[?&]c=([^&]+)/.exec(document.location.search);
@@ -388,7 +387,7 @@ function decodeParameter(param) {
     return atob(param).replace(/\xff[^][^]/g, m => String.fromCharCode(m.charCodeAt(1) + (m.charCodeAt(2) << 8)));
 }
 
-document.getElementById("examples").addEventListener("change", function() {
+document.getElementById("examples").addEventListener("change", () => {
     let exampleValue = document.getElementById("examples").value;
     if (examples.hasOwnProperty(exampleValue)) {
         window.history.pushState({}, "", document.location.toString().replace(/[#?].*/, "") + "?example=" + encodeURIComponent(exampleValue));
@@ -434,15 +433,15 @@ function run(coolDown = true) {
             document.getElementById("tab-output").classList.add("active");
         }
         document.getElementById("output").textContent = "";
-        titleBar = document.createElement("div");
+        let titleBar = document.createElement("div");
         titleBar.setAttribute("id", "output-title-bar");
         document.getElementById("output").appendChild(titleBar);
-        frameContainer = document.createElement("div");
+        let frameContainer = document.createElement("div");
         frameContainer.setAttribute("id", "output-iframe-container");
         document.getElementById("output").appendChild(frameContainer);
-        frame = document.createElement("iframe");
+        let frame = document.createElement("iframe");
         frameContainer.appendChild(frame);
-        frameDoc = frame.contentDocument || frame.contentWindow.document;
+        let frameDoc = frame.contentDocument || frame.contentWindow.document;
         frameDoc.open();
         frameDoc.write(editor.state.doc.toString());
         frameDoc.close();
@@ -451,7 +450,7 @@ function run(coolDown = true) {
         if (coolDown) {
             canRunCode = false;
             document.getElementById("run").textContent = ". . .";
-            setTimeout(function() {
+            setTimeout(() => {
                 canRunCode = true;
                 document.getElementById("run").textContent = "Run";
             }, 500);
@@ -468,7 +467,7 @@ function displayNotification(relativeElement, parentElement, messageText, notifi
     notificationElement.style.left = notificationCoords.left + "px";
     notificationElement.style.top = (notificationCoords.bottom + 3) + "px";
     parentElement.appendChild(notificationElement);
-    setTimeout(function() {
+    setTimeout(() => {
         notificationElement.remove();
     }, notificationTime);
 }
@@ -490,28 +489,28 @@ function prepareSaveModal() {
     }
 }
 
-document.getElementById("run").addEventListener("click", function() {
+document.getElementById("run").addEventListener("click", () => {
     run(true);
 });
 
-document.getElementById("share").addEventListener("click", function() {
+document.getElementById("share").addEventListener("click", () => {
     document.getElementById("modal-share").showModal();
     prepareShareModal();
 });
 
-document.getElementById("save").addEventListener("click", function() {
+document.getElementById("save").addEventListener("click", () => {
     document.getElementById("modal-save").showModal();
     prepareSaveModal();
 });
 
-document.getElementById("share-link-copy").addEventListener("click", function(e) {
+document.getElementById("share-link-copy").addEventListener("click", e => {
     navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=8");
     displayNotification(e.target, document.getElementById("modal-share"), "Link successfully copied!", 2000);
 });
 
 let link, blob;
 
-document.getElementById("share-export-html").addEventListener("click", function() {
+document.getElementById("share-export-html").addEventListener("click", () => {
     link = document.createElement("a");
     link.download = "index.html";
     blob = new Blob([editor.state.doc.toString()], {type: "text/plain"});
@@ -520,7 +519,7 @@ document.getElementById("share-export-html").addEventListener("click", function(
     URL.revokeObjectURL(link.href);
 });
 
-document.getElementById("share-export-plain-text").addEventListener("click", function() {
+document.getElementById("share-export-plain-text").addEventListener("click", () => {
     link = document.createElement("a");
     link.download = "prog.txt";
     blob = new Blob([editor.state.doc.toString()], {type: "text/plain"});
@@ -529,11 +528,11 @@ document.getElementById("share-export-plain-text").addEventListener("click", fun
     URL.revokeObjectURL(link.href);
 });
 
-document.getElementById("modal-share-close").addEventListener("click", function() {
+document.getElementById("modal-share-close").addEventListener("click", () => {
     document.getElementById("modal-share").close();
 });
 
-document.getElementById("save-to-programs").addEventListener("click", function(e) {
+document.getElementById("save-to-programs").addEventListener("click", e => {
     myPrograms[document.getElementById("save-name").value] = {};
     myPrograms[document.getElementById("save-name").value]["language"] = "html-css-js";
     myPrograms[document.getElementById("save-name").value]["program"] = editor.state.doc.toString();
@@ -541,21 +540,21 @@ document.getElementById("save-to-programs").addEventListener("click", function(e
     localStorage.setItem("code-editor-my-programs", JSON.stringify(myPrograms));
 });
 
-document.getElementById("modal-save-close").addEventListener("click", function() {
+document.getElementById("modal-save-close").addEventListener("click", () => {
     document.getElementById("modal-save").close();
 });
 
-document.getElementById("invalid-dv-load-anyway").addEventListener("click", function() {
+document.getElementById("invalid-dv-load-anyway").addEventListener("click", () => {
     loadCode(decodeParameter(urlCodeQuery[1]));
     run(false);
     document.getElementById("modal-invalid-dv").close();
 });
 
-document.getElementById("invalid-dv-load-default").addEventListener("click", function() {
+document.getElementById("invalid-dv-load-default").addEventListener("click", () => {
     document.getElementById("modal-invalid-dv").close();
 });
 
-document.getElementById("clear").addEventListener("click", function() {
+document.getElementById("clear").addEventListener("click", () => {
     frame = document.createElement("iframe");
     document.getElementById("output").textContent = "";
     document.getElementById("output").appendChild(frame);
@@ -567,7 +566,7 @@ document.getElementById("clear").addEventListener("click", function() {
 
 run(false);
 
-addEventListener("load", function() {
+addEventListener("load", () => {
     if (innerWidth < 1200) {
         document.getElementById("editor").style.display = "none";
         document.getElementById("output").style.display = "block";
@@ -579,7 +578,7 @@ addEventListener("load", function() {
     }
 });
 
-addEventListener("resize", function() {
+addEventListener("resize", () => {
     if (innerWidth < 1200) {
         if (document.getElementById("tab-editor").classList.contains("active")) {
             document.getElementById("editor").style.display = "block";
@@ -594,14 +593,14 @@ addEventListener("resize", function() {
     }
 });
 
-document.getElementById("tab-editor").addEventListener("click", function() {
+document.getElementById("tab-editor").addEventListener("click", () => {
     document.getElementById("tab-editor").classList.add("active");
     document.getElementById("tab-output").classList.remove("active");
     document.getElementById("editor").style.display = "block";
     document.getElementById("output").style.display = "none";
 });
 
-document.getElementById("tab-output").addEventListener("click", function() {
+document.getElementById("tab-output").addEventListener("click", () => {
     document.getElementById("tab-editor").classList.remove("active");
     document.getElementById("tab-output").classList.add("active");
     document.getElementById("editor").style.display = "none";
