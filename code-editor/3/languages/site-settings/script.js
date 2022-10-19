@@ -20,12 +20,12 @@ function displayNotification(relativeElement, messageText, notificationTime) {
     notificationElement.style.left = notificationCoords.left + "px";
     notificationElement.style.top = (notificationCoords.bottom + 3) + "px";
     document.body.appendChild(notificationElement);
-    setTimeout(function() {
+    setTimeout(() => {
         notificationElement.remove();
     }, notificationTime);
 }
 
-document.getElementById("apply").addEventListener("click", function(e) {
+document.getElementById("apply").addEventListener("click", e => {
     displayNotification(e.target, "Changes saved!", 2000);
     localStorage.setItem("code-editor-site-theme", (document.getElementById("site-theme").value.trim().toLowerCase() == "spooky") ? "spooky" : (document.getElementById("site-theme").value.trim().toLowerCase() == "dark") ? "dark" : "light");
     localStorage.setItem("code-editor-site-seasonalExtras", (document.getElementById("site-seasonalExtras").value.trim() == "true") ? true : false);
@@ -38,7 +38,7 @@ if (document.getElementById("site-theme").value == "\t") {
     document.getElementById("site-theme").style.width = 0.35 + "em";
 }
 
-document.getElementById("site-theme").addEventListener("keyup", function() {
+document.getElementById("site-theme").addEventListener("keyup", () => {
     document.getElementById("site-theme").style.width = 0.35 + (0.5625 * document.getElementById("site-theme").value.length) + "em";
     if (document.getElementById("site-theme").value == "\t") {
         document.getElementById("site-theme").style.width = 4.85 + "em";
@@ -47,6 +47,6 @@ document.getElementById("site-theme").addEventListener("keyup", function() {
     }
 });
 
-document.getElementById("done").addEventListener("click", function() {
+document.getElementById("done").addEventListener("click", () => {
     location.assign("..");
 });

@@ -58,12 +58,12 @@ function displayNotification(relativeElement, messageText, notificationTime) {
     notificationElement.style.left = notificationCoords.left + "px";
     notificationElement.style.top = (notificationCoords.bottom + 3) + "px";
     document.body.appendChild(notificationElement);
-    setTimeout(function() {
+    setTimeout(() => {
         notificationElement.remove();
     }, notificationTime);
 }
 
-document.getElementById("apply").addEventListener("click", function(e) {
+document.getElementById("apply").addEventListener("click", e => {
     displayNotification(e.target, "Changes saved!", 2000);
     localStorage.setItem("code-editor-editor-tabSize", (document.getElementById("editor-tabSize").value > 8) ? 8 : (document.getElementById("editor-tabSize").value < 1) ? 1 : parseInt(document.getElementById("editor-tabSize").value));
     localStorage.setItem("code-editor-editor-indentUnit", document.getElementById("editor-indentUnit").value.toString());
@@ -82,7 +82,7 @@ if (document.getElementById("editor-indentUnit").value == "\t") {
     document.getElementById("editor-indentUnit").style.width = 0.35 + "em";
 }
 
-document.getElementById("editor-indentUnit").addEventListener("keyup", function() {
+document.getElementById("editor-indentUnit").addEventListener("keyup", () => {
     document.getElementById("editor-indentUnit").style.width = 0.35 + (0.5625 * document.getElementById("editor-indentUnit").value.length) + "em";
     if (document.getElementById("editor-indentUnit").value == "\t") {
         document.getElementById("editor-indentUnit").style.width = 4.85 + "em";
@@ -91,6 +91,6 @@ document.getElementById("editor-indentUnit").addEventListener("keyup", function(
     }
 });
 
-document.getElementById("done").addEventListener("click", function() {
+document.getElementById("done").addEventListener("click", () => {
     location.assign("..");
 });

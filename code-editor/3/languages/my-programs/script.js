@@ -40,12 +40,12 @@ function displayNotification(relativeElement, messageText, notificationTime) {
     notificationElement.style.left = notificationCoords.left + "px";
     notificationElement.style.top = (notificationCoords.bottom + 3) + "px";
     document.body.appendChild(notificationElement);
-    setTimeout(function() {
+    setTimeout(() => {
         notificationElement.remove();
     }, notificationTime);
 }
 
-document.getElementById("remove-from-programs").addEventListener("click", function(e) {
+document.getElementById("remove-from-programs").addEventListener("click", e => {
     delete myPrograms[document.getElementById("remove-name").value];
     localStorage.setItem("code-editor-my-programs", JSON.stringify(myPrograms));
     displayNotification(e.target, "Program successfully deleted!", 2000);
