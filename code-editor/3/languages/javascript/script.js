@@ -407,7 +407,7 @@ function renderLoggable(value, space, top = false) {
         return top ? document.createTextNode(value) : span("tok-string", JSON.stringify(value));
     }
     if (typeof value === "boolean") {
-        return span("tok-atom", String(value));
+        return span("tok-bool", String(value));
     }
     if (value === null) {
         return span("tok-keyword", String(value))
