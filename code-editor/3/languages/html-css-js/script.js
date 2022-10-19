@@ -273,13 +273,13 @@ function loadCode(code) {
     } else {
         injectExtension(EditorView.clickAddsSelectionRange.of(e => e.altKey));
     }
-    if (localStorage.getItem("code-editor-site-theme") == "light") {
+    if (localStorage.getItem("code-editor-site-theme") === "light") {
         injectExtension(syntaxHighlighting(lightTheme));
     }
-    if (localStorage.getItem("code-editor-site-theme") == "dark") {
+    if (localStorage.getItem("code-editor-site-theme") === "dark") {
         injectExtension(syntaxHighlighting(darkTheme));
     }
-    if (localStorage.getItem("code-editor-site-theme") == "spooky") {
+    if (localStorage.getItem("code-editor-site-theme") === "spooky") {
         injectExtension(syntaxHighlighting(spookyTheme));
     }
 }
@@ -401,7 +401,7 @@ import files from "./scripts/files.js";
 import myPrograms from "./scripts/my-programs.js";
 
 loadCode(
-    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) == 8) ? decodeParameter(urlCodeQuery[1])
+    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) === 8) ? decodeParameter(urlCodeQuery[1])
     : (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) ? myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["program"]
     : (urlFilenameQuery && files.hasOwnProperty(urlFilenameQuery[1])) ? files[urlFilenameQuery[1]]
     : (urlExampleQuery && examples.hasOwnProperty(decodeURIComponent(urlExampleQuery[1]))) ? examples[decodeURIComponent(urlExampleQuery[1])]
@@ -412,13 +412,13 @@ if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !=
     document.getElementById("modal-invalid-dv").showModal();
     document.getElementById("data-version").textContent = (
         !urlDataVersionQuery ? "3.0.0.8 or earlier"
-        : (parseInt(urlDataVersionQuery[1]) == 1) ? "3.0.0.9"
-        : (parseInt(urlDataVersionQuery[1]) == 2) ? "3.0.0.10"
-        : (parseInt(urlDataVersionQuery[1]) == 3) ? "3.0.0.11"
-        : (parseInt(urlDataVersionQuery[1]) == 4) ? "3.0.0.12"
-        : (parseInt(urlDataVersionQuery[1]) == 5) ? "3.0.0.13"
-        : (parseInt(urlDataVersionQuery[1]) == 6) ? "3.0.0.14"
-        : (parseInt(urlDataVersionQuery[1]) == 7) ? "3.0.0.15"
+        : (parseInt(urlDataVersionQuery[1]) === 1) ? "3.0.0.9"
+        : (parseInt(urlDataVersionQuery[1]) === 2) ? "3.0.0.10"
+        : (parseInt(urlDataVersionQuery[1]) === 3) ? "3.0.0.11"
+        : (parseInt(urlDataVersionQuery[1]) === 4) ? "3.0.0.12"
+        : (parseInt(urlDataVersionQuery[1]) === 5) ? "3.0.0.13"
+        : (parseInt(urlDataVersionQuery[1]) === 6) ? "3.0.0.14"
+        : (parseInt(urlDataVersionQuery[1]) === 7) ? "3.0.0.15"
         : (parseInt(urlDataVersionQuery[1]) > 8) ? "(future version - 3.0.0.17+)"
         : "unknown"
     );

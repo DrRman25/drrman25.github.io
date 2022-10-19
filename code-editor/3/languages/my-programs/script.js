@@ -27,7 +27,7 @@ for (const program in myPrograms) {
     programLink.appendChild(programLabel);
 }
 
-if (Object.keys(myPrograms).length == 0) {
+if (Object.keys(myPrograms).length === 0) {
     document.getElementById("my-programs-list").style.display = "none";
     document.getElementById("no-programs").style.display = "block";
 }

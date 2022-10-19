@@ -67,26 +67,26 @@ document.getElementById("apply").addEventListener("click", e => {
     displayNotification(e.target, "Changes saved!", 2000);
     localStorage.setItem("code-editor-editor-tabSize", (document.getElementById("editor-tabSize").value > 8) ? 8 : (document.getElementById("editor-tabSize").value < 1) ? 1 : parseInt(document.getElementById("editor-tabSize").value));
     localStorage.setItem("code-editor-editor-indentUnit", document.getElementById("editor-indentUnit").value.toString());
-    localStorage.setItem("code-editor-editor-vscodeKeymap", (document.getElementById("editor-vscodeKeymap").value.trim() == "true") ? true : false);
-    localStorage.setItem("code-editor-editor-abbreviationTracker", (document.getElementById("editor-abbreviationTracker").value.trim() == "true") ? true : false);
-    localStorage.setItem("code-editor-editor-colorPicker", (document.getElementById("editor-colorPicker").value.trim() == "true") ? true : false);
-    localStorage.setItem("code-editor-editor-indentationMarkers", (document.getElementById("editor-indentationMarkers").value.trim() == "true") ? true : false);
-    localStorage.setItem("code-editor-editor-interact", (document.getElementById("editor-interact").value.trim() == "true") ? true : false);
-    localStorage.setItem("code-editor-editor-rectangularSelection", (document.getElementById("editor-rectangularSelection").value.trim() == "true") ? true : false);
+    localStorage.setItem("code-editor-editor-vscodeKeymap", (document.getElementById("editor-vscodeKeymap").value.trim() === "true") ? true : false);
+    localStorage.setItem("code-editor-editor-abbreviationTracker", (document.getElementById("editor-abbreviationTracker").value.trim() === "true") ? true : false);
+    localStorage.setItem("code-editor-editor-colorPicker", (document.getElementById("editor-colorPicker").value.trim() === "true") ? true : false);
+    localStorage.setItem("code-editor-editor-indentationMarkers", (document.getElementById("editor-indentationMarkers").value.trim() === "true") ? true : false);
+    localStorage.setItem("code-editor-editor-interact", (document.getElementById("editor-interact").value.trim() === "true") ? true : false);
+    localStorage.setItem("code-editor-editor-rectangularSelection", (document.getElementById("editor-rectangularSelection").value.trim() === "true") ? true : false);
 });
 
 document.getElementById("editor-indentUnit").style.width = 0.35 + (0.5625 * document.getElementById("editor-indentUnit").value.length) + "em";
-if (document.getElementById("editor-indentUnit").value == "\t") {
+if (document.getElementById("editor-indentUnit").value === "\t") {
     document.getElementById("editor-indentUnit").style.width = 4.85 + "em";
-} else if (document.getElementById("editor-indentUnit").value == "") {
+} else if (document.getElementById("editor-indentUnit").value === "") {
     document.getElementById("editor-indentUnit").style.width = 0.35 + "em";
 }
 
 document.getElementById("editor-indentUnit").addEventListener("keyup", () => {
     document.getElementById("editor-indentUnit").style.width = 0.35 + (0.5625 * document.getElementById("editor-indentUnit").value.length) + "em";
-    if (document.getElementById("editor-indentUnit").value == "\t") {
+    if (document.getElementById("editor-indentUnit").value === "\t") {
         document.getElementById("editor-indentUnit").style.width = 4.85 + "em";
-    } else if (document.getElementById("editor-indentUnit").value == "") {
+    } else if (document.getElementById("editor-indentUnit").value === "") {
         document.getElementById("editor-indentUnit").style.width = 0.35 + "em";
     }
 });

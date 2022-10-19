@@ -260,13 +260,13 @@ function loadCode(code) {
     } else {
         injectExtension(EditorView.clickAddsSelectionRange.of(e => e.altKey));
     }
-    if (localStorage.getItem("code-editor-site-theme") == "light") {
+    if (localStorage.getItem("code-editor-site-theme") === "light") {
         injectExtension(syntaxHighlighting(lightTheme));
     }
-    if (localStorage.getItem("code-editor-site-theme") == "dark") {
+    if (localStorage.getItem("code-editor-site-theme") === "dark") {
         injectExtension(syntaxHighlighting(darkTheme));
     }
-    if (localStorage.getItem("code-editor-site-theme") == "spooky") {
+    if (localStorage.getItem("code-editor-site-theme") === "spooky") {
         injectExtension(syntaxHighlighting(spookyTheme));
     }
 }
@@ -324,7 +324,7 @@ document.getElementById("examples").addEventListener("change", () => {
 import myPrograms from "./scripts/my-programs.js";
 
 loadCode(
-    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) == 8) ? decodeParameter(urlCodeQuery[1])
+    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) === 8) ? decodeParameter(urlCodeQuery[1])
     : (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) ? myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["program"]
     : (urlExampleQuery && examples.hasOwnProperty(decodeURIComponent(urlExampleQuery[1]))) ? examples[decodeURIComponent(urlExampleQuery[1])]
     : getDefaultCode()
@@ -334,13 +334,13 @@ if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !=
     document.getElementById("modal-invalid-dv").showModal();
     document.getElementById("data-version").textContent = (
         !urlDataVersionQuery ? "3.0.0.8 or earlier"
-        : (parseInt(urlDataVersionQuery[1]) == 1) ? "3.0.0.9"
-        : (parseInt(urlDataVersionQuery[1]) == 2) ? "3.0.0.10"
-        : (parseInt(urlDataVersionQuery[1]) == 3) ? "3.0.0.11"
-        : (parseInt(urlDataVersionQuery[1]) == 4) ? "3.0.0.12"
-        : (parseInt(urlDataVersionQuery[1]) == 5) ? "3.0.0.13"
-        : (parseInt(urlDataVersionQuery[1]) == 6) ? "3.0.0.14"
-        : (parseInt(urlDataVersionQuery[1]) == 7) ? "3.0.0.15"
+        : (parseInt(urlDataVersionQuery[1]) === 1) ? "3.0.0.9"
+        : (parseInt(urlDataVersionQuery[1]) === 2) ? "3.0.0.10"
+        : (parseInt(urlDataVersionQuery[1]) === 3) ? "3.0.0.11"
+        : (parseInt(urlDataVersionQuery[1]) === 4) ? "3.0.0.12"
+        : (parseInt(urlDataVersionQuery[1]) === 5) ? "3.0.0.13"
+        : (parseInt(urlDataVersionQuery[1]) === 6) ? "3.0.0.14"
+        : (parseInt(urlDataVersionQuery[1]) === 7) ? "3.0.0.15"
         : (parseInt(urlDataVersionQuery[1]) > 8) ? "(future version - 3.0.0.17+)"
         : "unknown"
     );
@@ -378,7 +378,7 @@ function expandObj(node, val) {
     } else {
         for (let prop of Object.keys(val)) addProp(prop);
         let children = ["{", content, "}"];
-        if ((node.firstChild ).className == "tok-typeName") children.unshift(node.firstChild);
+        if ((node.firstChild ).className === "tok-typeName") children.unshift(node.firstChild);
         node.parentNode.replaceChild(span("log-object", ...children), node);
     }
 }
@@ -386,7 +386,7 @@ function expandObj(node, val) {
 function span(cls, ...content) {
     let elt = document.createElement("span");
     elt.className = cls;
-    for (let c of content) elt.appendChild(typeof c == "string" ? document.createTextNode(c) : c);
+    for (let c of content) elt.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
     return elt;
 }
 
@@ -400,16 +400,16 @@ function etcButton(onClick) {
 }
 
 function renderLoggable(value, space, top = false) {
-    if (typeof value == "number") {
+    if (typeof value === "number") {
         return span("tok-number", String(value));
     }
-    if (typeof value == "string") {
+    if (typeof value === "string") {
         return top ? document.createTextNode(value) : span("tok-string", JSON.stringify(value));
     }
-    if (typeof value == "boolean") {
+    if (typeof value === "boolean") {
         return span("tok-atom", String(value));
     }
-    if (value == null) {
+    if (value === null) {
         return span("tok-keyword", String(value))
     }
     let {function: fun, array, object, ctor, error} = value;
@@ -824,21 +824,21 @@ addEventListener("resize", () => {
             : document.getElementById("tab-log").classList.contains("active") ? "log"
             : "output"
         );
-        if (lastNarrowScreenTab == "editor") {
+        if (lastNarrowScreenTab === "editor") {
             document.getElementById("tab-editor").classList.add("active");
             document.getElementById("tab-output").classList.remove("active");
             document.getElementById("tab-log").classList.remove("active");
             document.getElementById("editor").style.display = "block";
             document.getElementById("output").style.display = "none";
             document.getElementById("log").style.display = "none";
-        } else if (lastNarrowScreenTab == "output") {
+        } else if (lastNarrowScreenTab === "output") {
             document.getElementById("tab-editor").classList.remove("active");
             document.getElementById("tab-output").classList.add("active");
             document.getElementById("tab-log").classList.remove("active");
             document.getElementById("editor").style.display = "none";
             document.getElementById("output").style.display = "block";
             document.getElementById("log").style.display = "none";
-        } else if (lastNarrowScreenTab == "log") {
+        } else if (lastNarrowScreenTab === "log") {
             document.getElementById("tab-editor").classList.remove("active");
             document.getElementById("tab-output").classList.remove("active");
             document.getElementById("tab-log").classList.add("active");
@@ -854,12 +854,12 @@ addEventListener("resize", () => {
             : "editor"
         );
         document.getElementById("editor").style.display = "block";
-        if (lastWideScreenTab == "output") {
+        if (lastWideScreenTab === "output") {
             document.getElementById("tab-output").classList.add("active");
             document.getElementById("tab-log").classList.remove("active");
             document.getElementById("output").style.display = "block";
             document.getElementById("log").style.display = "none";
-        } else if (lastWideScreenTab == "log") {
+        } else if (lastWideScreenTab === "log") {
             document.getElementById("tab-output").classList.remove("active");
             document.getElementById("tab-log").classList.add("active");
             document.getElementById("output").style.display = "none";

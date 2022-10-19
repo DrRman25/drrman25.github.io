@@ -27,22 +27,22 @@ function displayNotification(relativeElement, messageText, notificationTime) {
 
 document.getElementById("apply").addEventListener("click", e => {
     displayNotification(e.target, "Changes saved!", 2000);
-    localStorage.setItem("code-editor-site-theme", (document.getElementById("site-theme").value.trim().toLowerCase() == "spooky") ? "spooky" : (document.getElementById("site-theme").value.trim().toLowerCase() == "dark") ? "dark" : "light");
-    localStorage.setItem("code-editor-site-seasonalExtras", (document.getElementById("site-seasonalExtras").value.trim() == "true") ? true : false);
+    localStorage.setItem("code-editor-site-theme", (document.getElementById("site-theme").value.trim().toLowerCase() === "spooky") ? "spooky" : (document.getElementById("site-theme").value.trim().toLowerCase() === "dark") ? "dark" : "light");
+    localStorage.setItem("code-editor-site-seasonalExtras", (document.getElementById("site-seasonalExtras").value.trim() === "true") ? true : false);
 });
 
 document.getElementById("site-theme").style.width = 0.35 + (0.5625 * document.getElementById("site-theme").value.length) + "em";
-if (document.getElementById("site-theme").value == "\t") {
+if (document.getElementById("site-theme").value === "\t") {
     document.getElementById("site-theme").style.width = 4.85 + "em";
-} else if (document.getElementById("site-theme").value == "") {
+} else if (document.getElementById("site-theme").value === "") {
     document.getElementById("site-theme").style.width = 0.35 + "em";
 }
 
 document.getElementById("site-theme").addEventListener("keyup", () => {
     document.getElementById("site-theme").style.width = 0.35 + (0.5625 * document.getElementById("site-theme").value.length) + "em";
-    if (document.getElementById("site-theme").value == "\t") {
+    if (document.getElementById("site-theme").value === "\t") {
         document.getElementById("site-theme").style.width = 4.85 + "em";
-    } else if (document.getElementById("site-theme").value == "") {
+    } else if (document.getElementById("site-theme").value === "") {
         document.getElementById("site-theme").style.width = 0.35 + "em";
     }
 });
