@@ -456,7 +456,7 @@ function renderLoggable(value, space, top = false) {
                 try {
                     next = renderLoggable(object[prop], space);
                 }
-                catch (err) {
+                catch(err) {
                     // nothing here lol
                 }
             }
