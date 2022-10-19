@@ -730,10 +730,6 @@ body[theme="spooky"] .ͼ1 .cm-button:active {
     color: inherit;
 }
 
-.ͼ2 .cm-indentation-marker {
-    background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxIiBoZWlnaHQ9IjIiPgogICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzVjNWY2NiI+PC9yZWN0Pgo8L3N2Zz4=") left repeat-y;
-}
-
 .cm-tooltip-autocomplete > ul > li {
     width: 100%;
     font-size: .875rem;
@@ -857,7 +853,7 @@ body[theme="dark"] .ͼ1 .cm-foldPlaceholder, body[theme="spooky"] .ͼ1 .cm-foldP
     border: none;
 }
 
-body[theme="dark"] .ͼ1 .emmet-preview, body[theme="spooky"] .ͼ1 .emmet-preview {
+body[theme="dark"] .ͼ1 .emmet-preview {
     background-color: #2b3245;
 }
 

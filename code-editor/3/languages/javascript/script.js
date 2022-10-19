@@ -9,9 +9,8 @@ import {linter, lintKeymap} from "https://codemirror.net/try/mods/@codemirror-li
 import {vscodeKeymap} from '../node-modules/@replit/codemirror-vscode-keymap/dist/index.js';
 import interact from '../node-modules/@replit/codemirror-interact/dist/index.js';
 import {indentationMarkers} from '../node-modules/@replit/codemirror-indentation-markers/dist/index.js';
-import {javascript, esLint} from "https://codemirror.net/try/mods/@codemirror-lang-javascript.js";
-import {colorPicker} from '../node-modules/@replit/codemirror-css-color-picker/dist/index.js';
-import Linter from '../node-modules/eslint4b-prebuilt/dist/eslint4b.es.js';
+import {javascript, javascriptLanguage, scopeCompletionSource, esLint} from "https://codemirror.net/try/mods/@codemirror-lang-javascript.js";
+import '../node-modules/eslint-linter-browserify/linter.js';
 
 if (!localStorage.getItem("code-editor-editor-tabSize")) {
     localStorage.setItem("code-editor-editor-tabSize", 4);
@@ -184,7 +183,8 @@ function loadCode(code) {
             EditorView.lineWrapping,
             placeholder("Not sure where to start? Look at some examples above (this message will be dismissed after typing)"),
             javascript(),
-            linter(esLint(new Linter())),
+            javascriptLanguage.data.of({autocomplete: scopeCompletionSource(globalThis)}),
+            linter(esLint(new eslint.Linter())),
             search({
                 top: true
             }),
@@ -203,9 +203,6 @@ function loadCode(code) {
     }
     if (localStorage.getItem("code-editor-editor-vscodeKeymap") != "false") {
         injectExtension(keymap.of([...vscodeKeymap]));
-    }
-    if (localStorage.getItem("code-editor-editor-colorPicker") != "false") {
-        injectExtension(colorPicker);
     }
     if (localStorage.getItem("code-editor-editor-indentationMarkers") != "false") {
         injectExtension(indentationMarkers());

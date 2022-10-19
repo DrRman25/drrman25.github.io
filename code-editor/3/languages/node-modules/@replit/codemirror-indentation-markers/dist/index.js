@@ -1,21 +1,29 @@
 import { Decoration, EditorView, ViewPlugin, WidgetType } from 'https://codemirror.net/try/mods/@codemirror-view.js';
 import { getIndentUnit } from 'https://codemirror.net/try/mods/@codemirror-language.js';
-import { RangeSetBuilder } from 'https://codemirror.net/try/mods/@codemirror-state.js';
+import { RangeSet } from 'https://codemirror.net/try/mods/@codemirror-state.js';
 
 const indentationMark = /*@__PURE__*/Decoration.mark({
     class: 'cm-indentation-marker',
+    tagName: 'span',
+});
+const activeIndentationMark = /*@__PURE__*/Decoration.mark({
+    class: 'cm-indentation-marker active',
     tagName: 'span',
 });
 /**
  * Widget used to simulate N indentation markers on empty lines.
  */
 class IndentationWidget extends WidgetType {
-    constructor(numIndent) {
+    constructor(numIndent, indentSize, activeIndent) {
         super();
         this.numIndent = numIndent;
+        this.indentSize = indentSize;
+        this.activeIndent = activeIndent;
     }
     eq(other) {
-        return this.numIndent === other.numIndent;
+        return (this.numIndent === other.numIndent &&
+            this.indentSize === other.indentSize &&
+            this.activeIndent === other.activeIndent);
     }
     toDOM(view) {
         const indentSize = getIndentUnit(view.state);
@@ -27,7 +35,8 @@ class IndentationWidget extends WidgetType {
         for (let indent = 0; indent < this.numIndent; indent++) {
             const element = document.createElement('span');
             element.className = 'cm-indentation-marker';
-            element.innerHTML = `${' '.repeat(indentSize)}`;
+            element.classList.toggle('active', indent === this.activeIndent);
+            element.innerHTML = ' '.repeat(indentSize);
             wrapper.appendChild(element);
         }
         return wrapper;
@@ -112,9 +121,9 @@ function findNextNonEmptyLineAndIndentLevel(doc, startLine, indentSize) {
  * Adds indentation markers to all lines within view.
  */
 function addIndentationMarkers(view) {
-    const builder = new RangeSetBuilder();
     const indentSize = getIndentUnit(view.state);
-    const markers = [];
+    const indentSizeMap = new Map();
+    const decorations = [];
     for (const { from, to } of view.visibleRanges) {
         let pos = from;
         let prevIndentMarkers = 0;
@@ -135,41 +144,89 @@ function addIndentationMarkers(view) {
                     nextIndentMarkers = nextIndent;
                 }
                 const numIndentMarkers = getNumIndentMarkersForEmptyLine(prevIndentMarkers, nextIndentMarkers);
-                const indentationWidget = Decoration.widget({
-                    widget: new IndentationWidget(numIndentMarkers),
-                });
                 // Add the indent widget and move on to next line
-                markers.push({
-                    from: line.from,
-                    to: line.from,
-                    decoration: indentationWidget,
+                indentSizeMap.set(line.number, numIndentMarkers);
+                decorations.push({
+                    from: pos,
+                    to: pos,
+                    lineNumber: line.number,
+                    create: (activeIndentIndex) => Decoration.widget({
+                        widget: new IndentationWidget(numIndentMarkers, indentSize, activeIndentIndex),
+                    }),
                 });
-                pos = line.to + 1;
-                continue;
             }
-            prevIndentMarkers = getNumIndentMarkersForNonEmptyLine(text, indentSize, (char) => {
-                const charPos = line.from + char;
-                markers.push({
-                    from: charPos,
-                    to: charPos + 1,
-                    decoration: indentationMark,
-                });
-            });
+            else {
+                const indices = [];
+                prevIndentMarkers = getNumIndentMarkersForNonEmptyLine(text, indentSize, (char) => indices.push(char));
+                indentSizeMap.set(line.number, indices.length);
+                decorations.push(...indices.map((char, i) => ({
+                    from: line.from + char,
+                    to: line.from + char + 1,
+                    lineNumber: line.number,
+                    create: (activeIndentIndex) => activeIndentIndex === i
+                        ? activeIndentationMark
+                        : indentationMark,
+                })));
+            }
             // Move on to the next line
             pos = line.to + 1;
         }
     }
-    markers.sort((a, b) => a.from - b.from);
-    markers.forEach(({ from, to, decoration }) => {
-        builder.add(from, to, decoration);
-    });
-    return builder.finish();
+    const activeBlockRange = getLinesWithActiveIndentMarker(view.state, indentSizeMap);
+    return RangeSet.of(Array.from(decorations).map(({ lineNumber, from, to, create }) => {
+        const activeIndent = lineNumber >= activeBlockRange.start &&
+            lineNumber <= activeBlockRange.end
+            ? activeBlockRange.activeIndent - 1
+            : undefined;
+        return { from, to, value: create(activeIndent) };
+    }), true);
 }
-function createIndentationMarkerPlugin() {
+/**
+ * Returns a range of lines with an active indent marker.
+ */
+function getLinesWithActiveIndentMarker(state, indentMap) {
+    const currentLine = state.doc.lineAt(state.selection.main.head);
+    let currentIndent = indentMap.get(currentLine.number);
+    let currentLineNo = currentLine.number;
+    // Check if the current line is starting a new block, if yes, we want to
+    // start from inside the block.
+    const nextIndent = indentMap.get(currentLineNo + 1);
+    if (nextIndent && currentIndent != null && nextIndent > currentIndent) {
+        currentIndent = nextIndent;
+        currentLineNo++;
+    }
+    // Idem but if the current line is ending a block
+    const prevIndent = indentMap.get(currentLineNo - 1);
+    if (prevIndent && currentIndent != null && prevIndent > currentIndent) {
+        currentIndent = prevIndent;
+        currentLineNo--;
+    }
+    if (!currentIndent) {
+        return { start: -1, end: -1, activeIndent: NaN };
+    }
+    let start;
+    let end;
+    for (start = currentLineNo; start >= 0; start--) {
+        const indent = indentMap.get(start - 1);
+        if (!indent || indent < currentIndent) {
+            break;
+        }
+    }
+    for (end = currentLineNo;; end++) {
+        const indent = indentMap.get(end + 1);
+        if (!indent || indent < currentIndent) {
+            break;
+        }
+    }
+    return { start, end, activeIndent: currentIndent };
+}
+function indentationMarkerViewPlugin() {
     return ViewPlugin.define((view) => ({
         decorations: addIndentationMarkers(view),
         update(update) {
-            if (update.docChanged || update.viewportChanged) {
+            if (update.docChanged ||
+                update.viewportChanged ||
+                update.selectionSet) {
                 this.decorations = addIndentationMarkers(update.view);
             }
         },
@@ -177,27 +234,28 @@ function createIndentationMarkerPlugin() {
         decorations: (v) => v.decorations,
     });
 }
-const LIGHT_BACKGROUND = 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAE0lEQVQImWP4\/\/\/\/f4bLly//BwAmVgd1/w11/gAAAABJRU5ErkJggg==") left repeat-y';
-const DARK_BACKGROUND = 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWNgYGBgYHB3d/8PAAOIAdULw8qMAAAAAElFTkSuQmCC") left repeat-y';
 const indentationMarkerBaseTheme = /*@__PURE__*/EditorView.baseTheme({
     '.cm-line': {
-        position: `relative`,
+        position: 'relative',
     },
     '.cm-indentation-marker': {
-        display: `inline-block`,
+        display: 'inline-block',
     },
     '&light .cm-indentation-marker': {
-        background: LIGHT_BACKGROUND,
+        background: 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAE0lEQVQImWP4////f4bLly//BwAmVgd1/w11/gAAAABJRU5ErkJggg==") left repeat-y',
+    },
+    '&light .cm-indentation-marker.active': {
+        background: 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACAQMAAACjTyRkAAAABlBMVEX///+goKD0a5EfAAAADElEQVR4nGNgYGgAAACEAIHJde6SAAAAAElFTkSuQmCC) left repeat-y',
     },
     '&dark .cm-indentation-marker': {
-        background: DARK_BACKGROUND,
+        background: 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWNgYGBgYHB3d/8PAAOIAdULw8qMAAAAAElFTkSuQmCC) left repeat-y',
+    },
+    '&dark .cm-indentation-marker.active': {
+        background: 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACAQMAAACjTyRkAAAABlBMVEUAAACFhYWZv3sFAAAAAnRSTlMA/1uRIrUAAAAMSURBVHicY2BgaAAAAIQAgcl17pIAAAAASUVORK5CYII=) left repeat-y',
     },
 });
 function indentationMarkers() {
-    return [
-        createIndentationMarkerPlugin(),
-        indentationMarkerBaseTheme,
-    ];
+    return [indentationMarkerViewPlugin(), indentationMarkerBaseTheme];
 }
 
 export { indentationMarkers };
