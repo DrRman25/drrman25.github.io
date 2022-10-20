@@ -207,19 +207,19 @@ function loadCode(code) {
             parent: document.getElementById("editor")
         });
     }
-    if (localStorage.getItem("code-editor-editor-vscodeKeymap") != "false") {
+    if (localStorage.getItem("code-editor-editor-vscodeKeymap") !== "false") {
         injectExtension(keymap.of([...vscodeKeymap]));
     }
-    if (localStorage.getItem("code-editor-editor-abbreviationTracker") != "false") {
+    if (localStorage.getItem("code-editor-editor-abbreviationTracker") !== "false") {
         injectExtension(abbreviationTracker());
     }
-    if (localStorage.getItem("code-editor-editor-colorPicker") != "false") {
+    if (localStorage.getItem("code-editor-editor-colorPicker") !== "false") {
         injectExtension(colorPicker);
     }
-    if (localStorage.getItem("code-editor-editor-indentationMarkers") != "false") {
+    if (localStorage.getItem("code-editor-editor-indentationMarkers") !== "false") {
         injectExtension(indentationMarkers());
     }
-    if (localStorage.getItem("code-editor-editor-interact") != "false") {
+    if (localStorage.getItem("code-editor-editor-interact") !== "false") {
         injectExtension(interact({
             rules: [
                 // Number changer
@@ -267,7 +267,7 @@ function loadCode(code) {
             ],
         }));
     }
-    if (localStorage.getItem("code-editor-editor-rectangularSelection") != "false") {
+    if (localStorage.getItem("code-editor-editor-rectangularSelection") !== "false") {
         injectExtension(rectangularSelection());
         injectExtension(crosshairCursor());
     } else {
@@ -295,6 +295,12 @@ ${localStorage.getItem("code-editor-editor-indentUnit")}<title>My Web Site</titl
 <body>
 ${localStorage.getItem("code-editor-editor-indentUnit")}<h1>My First HTML Page</h1>
 ${localStorage.getItem("code-editor-editor-indentUnit")}<p>Hello, world!</p>
+
+${localStorage.getItem("code-editor-editor-indentUnit")}<!--
+${localStorage.getItem("code-editor-editor-indentUnit")}This below script adds a badge, to show that you are using the DrRcraft Code Editor.
+${localStorage.getItem("code-editor-editor-indentUnit")}You can modify the "data-drrcraft-theme" attribute of the script to change the color theme to dark, light, red, orange, yellow, lime, green, teal, blue, blurple, purple, magenta, or pink!
+${localStorage.getItem("code-editor-editor-indentUnit")}-->
+${localStorage.getItem("code-editor-editor-indentUnit")}<script src="${location.origin}/code-editor/3/scripts/editor-badge.js" defer="true" data-drrcraft-theme="blue"></script>
 </body>
 
 </html>
@@ -401,14 +407,14 @@ import files from "./scripts/files.js";
 import myPrograms from "./scripts/my-programs.js";
 
 loadCode(
-    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) === 8) ? decodeParameter(urlCodeQuery[1])
+    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) === 9) ? decodeParameter(urlCodeQuery[1])
     : (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) ? myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["program"]
     : (urlFilenameQuery && files.hasOwnProperty(urlFilenameQuery[1])) ? files[urlFilenameQuery[1]]
     : (urlExampleQuery && examples.hasOwnProperty(decodeURIComponent(urlExampleQuery[1]))) ? examples[decodeURIComponent(urlExampleQuery[1])]
     : getDefaultCode()
 );
 
-if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) != 8)) {
+if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !== 9)) {
     document.getElementById("modal-invalid-dv").showModal();
     document.getElementById("data-version").textContent = (
         !urlDataVersionQuery ? "3.0.0.8 or earlier"
@@ -419,7 +425,8 @@ if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !=
         : (parseInt(urlDataVersionQuery[1]) === 5) ? "3.0.0.13"
         : (parseInt(urlDataVersionQuery[1]) === 6) ? "3.0.0.14"
         : (parseInt(urlDataVersionQuery[1]) === 7) ? "3.0.0.15"
-        : (parseInt(urlDataVersionQuery[1]) > 8) ? "(future version - 3.0.0.17+)"
+        : (parseInt(urlDataVersionQuery[1]) === 8) ? "3.0.0.16"
+        : (parseInt(urlDataVersionQuery[1]) > 9) ? "(future version - 3.0.0.18+)"
         : "unknown"
     );
 }
@@ -480,7 +487,7 @@ function prepareShareModal() {
     : editor.state.doc.toString().length >= 1048576 ? `${(editor.state.doc.toString().length / 1048576).toFixed(2)} megabytes`
     : editor.state.doc.toString().length >= 1024 ? `${(editor.state.doc.toString().length / 1024).toFixed(2)} kilobytes`
     : `${editor.state.doc.toString().length} bytes`;
-    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=8";
+    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=9";
 }
 
 function prepareSaveModal() {
@@ -504,7 +511,7 @@ document.getElementById("save").addEventListener("click", () => {
 });
 
 document.getElementById("share-link-copy").addEventListener("click", e => {
-    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=8");
+    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=9");
     displayNotification(e.target, document.getElementById("modal-share"), "Link successfully copied!", 2000);
 });
 

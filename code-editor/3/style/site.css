@@ -143,10 +143,10 @@ header nav, footer nav {
 }
 
 a.logo {
-    padding-left: 3.125rem;
+    padding-left: 5.125rem;
     letter-spacing: -.0625rem;
-    background-image: url("logo.png");
-    background-size: contain;
+    background-image: url("logo.svg");
+    background-size: 30%;
     background-position: center left;
     background-repeat: no-repeat;
     font-size: 2.125rem;
@@ -365,9 +365,9 @@ ul.grid-list h3 {
     }
 
     a.logo {
-        padding-left: 2.125rem;
+        padding-left: 3.125rem;
         letter-spacing: -.0625rem;
-        background-size: 1.875rem;
+        background-size: 2.875rem;
         background-position: center left;
         background-repeat: no-repeat;
         font-size: 1.5rem;
