@@ -56,7 +56,7 @@
     <g filter="url('#drrcraft-code-editor-badge-lg-filter0')">
         <rect x="1" y="1" width="354" height="30" rx="8" fill="${theme.background}" />
     </g>
-    <image href="${location.origin}/code-editor/3/style/logo-foreground-${(theme.foreground === '#130f26') ? 'light' : 'dark'}.svg" x="4" y="-8" width="50" height="50" />
+    <image href="https://drrman25.github.io/code-editor/3/style/logo-foreground-${(theme.foreground === '#130f26') ? 'light' : 'dark'}.svg" x="4" y="-8" width="50" height="50" />
     <text x="60" y="22" fill="${theme.foreground}">Made with DrRcraft Code Editor</text>
     <defs>
         <filter id="drrcraft-code-editor-badge-lg-filter0" x="0" y="0" width="360" height="35" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
