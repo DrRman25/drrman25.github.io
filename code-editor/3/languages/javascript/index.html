@@ -20,7 +20,7 @@
             </nav>
         </header>
         <article>
-            <h1>JavaScript Editor <span class="version">v3.0.0.17</span></h1>
+            <h1>JavaScript Editor <span class="version">v3.0.0.18</span></h1>
             <p><strong style="color: #f50;">Note:</strong> This editor is currently in a testing phase. Some features may be missing, or completely not working.<br/>If you don't know JavaScript, please read <a href="https://developer.mozilla.org/en-US/docs/Learn/Front-end_web_developer" target="_blank">this MDN article on JavaScript basics.</a></p>
             <div id="controls">
                 <button id="run" title="Run code (Ctrl-Enter)" aria-title="Run code (Ctrl-Enter)">Run</button>
@@ -64,10 +64,11 @@
         </dialog>
         <dialog id="modal-invalid-dv">
             <h2 style="margin-top: 0;">Invalid Data Version</h2>
-            <p style="margin-bottom: .9375rem;">This link, which most likely came from the 'Share' tool, was created specifically in version <span id="data-version"></span>, while you are on version 3.0.0.17. If you received this link from someone, please ask them to send you a more up-to-date link! If that is not possible, you can try loading the code anyway, or just use the default template.</p>
+            <p style="margin-bottom: .9375rem;">This link, which most likely came from the 'Share' tool, was created specifically in version <span id="data-version"></span>, while you are on version 3.0.0.18. If you received this link from someone, please ask them to send you a more up-to-date link! If that is not possible, you can try loading the code anyway, or just use the default template.</p>
             <button id="invalid-dv-load-anyway" aria-title="Try to load code anyway">Try to Load Anyway</button>
             <button id="invalid-dv-load-default" aria-title="Use default template">Use Default Code</button>
         </dialog>
+        <iframe id="completion-source-frame"></iframe>
         <script type="module" src="script.js"></script>
     </body>
 </html>

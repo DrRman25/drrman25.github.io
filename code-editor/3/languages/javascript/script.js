@@ -182,7 +182,7 @@ function loadCode(code) {
             EditorView.lineWrapping,
             placeholder("Not sure where to start? Look at some examples above (this message will be dismissed after typing)"),
             javascript(),
-            javascriptLanguage.data.of({autocomplete: scopeCompletionSource(globalThis)}),
+            javascriptLanguage.data.of({autocomplete: scopeCompletionSource(document.getElementById("completion-source-frame").contentWindow.globalThis)}),
             linter(esLint(new eslint.Linter())),
             search({
                 top: true
@@ -332,13 +332,13 @@ document.getElementById("examples").addEventListener("change", () => {
 import myPrograms from "./scripts/my-programs.js";
 
 loadCode(
-    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) === 9) ? decodeParameter(urlCodeQuery[1])
+    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) === 10) ? decodeParameter(urlCodeQuery[1])
     : (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) ? myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["program"]
     : (urlExampleQuery && examples.hasOwnProperty(decodeURIComponent(urlExampleQuery[1]))) ? examples[decodeURIComponent(urlExampleQuery[1])]
     : getDefaultCode()
 );
 
-if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !== 9)) {
+if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !== 10)) {
     document.getElementById("modal-invalid-dv").showModal();
     document.getElementById("data-version").textContent = (
         !urlDataVersionQuery ? "3.0.0.8 or earlier"
@@ -350,7 +350,8 @@ if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !=
         : (parseInt(urlDataVersionQuery[1]) === 6) ? "3.0.0.14"
         : (parseInt(urlDataVersionQuery[1]) === 7) ? "3.0.0.15"
         : (parseInt(urlDataVersionQuery[1]) === 8) ? "3.0.0.16"
-        : (parseInt(urlDataVersionQuery[1]) > 9) ? "(future version - 3.0.0.18+)"
+        : (parseInt(urlDataVersionQuery[1]) === 9) ? "3.0.0.17"
+        : (parseInt(urlDataVersionQuery[1]) > 10) ? "(future version - 3.0.0.19+)"
         : "unknown"
     );
 }
@@ -718,7 +719,7 @@ function prepareShareModal() {
     : editor.state.doc.toString().length >= 1048576 ? `${(editor.state.doc.toString().length / 1048576).toFixed(2)} megabytes`
     : editor.state.doc.toString().length >= 1024 ? `${(editor.state.doc.toString().length / 1024).toFixed(2)} kilobytes`
     : `${editor.state.doc.toString().length} bytes`;
-    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=9";
+    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=10";
 }
 
 function prepareSaveModal() {
@@ -742,7 +743,7 @@ document.getElementById("save").addEventListener("click", () => {
 });
 
 document.getElementById("share-link-copy").addEventListener("click", e => {
-    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=9");
+    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=10");
     displayNotification(e.target, document.getElementById("modal-share"), "Link successfully copied!", 2000);
 });
 
