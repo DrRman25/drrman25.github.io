@@ -8,6 +8,10 @@ body[theme="dark"] .version, body[theme="spooky"] .version {
     color: #aaa;
 }
 
+#completion-source-frame {
+    display: none;
+}
+
 #controls {
     display: flex;
     column-gap: .625rem;
