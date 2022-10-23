@@ -463,6 +463,7 @@ function run(coolDown = true) {
                 document.getElementById("run").textContent = "Run";
             }, 500);
         }
+        document.getElementById("clear").disabled = false;
     }
     return true;
 }
@@ -563,13 +564,19 @@ document.getElementById("invalid-dv-load-default").addEventListener("click", () 
 });
 
 document.getElementById("clear").addEventListener("click", () => {
-    frame = document.createElement("iframe");
     document.getElementById("output").textContent = "";
-    document.getElementById("output").appendChild(frame);
-    frameDoc = frame.contentDocument || frame.contentWindow.document;
-    frameDoc.open();
-    frameDoc.write("");
-    frameDoc.close();
+    let titleBar = document.createElement("div");
+    titleBar.setAttribute("id", "output-title-bar");
+    titleBar.classList.add("cleared");
+    document.getElementById("output").appendChild(titleBar);
+    let frameContainer = document.createElement("div");
+    frameContainer.setAttribute("id", "output-iframe-container");
+    document.getElementById("output").appendChild(frameContainer);
+    let frame = document.createElement("iframe");
+    frameContainer.appendChild(frame);
+    titleBar.textContent = "Process terminated";
+    titleBar.style.backgroundColor = "transparent";
+    document.getElementById("clear").disabled = true;
 });
 
 run(false);

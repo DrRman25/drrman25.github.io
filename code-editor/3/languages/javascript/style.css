@@ -20,6 +20,7 @@ body[theme="dark"] .version, body[theme="spooky"] .version {
 
 #controls button {
     font-family: sans-serif;
+    color: buttontext;
     background: #eee;
     border: .0625rem solid #666;
     border-radius: .3125rem;
@@ -39,6 +40,11 @@ body[theme="dark"] .version, body[theme="spooky"] .version {
 
 #controls button:active {
     background: #ccc;
+}
+
+#controls button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
 }
 
 body[theme="dark"] #controls button {

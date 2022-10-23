@@ -694,6 +694,7 @@ function run(coolDown = true) {
                 document.getElementById("run").textContent = "Run";
             }, 500);
         }
+        document.getElementById("clear").disabled = false;
     }
     return true;
 }
@@ -803,10 +804,11 @@ document.getElementById("invalid-dv-load-default").addEventListener("click", () 
 });
 
 document.getElementById("clear").addEventListener("click", () => {
-    frame = document.createElement("iframe");
+    let frame = document.createElement("iframe");
     document.getElementById("output").textContent = document.getElementById("log").textContent = "";
     document.getElementById("output").appendChild(frame);
     document.getElementById("tab-log").classList.remove("new-logs");
+    document.getElementById("clear").disabled = true;
 });
 
 run(false);
