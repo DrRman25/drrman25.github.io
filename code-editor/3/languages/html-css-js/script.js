@@ -1,3 +1,6 @@
+/**
+Import all required CodeMirror and Lezer modules.
+*/
 import {EditorState, StateEffect} from "https://codemirror.net/try/mods/@codemirror-state.js";
 import {search, highlightSelectionMatches, searchKeymap} from "https://codemirror.net/try/mods/@codemirror-search.js";
 import {EditorView, keymap, placeholder, lineNumbers, highlightActiveLineGutter, highlightSpecialChars, drawSelection, dropCursor, highlightActiveLine, rectangularSelection, crosshairCursor} from "https://codemirror.net/try/mods/@codemirror-view.js";
@@ -6,66 +9,121 @@ import {tags} from "https://codemirror.net/try/mods/@lezer-highlight.js";
 import {indentUnit, syntaxHighlighting, HighlightStyle, foldGutter, indentOnInput, bracketMatching, foldKeymap} from "https://codemirror.net/try/mods/@codemirror-language.js";
 import {closeBrackets, autocompletion, closeBracketsKeymap, completionKeymap} from "https://codemirror.net/try/mods/@codemirror-autocomplete.js";
 import {linter, lintKeymap} from "https://codemirror.net/try/mods/@codemirror-lint.js";
+import {html} from "https://codemirror.net/try/mods/@codemirror-lang-html.js";
+import {javascriptLanguage, scopeCompletionSource, esLint} from "https://codemirror.net/try/mods/@codemirror-lang-javascript.js";
+
+/**
+Import all required Replit and Emmet modules.
+*/
 import {vscodeKeymap} from '../node-modules/@replit/codemirror-vscode-keymap/dist/index.js';
 import interact from '../node-modules/@replit/codemirror-interact/dist/index.js';
 import {indentationMarkers} from '../node-modules/@replit/codemirror-indentation-markers/dist/index.js';
-import {html} from "https://codemirror.net/try/mods/@codemirror-lang-html.js";
-import {javascriptLanguage, scopeCompletionSource, esLint} from "https://codemirror.net/try/mods/@codemirror-lang-javascript.js";
-import {abbreviationTracker} from '../node-modules/@emmetio/codemirror6-plugin/dist/plugin.js';
 import {colorPicker} from '../node-modules/@replit/codemirror-css-color-picker/dist/index.js';
+import {abbreviationTracker} from '../node-modules/@emmetio/codemirror6-plugin/dist/plugin.js';
+
+/**
+Add 'eslint' to globalThis.
+*/
 import '../node-modules/eslint-linter-browserify/linter.js';
 
+/**
+Set the editor's default tab size to 4, for new users.
+*/
 if (!localStorage.getItem("code-editor-editor-tabSize")) {
     localStorage.setItem("code-editor-editor-tabSize", 4);
 }
 
+/**
+Set the default number of spaces a block (whatever that means depending on the language) should be indented in the editor to 4, for new users.
+*/
 if (!localStorage.getItem("code-editor-editor-indentUnit")) {
     localStorage.setItem("code-editor-editor-indentUnit", "    ");
 }
 
+/**
+Disable the Visual Studio Code key bindings by default, for new users.
+*/
 if (!localStorage.getItem("code-editor-editor-vscodeKeymap")) {
     localStorage.setItem("code-editor-editor-vscodeKeymap", false);
 }
 
+/**
+Disable the Emmet abbreviation tracker by default, for new users.
+*/
 if (!localStorage.getItem("code-editor-editor-abbreviationTracker")) {
     localStorage.setItem("code-editor-editor-abbreviationTracker", false);
 }
 
+/**
+Enable the CSS color picker by default, for new users.
+*/
 if (!localStorage.getItem("code-editor-editor-colorPicker")) {
     localStorage.setItem("code-editor-editor-colorPicker", true);
 }
 
+/**
+Enable indentation markers in the editor by default, for new users.
+*/
 if (!localStorage.getItem("code-editor-editor-indentationMarkers")) {
     localStorage.setItem("code-editor-editor-indentationMarkers", true);
 }
 
+/**
+Disable the interact feature by default, for new users.
+*/
 if (!localStorage.getItem("code-editor-editor-interact")) {
     localStorage.setItem("code-editor-editor-interact", false);
 }
 
+/**
+Disable rectangular selection by default, for new users.
+*/
 if (!localStorage.getItem("code-editor-editor-rectangularSelection")) {
     localStorage.setItem("code-editor-editor-rectangularSelection", false);
 }
 
+/**
+Set the site theme by default to light, for new users.
+*/
 if (!localStorage.getItem("code-editor-site-theme")) {
     localStorage.setItem("code-editor-site-theme", "light");
 }
 
+/**
+Set the seasonal extras preference by default to false, for new users.
+*/
 if (!localStorage.getItem("code-editor-site-seasonalExtras")) {
     localStorage.setItem("code-editor-site-seasonalExtras", false);
 }
 
+/**
+Add the site theme and seasonal extras attributes to the body element.
+*/
 document.body.setAttribute("theme", localStorage.getItem("code-editor-site-theme"));
 document.body.setAttribute("seasonal-extras", localStorage.getItem("code-editor-site-seasonalExtras"));
 
+/**
+Declare the editor variable, to use later.
+*/
 let editor;
+
+/**
+Make the code 'run-able', to run the code as soon as the page loads.
+*/
 let canRunCode = true;
+
+/**
+Get URL queries for use later.
+*/
 const urlCodeQuery = /[?&]c=([^&]+)/.exec(document.location.search);
 const urlMyProgramQuery = /[?&]prog=([^&]+)/.exec(document.location.search);
 const urlFilenameQuery = /[?&]file=([^&]+)/.exec(document.location.search);
 const urlDataVersionQuery = /[?&]dv=([^&]+)/.exec(document.location.search);
 const urlExampleQuery = /[?&]example=([^&]+)/.exec(document.location.search);
 
+/**
+Define a universal highlight style, for use in the editor.
+*/
 const universalTheme = HighlightStyle.define([
     {tag: tags.link, textDecoration: "underline"},
     {tag: tags.heading, textDecoration: "underline", fontWeight: "bold"},
@@ -73,6 +131,9 @@ const universalTheme = HighlightStyle.define([
     {tag: tags.strong, fontWeight: "bold"},
 ]);
 
+/**
+Define a highlight style, for use with the light site theme.
+*/
 const lightTheme = HighlightStyle.define([
     {tag: tags.keyword, color: "#005cb8"},
     {tag: tags.atom, color: "#005cb8"},
@@ -95,6 +156,9 @@ const lightTheme = HighlightStyle.define([
     {tag: tags.angleBracket, color: "#5c5f66"}
 ]);
 
+/**
+Define a highlight style, for use with the dark site theme.
+*/
 const darkTheme = HighlightStyle.define([
     {tag: tags.keyword, color: "#57abff"},
     {tag: tags.atom, color: "#57abff"},
@@ -117,6 +181,9 @@ const darkTheme = HighlightStyle.define([
     {tag: tags.angleBracket, color: "#9da2a6"}
 ]);
 
+/**
+Define a highlight style, for use with the spooky site theme.
+*/
 const spookyTheme = HighlightStyle.define([
     {tag: tags.keyword, color: "#7fbfff"},
     {tag: tags.atom, color: "#7fbfff"},
@@ -139,13 +206,22 @@ const spookyTheme = HighlightStyle.define([
     {tag: tags.angleBracket, color: "#9da2a6"}
 ]);
 
+/**
+Helper function that 'injects' an extension into the CodeMirror editor.
+*/
 function injectExtension(extension) {
     editor.dispatch({
         effects: StateEffect.appendConfig.of(extension)
     });
 }
 
+/**
+Helper function that loads some code (a string) into the editor.
+*/
 function loadCode(code) {
+    /**
+    Create a new editor state, to be used later.
+    */
     let state = EditorState.create({
         doc: code,
         extensions: [
@@ -200,29 +276,49 @@ function loadCode(code) {
         ]
     });
     if (editor) {
+        /**
+        If the editor already exists, replace its state.
+        */
         editor.setState(state);
     } else {
+        /**
+        Otherwise, create a whole new editor with the state.
+        */
         editor = new EditorView({
             state,
             parent: document.getElementById("editor")
         });
     }
     if (localStorage.getItem("code-editor-editor-vscodeKeymap") !== "false") {
+        /**
+        If the Visual Studio key bindings are enabled in the preferences, inject the keymap as an extension.
+        */
         injectExtension(keymap.of([...vscodeKeymap]));
     }
     if (localStorage.getItem("code-editor-editor-abbreviationTracker") !== "false") {
+        /**
+        If the Emmet abbreviation tracker is enabled in the preferences, inject it as an extension.
+        */
         injectExtension(abbreviationTracker());
     }
     if (localStorage.getItem("code-editor-editor-colorPicker") !== "false") {
+        /**
+        If the CSS color picker is enabled in the preferences, inject it as an extension.
+        */
         injectExtension(colorPicker);
     }
     if (localStorage.getItem("code-editor-editor-indentationMarkers") !== "false") {
+        /**
+        If indentation markers are enabled in the preferences, inject the markers as an extension.
+        */
         injectExtension(indentationMarkers());
     }
     if (localStorage.getItem("code-editor-editor-interact") !== "false") {
+        /**
+        If the interact feature is enabled in the preferences, inject it as an extension.
+        */
         injectExtension(interact({
             rules: [
-                // Number changer
                 {
                     regexp: /-?\b\d+\.?\d*\b/g,
                     cursor: 'ew-resize',
@@ -232,7 +328,6 @@ function loadCode(code) {
                         setText(newVal.toString());
                     }
                 },
-                // Boolean toggler
                 {
                     regexp: /true|false/g,
                     cursor: 'pointer',
@@ -243,7 +338,6 @@ function loadCode(code) {
                         }
                     }
                 },
-                // Kaboom.js vec2()
                 {
                     regexp: /vec2\(-?\b\d+\.?\d*\b\s*(,\s*-?\b\d+\.?\d*\b)?\)/g,
                     cursor: "move",
@@ -256,34 +350,47 @@ function loadCode(code) {
                         setText(`vec2(${x + e.movementX}, ${y + e.movementY})`);
                     },
                 },
-                // URL Clicker
                 {
                     regexp: /https?:\/\/[^ "]+/g,
                     cursor: "pointer",
-                    onClick: (text) => {
-                        window.open(text);
-                    },
+                    onClick: text => window.open(text),
                 },
             ],
         }));
     }
     if (localStorage.getItem("code-editor-editor-rectangularSelection") !== "false") {
+        /**
+        If rectangular selection is enabled in the preferences, inject it as an extension. Also, inject the crosshair cursor extension, to serve as a visual hint that rectangular selection is going to happen.
+        */
         injectExtension(rectangularSelection());
         injectExtension(crosshairCursor());
     } else {
+        /**
+        Otherwise, add selections when clicking with the Alt key held down.
+        */
         injectExtension(EditorView.clickAddsSelectionRange.of(e => e.altKey));
     }
     if (localStorage.getItem("code-editor-site-theme") === "light") {
+        /**
+        If the current site theme is light, inject the light highlight style.
+        */
         injectExtension(syntaxHighlighting(lightTheme));
-    }
-    if (localStorage.getItem("code-editor-site-theme") === "dark") {
+    } else if (localStorage.getItem("code-editor-site-theme") === "dark") {
+        /**
+        Otherwise, if the current site theme is dark, inject the dark highlight style.
+        */
         injectExtension(syntaxHighlighting(darkTheme));
-    }
-    if (localStorage.getItem("code-editor-site-theme") === "spooky") {
+    } else if (localStorage.getItem("code-editor-site-theme") === "spooky") {
+        /**
+        Otherwise, if the current site theme is spooky, inject the spooky highlight style.
+        */
         injectExtension(syntaxHighlighting(spookyTheme));
     }
 }
 
+/**
+Helper function which returns the default code, which shows up in the editor when you open it for the first time.
+*/
 function getDefaultCode() {
     return `<!DOCTYPE html>
 <html>
@@ -307,6 +414,9 @@ ${localStorage.getItem("code-editor-editor-indentUnit")}<script src="${location.
 `;
 }
 
+/**
+Helper function which returns all the examples, which can be accessed by opening the 'Select example...' dropdown at the top.
+*/
 function getExamples() {
     return {
         "Minimal HTML": `<!DOCTYPE html>
@@ -379,20 +489,35 @@ function getExamples() {
     }
 }
 
+/**
+Get all of the examples.
+*/
 let examples = getExamples();
 
 for (let exampleName of Object.keys(examples)) {
+    /**
+    Add each example to the 'Select example...' dropdown.
+    */
     document.getElementById("examples").appendChild(document.createElement("option")).textContent = exampleName;
 }
 
+/**
+Helper function that encodes a parameter.
+*/
 function encodeParameter(code) {
     return btoa(code.replace(/[\xff-\uffff]/g, ch => `\xff${String.fromCharCode(ch.charCodeAt(0) & 0xff, ch.charCodeAt(0) >> 8)}`));
 }
 
+/**
+Helper function that decodes a parameter.
+*/
 function decodeParameter(param) {
     return atob(param).replace(/\xff[^][^]/g, m => String.fromCharCode(m.charCodeAt(1) + (m.charCodeAt(2) << 8)));
 }
 
+/**
+Automatically select an example when a user selects one from the dropdown list.
+*/
 document.getElementById("examples").addEventListener("change", () => {
     let exampleValue = document.getElementById("examples").value;
     if (examples.hasOwnProperty(exampleValue)) {
@@ -403,9 +528,19 @@ document.getElementById("examples").addEventListener("change", () => {
     document.getElementById("examples").selectedIndex = 0;
 });
 
+/**
+Get all of the files in the files directory.
+*/
 import files from "./scripts/files.js";
+
+/**
+Get all of the user's saved programs.
+*/
 import myPrograms from "./scripts/my-programs.js";
 
+/**
+Load code, depending on the URL query and the user's saved programs.
+*/
 loadCode(
     (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) === 10) ? decodeParameter(urlCodeQuery[1])
     : (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) ? myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["program"]
@@ -414,6 +549,9 @@ loadCode(
     : getDefaultCode()
 );
 
+/**
+If the data version parameter is not the current data version, open the 'Invalid Data Version' modal.
+*/
 if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !== 10)) {
     document.getElementById("modal-invalid-dv").showModal();
     document.getElementById("data-version").textContent = (
@@ -432,6 +570,9 @@ if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !=
     );
 }
 
+/**
+Helper function which runs the code in the Output tab.
+*/
 function run(coolDown = true) {
     if (canRunCode) {
         if (innerWidth < 1200) {
@@ -468,19 +609,25 @@ function run(coolDown = true) {
     return true;
 }
 
+/**
+Helper function that displays a notification, and removes it after a specified time.
+*/
 function displayNotification(relativeElement, parentElement, messageText, notificationTime) {
     let notificationElement = document.createElement("div");
     notificationElement.classList.add("notification");
     notificationElement.textContent = messageText;
     let notificationCoords = relativeElement.getBoundingClientRect();
-    notificationElement.style.left = notificationCoords.left + "px";
-    notificationElement.style.top = (notificationCoords.bottom + 3) + "px";
+    notificationElement.style.left = `${notificationCoords.left}px`;
+    notificationElement.style.top = `${notificationCoords.bottom + 3}px`;
     parentElement.appendChild(notificationElement);
     setTimeout(() => {
         notificationElement.remove();
     }, notificationTime);
 }
 
+/**
+Helper function that prepares the share modal when it is opened.
+*/
 function prepareShareModal() {
     document.getElementById("share-export-filesize").textContent = 
     editor.state.doc.toString().length >= 1125899906842624 ? `${(editor.state.doc.toString().length / 1125899906842624).toFixed(2)} petabytes`
@@ -492,55 +639,80 @@ function prepareShareModal() {
     document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=10";
 }
 
+/**
+Helper function that prepares the save modal when it is opened.
+*/
 function prepareSaveModal() {
     if (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) {
         document.getElementById("save-name").value = decodeURIComponent(urlMyProgramQuery[1]);
     }
 }
 
+/**
+When the 'Run' button is clicked, run the code.
+*/
 document.getElementById("run").addEventListener("click", () => {
     run(true);
 });
 
+/**
+When the 'Share' button is clicked, open the share modal.
+*/
 document.getElementById("share").addEventListener("click", () => {
     document.getElementById("modal-share").showModal();
     prepareShareModal();
 });
 
+/**
+When the 'Save' button is clicked, open the save modal.
+*/
 document.getElementById("save").addEventListener("click", () => {
     document.getElementById("modal-save").showModal();
     prepareSaveModal();
 });
 
+/**
+When the 'Copy link' button in the share modal is clicked, copy the share link to the clipboard.
+*/
 document.getElementById("share-link-copy").addEventListener("click", e => {
     navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=10");
     displayNotification(e.target, document.getElementById("modal-share"), "Link successfully copied!", 2000);
 });
 
-let link, blob;
-
+/**
+When the 'Export / Download as HTML' button in the share modal is clicked, download the code in a HTML file.
+*/
 document.getElementById("share-export-html").addEventListener("click", () => {
-    link = document.createElement("a");
+    let link = document.createElement("a");
     link.download = "index.html";
-    blob = new Blob([editor.state.doc.toString()], {type: "text/plain"});
+    let blob = new Blob([editor.state.doc.toString()], {type: "text/plain"});
     link.href = URL.createObjectURL(blob);
     link.click();
     URL.revokeObjectURL(link.href);
 });
 
+/**
+When the 'Export / Download as Plain Text' button in the share modal is clicked, download the code in a plain text file.
+*/
 document.getElementById("share-export-plain-text").addEventListener("click", () => {
-    link = document.createElement("a");
+    let link = document.createElement("a");
     link.download = "prog.txt";
-    blob = new Blob([editor.state.doc.toString()], {type: "text/plain"});
+    let blob = new Blob([editor.state.doc.toString()], {type: "text/plain"});
     link.href = URL.createObjectURL(blob);
     link.click();
     URL.revokeObjectURL(link.href);
 });
 
+/**
+When the 'Close' button in the share modal is clicked, close the share modal.
+*/
 document.getElementById("modal-share-close").addEventListener("click", () => {
     document.getElementById("modal-share").close();
 });
 
+/**
+When the 'Save code' button in the save modal is clicked, save the code.
+*/
 document.getElementById("save-to-programs").addEventListener("click", e => {
     myPrograms[document.getElementById("save-name").value] = {};
     myPrograms[document.getElementById("save-name").value]["language"] = "html-css-js";
@@ -549,20 +721,32 @@ document.getElementById("save-to-programs").addEventListener("click", e => {
     localStorage.setItem("code-editor-my-programs", JSON.stringify(myPrograms));
 });
 
+/**
+When the 'Close' button in the save modal is clicked, close the save modal.
+*/
 document.getElementById("modal-save-close").addEventListener("click", () => {
     document.getElementById("modal-save").close();
 });
 
+/**
+When the 'Try to Load Anyway' button in the 'Invalid Data Version' modal is clicked, attempt to load the code anyway, and close the modal.
+*/
 document.getElementById("invalid-dv-load-anyway").addEventListener("click", () => {
     loadCode(decodeParameter(urlCodeQuery[1]));
     run(false);
     document.getElementById("modal-invalid-dv").close();
 });
 
+/**
+When the 'Use Default Code' button in the 'Invalid Data Version' modal is clicked, close the 'Invalid Data Version' modal.
+*/
 document.getElementById("invalid-dv-load-default").addEventListener("click", () => {
     document.getElementById("modal-invalid-dv").close();
 });
 
+/**
+When the 'Clear Output' button is clicked, clear the Output tab.
+*/
 document.getElementById("clear").addEventListener("click", () => {
     document.getElementById("output").textContent = "";
     let titleBar = document.createElement("div");
@@ -579,14 +763,23 @@ document.getElementById("clear").addEventListener("click", () => {
     document.getElementById("clear").disabled = true;
 });
 
+/**
+Run the code when the page loads.
+*/
 run(false);
 
 addEventListener("load", () => {
     if (innerWidth < 1200) {
+        /**
+        On narrow screens, show only the Output tab.
+        */
         document.getElementById("editor").style.display = "none";
         document.getElementById("output").style.display = "block";
         document.getElementById("tab-output").classList.add("active");
     } else {
+        /**
+        On wide screens, show both tabs.
+        */
         document.getElementById("editor").style.display = "block";
         document.getElementById("output").style.display = "block";
         document.getElementById("tab-editor").classList.add("active");
@@ -595,6 +788,9 @@ addEventListener("load", () => {
 
 addEventListener("resize", () => {
     if (innerWidth < 1200) {
+        /**
+        When resizing to a narrow screen, show only one tab.
+        */
         if (document.getElementById("tab-editor").classList.contains("active")) {
             document.getElementById("editor").style.display = "block";
             document.getElementById("output").style.display = "none";
@@ -603,11 +799,17 @@ addEventListener("resize", () => {
             document.getElementById("output").style.display = "block";
         }
     } else {
+        /**
+        When resizing to a wide screen, show both tabs.
+        */
         document.getElementById("editor").style.display = "block";
         document.getElementById("output").style.display = "block";
     }
 });
 
+/**
+When the 'Editor' button is clicked, open the Editor tab on small devices.
+*/
 document.getElementById("tab-editor").addEventListener("click", () => {
     document.getElementById("tab-editor").classList.add("active");
     document.getElementById("tab-output").classList.remove("active");
@@ -615,6 +817,9 @@ document.getElementById("tab-editor").addEventListener("click", () => {
     document.getElementById("output").style.display = "none";
 });
 
+/**
+When the 'Output' button is clicked, open the Output tab on small devices.
+*/
 document.getElementById("tab-output").addEventListener("click", () => {
     document.getElementById("tab-editor").classList.remove("active");
     document.getElementById("tab-output").classList.add("active");

@@ -1,5 +1,9 @@
-// This script, when loaded in the editor, displays a "Made with DrRcraft Code Editor" badge to your website
 (() => {
+    'use strict';
+
+    /**
+    Set a color theme for the badge, depending on the 'data-drrcraft-theme' attribute of the current script, or select a default blue theme if no theme attribute is specified.
+    */
     const colorThemes = {
         dark: {foreground: '#f5f9fc', background: '#130f26'},
         light: {foreground: '#130f26', background: '#f5f9fc'},
@@ -16,6 +20,10 @@
         pink: {foreground: '#f5f9fc', background: '#f545ba'}
     };
     const theme = colorThemes[(document.currentScript.hasAttribute('data-drrcraft-theme') && colorThemes.hasOwnProperty(document.currentScript.getAttribute('data-drrcraft-theme'))) ? document.currentScript.getAttribute('data-drrcraft-theme') : 'blue'];
+
+    /**
+    Create the badge based on the theme attribute, and insert the badge into the document.
+    */
     const badge = `
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono:700" />
 <style>
