@@ -846,7 +846,15 @@ const codemirrorLezerPackages = [
 ]
 
 /**
-Helper function which rewrites import statements with one of the above CodeMirror or Lezer packages.
+Make a list of other packages.
+*/
+const otherPackages = {
+    jquery: "https://code.jquery.com/jquery-3.6.1.min.js",
+    kaboom: "https://unpkg.com/kaboom/dist/kaboom.mjs"
+}
+
+/**
+Helper function which rewrites import statements.
 */
 function rewriteImports(code) {
     for (let packageName of codemirrorLezerPackages) {
@@ -858,6 +866,16 @@ function rewriteImports(code) {
         code = code.replace(fromRegexp, `from "https://codemirror.net/try/mods/${packageName.replace(/\//g, "-")}.js"`);
         let fromRegexp2 = new RegExp(`from( |	){0,}'${packageName}'`, "g");
         code = code.replace(fromRegexp2, `from 'https://codemirror.net/try/mods/${packageName.replace(/\//g, "-")}.js'`);
+    }
+    for (let packageName in otherPackages) {
+        let importRegexp = new RegExp(`import( |	){0,}"${packageName}"`, "g");
+        code = code.replace(importRegexp, `import "${otherPackages[packageName]}"`);
+        let importRegexp2 = new RegExp(`import( |	){0,}'${packageName}'`, "g");
+        code = code.replace(importRegexp2, `import '${otherPackages[packageName]}'`);
+        let fromRegexp = new RegExp(`from( |	){0,}"${packageName}"`, "g");
+        code = code.replace(fromRegexp, `from "${otherPackages[packageName]}"`);
+        let fromRegexp2 = new RegExp(`from( |	){0,}'${packageName}'`, "g");
+        code = code.replace(fromRegexp2, `from '${otherPackages[packageName]}'`);
     }
     return code;
 }
