@@ -396,8 +396,8 @@ document.getElementById("editor").addEventListener("contextmenu", e => {
         e.preventDefault();
         const contextMenu = document.getElementById("editor-ctx-menu");
         contextMenu.style.display = "inline-flex";
-        contextMenu.style.left = `${e.clientX + scrollX}px`;
-        contextMenu.style.top = `${e.clientY + scrollY}px`;
+        contextMenu.style.left = `${Math.min(e.clientX + scrollX, innerWidth - contextMenu.offsetWidth + scrollX)}px`;
+        contextMenu.style.top = `${Math.min(e.clientY + scrollY, innerHeight - contextMenu.offsetHeight + scrollY)}px`;
         document.getElementById("ctx-menu-btn-cut").disabled = document.getElementById("ctx-menu-btn-copy").disabled = editor.state.selection.ranges.some(r => r.empty);
         navigator.clipboard.readText().then(str => {
             document.getElementById("ctx-menu-btn-paste").disabled = !!str === false;
@@ -424,9 +424,18 @@ for (const button of document.getElementById("editor-ctx-menu").children) {
 }
 
 /**
+Make the 'Run' button in the context menu run the code.
+*/
+document.getElementById("ctx-menu-btn-run").addEventListener("click", () => {
+    editor.focus();
+    run(true);
+});
+
+/**
 Make the 'Cut' button in the context menu cut the selected text.
 */
 document.getElementById("ctx-menu-btn-cut").addEventListener("click", () => {
+    editor.focus();
     navigator.clipboard.writeText(editor.state.sliceDoc(editor.state.selection.main.from, editor.state.selection.main.to));
     editor.dispatch(editor.state.replaceSelection(""));
 });
@@ -435,6 +444,7 @@ document.getElementById("ctx-menu-btn-cut").addEventListener("click", () => {
 Make the 'Copy' button in the context menu copy selected text.
 */
 document.getElementById("ctx-menu-btn-copy").addEventListener("click", () => {
+    editor.focus();
     navigator.clipboard.writeText(editor.state.sliceDoc(editor.state.selection.main.from, editor.state.selection.main.to));
 });
 
