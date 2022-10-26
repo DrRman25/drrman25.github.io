@@ -884,3 +884,73 @@ body[theme="spooky"] .ͼ1 .cm-indentation-marker {
 body[theme="spooky"] .ͼ1 .cm-indentation-marker.active {
     background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxIiBoZWlnaHQ9IjEiPgogICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0iIzQ0NDc1MCI+PC9yZWN0Pgo8L3N2Zz4K") left repeat-y;
 }
+
+#editor-ctx-menu {
+    display: none;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    -webkit-box-shadow: .125rem .1875rem .3025rem rgba(0, 0, 0, .2);
+    -moz-box-shadow: .125rem .1875rem .3025rem rgba(0, 0, 0, .2);
+    box-shadow: .125rem .1875rem .3025rem rgba(0, 0, 0, .2);
+    border-radius: .75rem;
+    border: .0625rem solid gainsboro;
+    background-color: inherit;
+    vertical-align: middle;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 275px;
+}
+
+body[theme="dark"] #editor-ctx-menu {
+    border: .0625rem solid #3b4255;
+}
+
+body[theme="spooky"] #editor-ctx-menu {
+    border: .0625rem solid #484b52;
+}
+
+#editor-ctx-menu button {
+    color: inherit;
+    background-color: transparent;
+    text-align: left;
+    border: 0;
+    padding: .5rem;
+    font-size: 1rem;
+    font-family: 'Source Sans Pro', sans-serif;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color .2s;
+}
+
+#editor-ctx-menu button:first-child {
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+}
+
+#editor-ctx-menu button:last-child {
+    border-bottom-left-radius: .75rem;
+    border-bottom-right-radius: .75rem;
+}
+
+#editor-ctx-menu button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+#editor-ctx-menu button:hover {
+    background-color: #e5e5e5;
+}
+
+body[theme="dark"] #editor-ctx-menu button:hover {
+    background-color: #2b3245;
+}
+
+body[theme="spooky"] #editor-ctx-menu button:hover {
+    background-color: #383b42;
+}
+
+#editor-ctx-menu button:disabled:hover, body[theme="dark"] #editor-ctx-menu button:disabled:hover, body[theme="spooky"] #editor-ctx-menu button:disabled:hover {
+    background-color: inherit;
+}

@@ -371,6 +371,64 @@ function loadCode(code) {
 }
 
 /**
+Add a context menu to the editor.
+*/
+document.getElementById("editor").addEventListener("contextmenu", e => {
+    if (!e.shiftKey) {
+        e.preventDefault();
+        const contextMenu = document.getElementById("editor-ctx-menu");
+        contextMenu.style.display = "inline-flex";
+        contextMenu.style.left = `${e.clientX + scrollX}px`;
+        contextMenu.style.top = `${e.clientY + scrollY}px`;
+        document.getElementById("ctx-menu-btn-cut").disabled = document.getElementById("ctx-menu-btn-copy").disabled = editor.state.selection.ranges.some(r => r.empty);
+        navigator.clipboard.readText().then(str => {
+            document.getElementById("ctx-menu-btn-paste").disabled = !!str === false;
+        });
+    }
+});
+
+/**
+Close the context menu when clicking outside of it.
+*/
+addEventListener("mousedown", e => {
+    if (!document.getElementById("editor-ctx-menu").contains(e.target)) {
+        document.getElementById("editor-ctx-menu").style.display = "none";
+    }
+});
+
+/**
+When clicked, make each button in the context menu close the menu.
+*/
+for (const button of document.getElementById("editor-ctx-menu").children) {
+    button.addEventListener("click", () => {
+        document.getElementById("editor-ctx-menu").style.display = "none";
+    });
+}
+
+/**
+Make the 'Cut' button in the context menu cut the selected text.
+*/
+document.getElementById("ctx-menu-btn-cut").addEventListener("click", () => {
+    navigator.clipboard.writeText(editor.state.sliceDoc(editor.state.selection.main.from, editor.state.selection.main.to));
+    editor.dispatch(editor.state.replaceSelection(""));
+});
+
+/**
+Make the 'Copy' button in the context menu copy selected text.
+*/
+document.getElementById("ctx-menu-btn-copy").addEventListener("click", () => {
+    navigator.clipboard.writeText(editor.state.sliceDoc(editor.state.selection.main.from, editor.state.selection.main.to));
+});
+
+/**
+Make the 'Paste' button in the context menu paste text from the clipboard.
+*/
+document.getElementById("ctx-menu-btn-paste").addEventListener("click", () => {
+    editor.focus();
+    navigator.clipboard.readText().then(str => editor.dispatch(editor.state.replaceSelection(str)));
+});
+
+/**
 Helper function which returns the default code, which shows up in the editor when you open it for the first time.
 */
 function getDefaultCode() {
@@ -458,7 +516,7 @@ import myPrograms from "./scripts/my-programs.js";
 Load code, depending on the URL query and the user's saved programs.
 */
 loadCode(
-    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) === 10) ? decodeParameter(urlCodeQuery[1])
+    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) === 11) ? decodeParameter(urlCodeQuery[1])
     : (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) ? myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["program"]
     : (urlExampleQuery && examples.hasOwnProperty(decodeURIComponent(urlExampleQuery[1]))) ? examples[decodeURIComponent(urlExampleQuery[1])]
     : getDefaultCode()
@@ -467,7 +525,7 @@ loadCode(
 /**
 If the data version parameter is not the current data version, open the 'Invalid Data Version' modal.
 */
-if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !== 10)) {
+if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !== 11)) {
     document.getElementById("modal-invalid-dv").showModal();
     document.getElementById("data-version").textContent = (
         !urlDataVersionQuery ? "3.0.0.8 or earlier"
@@ -480,7 +538,8 @@ if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !=
         : (parseInt(urlDataVersionQuery[1]) === 7) ? "3.0.0.15"
         : (parseInt(urlDataVersionQuery[1]) === 8) ? "3.0.0.16"
         : (parseInt(urlDataVersionQuery[1]) === 9) ? "3.0.0.17"
-        : (parseInt(urlDataVersionQuery[1]) > 10) ? "(future version - 3.0.0.19+)"
+        : (parseInt(urlDataVersionQuery[1]) === 10) ? "3.0.0.18"
+        : (parseInt(urlDataVersionQuery[1]) > 11) ? "(future version - 3.0.0.20+)"
         : "unknown"
     );
 }
@@ -864,7 +923,7 @@ function prepareShareModal() {
     : editor.state.doc.toString().length >= 1048576 ? `${(editor.state.doc.toString().length / 1048576).toFixed(2)} megabytes`
     : editor.state.doc.toString().length >= 1024 ? `${(editor.state.doc.toString().length / 1024).toFixed(2)} kilobytes`
     : `${editor.state.doc.toString().length} bytes`;
-    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=10";
+    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=11";
 }
 
 /**
@@ -903,7 +962,7 @@ document.getElementById("save").addEventListener("click", () => {
 When the 'Copy link' button in the share modal is clicked, copy the share link to the clipboard.
 */
 document.getElementById("share-link-copy").addEventListener("click", e => {
-    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=10");
+    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=11");
     displayNotification(e.target, document.getElementById("modal-share"), "Link successfully copied!", 2000);
 });
 
