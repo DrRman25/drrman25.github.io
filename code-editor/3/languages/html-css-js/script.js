@@ -10,6 +10,7 @@ import {indentUnit, syntaxHighlighting, HighlightStyle, foldGutter, indentOnInpu
 import {closeBrackets, autocompletion, closeBracketsKeymap, completionKeymap} from "https://codemirror.net/try/mods/@codemirror-autocomplete.js";
 import {linter, lintKeymap} from "https://codemirror.net/try/mods/@codemirror-lint.js";
 import {html} from "https://codemirror.net/try/mods/@codemirror-lang-html.js";
+import {cssLanguage} from "https://codemirror.net/try/mods/@codemirror-lang-css.js";
 import {javascriptLanguage, scopeCompletionSource, esLint} from "https://codemirror.net/try/mods/@codemirror-lang-javascript.js";
 
 /**
@@ -207,6 +208,11 @@ const spookyTheme = HighlightStyle.define([
 ]);
 
 /**
+Import a CodeMirror CSS autocompletion source.
+*/
+import cssAllPropsCompletionSource from "./scripts/css-autocomplete.js";
+
+/**
 Helper function that 'injects' an extension into the CodeMirror editor.
 */
 function injectExtension(extension) {
@@ -265,6 +271,9 @@ function loadCode(code) {
             EditorView.lineWrapping,
             placeholder("Not sure where to start? Look at some examples above (this message will be dismissed after typing)"),
             html(),
+            cssLanguage.data.of({
+                autocomplete: cssAllPropsCompletionSource
+            }),
             javascriptLanguage.data.of({
                 autocomplete: scopeCompletionSource(document.getElementById("completion-source-frame").contentWindow.globalThis)
             }),

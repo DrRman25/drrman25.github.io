@@ -1,6 +1,22 @@
 import {syntaxTree} from "https://codemirror.net/try/mods/@codemirror-language.js";
 
 function toDashCase(str) {
+    if (str.search(/ah[A-Z]/) === 0) str = str.replace("ah", "-ah");
+    else if (str.search(/apple[A-Z]/) === 0) str = str.replace("apple", "-apple");
+    else if (str.search(/atsc[A-Z]/) === 0) str = str.replace("atsc", "-atsc");
+    else if (str.search(/epub[A-Z]/) === 0) str = str.replace("epub", "-epub");
+    else if (str.search(/fx[A-Z]/) === 0) str = str.replace("fx", "-fx");
+    else if (str.search(/hp[A-Z]/) === 0) str = str.replace("hp", "-hp");
+    else if (str.search(/khtml[A-Z]/) === 0) str = str.replace("khtml", "-khtml");
+    else if (str.search(/moz[A-Z]/) === 0) str = str.replace("moz", "-moz");
+    else if (str.search(/ms[A-Z]/) === 0) str = str.replace("ms", "-ms");
+    else if (str.search(/o[A-Z]/) === 0) str = str.replace("o", "-o");
+    else if (str.search(/rim[A-Z]/) === 0) str = str.replace("rim", "-rim");
+    else if (str.search(/ro[A-Z]/) === 0) str = str.replace("ro", "-ro");
+    else if (str.search(/tc[A-Z]/) === 0) str = str.replace("tc", "-tc");
+    else if (str.search(/wap[A-Z]/) === 0) str = str.replace("wap", "-wap");
+    else if (str.search(/webkit[A-Z]/) === 0) str = str.replace("webkit", "-webkit");
+    else if (str.search(/xv[A-Z]/) === 0) str = str.replace("xv", "-xv");
     return str
         .replace(/A/g, "-a")
         .replace(/B/g, "-b")
