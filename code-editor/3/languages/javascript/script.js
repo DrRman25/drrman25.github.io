@@ -459,11 +459,12 @@ Helper function which returns all the examples, which can be accessed by opening
 */
 function getExamples() {
     return {
-        "Basic console output": `console.log('Hello, world!'); // Informational message
+        "Plain JavaScript": {
+            "JavaScript console output": `console.log('Hello, world!'); // Informational message
 console.warn('Hello, world!'); // Warning message
 console.error('Hello, world!'); // Error message
 `,
-        "Using variables": `var x = 5; // Can be changed and re-declared
+            "JavaScript variables": `var x = 5; // Can be changed and re-declared
 let y = 5; // Can be changed, and cannot be re-declared
 const z = 5; // Cannot be changed or re-declared; is a constant reference
 
@@ -471,10 +472,85 @@ var x;
 x += 2;
 console.log(x);
 
-// Try changing x to y and z in lines 5 to 7,
-// and commenting out some lines,
+// Try to change x to y and z in lines 5 to 7,
+// and comment out some lines,
 // and see what happens!
 `,
+            "JavaScript conditionals": `let x = '5';
+let y;
+
+if (x === 5) {
+${localStorage.getItem("code-editor-editor-indentUnit")}y = 'Perfect!';
+} else if (x == 5) {
+${localStorage.getItem("code-editor-editor-indentUnit")}y = 'Okay.';
+} else {
+${localStorage.getItem("code-editor-editor-indentUnit")}y = 'Wait, what?';
+}
+
+console.log(y);
+
+// Try to modify the value of x, and see
+// what happens!
+`,
+            "JavaScript loops": `let i = 0;
+
+// While loop
+console.log('While loop');
+while (i < 10) {
+${localStorage.getItem("code-editor-editor-indentUnit")}console.log(i);
+${localStorage.getItem("code-editor-editor-indentUnit")}i++;
+}
+
+// For loop
+console.log('\\nFor loop');
+for (i = 0; i < 10; i++) {
+${localStorage.getItem("code-editor-editor-indentUnit")}console.log(i);
+}
+`,
+            "JavaScript functions": `// Traditional function declaration
+function hello1(who) {
+${localStorage.getItem("code-editor-editor-indentUnit")}return \`Hello, \${who}!\`;
+}
+
+// Traditional function expression
+const hello2 = function(who) {
+${localStorage.getItem("code-editor-editor-indentUnit")}return \`Hello, \${who}!\`;
+};
+
+// Arrow function expression
+const hello3 = (who) => {
+${localStorage.getItem("code-editor-editor-indentUnit")}return \`Hello, \${who}!\`;
+};
+
+// Shortened arrow function expressions
+const hello4 = (who) => \`Hello, \${who}!\`;
+const hello5 = who => \`Hello, \${who}!\`;
+
+console.log(hello1('world'));
+console.log(hello2('planet'));
+console.log(hello3('solar system'));
+console.log(hello4('galaxy'));
+console.log(hello5('universe'));
+`,
+            "JavaScript events": `// Detect any clicks on the page
+window.onclick = () => console.log('Hey, you clicked me!');
+
+// With addEventListener
+addEventListener('click', () => console.log('I detected you with addEventListener!'));
+`,
+        },
+        "Kaboom.js": {
+            "Kaboom.js starter kit": `import kaboom from 'kaboom';
+kaboom();
+
+loadBean();
+
+add([
+    sprite('bean'),
+    pos(50, 50)
+]);
+`
+        }
     };
 }
 
@@ -483,11 +559,19 @@ Get all of the examples.
 */
 let examples = getExamples();
 
-for (let exampleName of Object.keys(examples)) {
+for (let exampleCategory of Object.keys(examples)) {
     /**
-    Add each example to the 'Select example...' dropdown.
+    Add each example category to the 'Select example...' dropdown.
     */
-    document.getElementById("examples").appendChild(document.createElement("option")).textContent = exampleName;
+    const categoryGroupElement = document.createElement("optgroup");
+    document.getElementById("examples").appendChild(categoryGroupElement);
+    categoryGroupElement.label = exampleCategory;
+    /**
+    Add every example in a category inside its respective optgroup element.
+    */
+    for (let exampleName of Object.keys(examples[exampleCategory])) {
+        categoryGroupElement.appendChild(document.createElement("option")).textContent = exampleName;
+    }
 }
 
 /**
@@ -509,10 +593,12 @@ Automatically select an example when a user selects one from the dropdown list.
 */
 document.getElementById("examples").addEventListener("change", () => {
     let exampleValue = document.getElementById("examples").value;
-    if (examples.hasOwnProperty(exampleValue)) {
-        window.history.pushState({}, "", document.location.toString().replace(/[#?].*/, "") + "?example=" + encodeURIComponent(exampleValue));
-        loadCode(examples[exampleValue]);
-        run(false);
+    for (let exampleCategory of Object.keys(examples)) {
+        if (examples[exampleCategory].hasOwnProperty(exampleValue)) {
+            window.history.pushState({}, "", document.location.toString().replace(/[#?].*/, "") + "?example=" + encodeURIComponent(exampleValue));
+            loadCode(examples[exampleCategory][exampleValue]);
+            run(false);
+        }
     }
     document.getElementById("examples").selectedIndex = 0;
 });
@@ -525,12 +611,21 @@ import myPrograms from "./scripts/my-programs.js";
 /**
 Load code, depending on the URL query and the user's saved programs.
 */
-loadCode(
-    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) === 11) ? decodeParameter(urlCodeQuery[1])
-    : (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) ? myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["program"]
-    : (urlExampleQuery && examples.hasOwnProperty(decodeURIComponent(urlExampleQuery[1]))) ? examples[decodeURIComponent(urlExampleQuery[1])]
-    : getDefaultCode()
-);
+(() => {
+    if (urlExampleQuery) {
+        for (let exampleCategory of Object.keys(examples)) {
+            if (examples[exampleCategory].hasOwnProperty(decodeURIComponent(urlExampleQuery[1]))) {
+                loadCode(examples[exampleCategory][decodeURIComponent(urlExampleQuery[1])]);
+                return;
+            }
+        }
+    }
+    loadCode(
+        (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) === 11) ? decodeParameter(urlCodeQuery[1])
+        : (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) ? myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["program"]
+        : getDefaultCode()
+    );
+})();
 
 /**
 If the data version parameter is not the current data version, open the 'Invalid Data Version' modal.

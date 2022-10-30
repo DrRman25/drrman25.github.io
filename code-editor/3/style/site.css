@@ -1,9 +1,10 @@
-@font-face {
+@import url("https://fonts.googleapis.com/css?family=IBM+Plex+Sans:700");
+/*@font-face {
     font-family: 'Merriweather';
     font-style: normal;
     font-weight: 700;
     src: local('Merriweather Bold'), local('Merriweather-Bold'), url('font/merriweather_bold.woff2') format('woff2');
-}
+}*/
 
 @font-face {
     font-family: 'Source Sans Pro';
@@ -95,7 +96,7 @@ header, article, footer nav {
 }
 
 h1, h2, h3, h4, h5 {
-    font-family: Merriweather;
+    font-family: 'IBM Plex Sans';
     font-weight: 700;
 }
 

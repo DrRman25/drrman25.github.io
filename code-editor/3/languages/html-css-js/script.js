@@ -265,7 +265,9 @@ function loadCode(code) {
             EditorView.lineWrapping,
             placeholder("Not sure where to start? Look at some examples above (this message will be dismissed after typing)"),
             html(),
-            javascriptLanguage.data.of({autocomplete: scopeCompletionSource(document.getElementById("completion-source-frame").contentWindow.globalThis)}),
+            javascriptLanguage.data.of({
+                autocomplete: scopeCompletionSource(document.getElementById("completion-source-frame").contentWindow.globalThis)
+            }),
             linter(esLint(new eslint.Linter())),
             search({
                 top: true
@@ -491,11 +493,11 @@ function getExamples() {
 <html>
 
 <head>
-    <title>Minimal HTML</title>
+${localStorage.getItem("code-editor-editor-indentUnit")}<title>Minimal HTML</title>
 </head>
 
 <body>
-    <p>My paragraph.</p>
+${localStorage.getItem("code-editor-editor-indentUnit")}<p>My paragraph.</p>
 </body>
 
 </html>
@@ -504,27 +506,27 @@ function getExamples() {
 <html>
 
 <head>
-    <title>Simple CSS</title>
-    <style>
-        body {
-            background-color: red;
-            color: white;
-        }
+${localStorage.getItem("code-editor-editor-indentUnit")}<title>Simple CSS</title>
+${localStorage.getItem("code-editor-editor-indentUnit")}<style>
+${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}body {
+${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}background-color: red;
+${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}color: white;
+${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}}
 
-        .heading {
-            text-decoration: overline;
-            font-family: fantasy;
-        }
+${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}.heading {
+${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}text-decoration: overline;
+${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}font-family: fantasy;
+${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}}
 
-        #my-paragraph {
-            font-style: italic;
-        }
-    </style>
+${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}#my-paragraph {
+${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}font-style: italic;
+${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}}
+${localStorage.getItem("code-editor-editor-indentUnit")}</style>
 </head>
 
 <body>
-    <h1 class="heading">My Simple CSS</h1>
-    <p id="my-paragraph">Hello, world!</p>
+${localStorage.getItem("code-editor-editor-indentUnit")}<h1 class="heading">My Simple CSS</h1>
+${localStorage.getItem("code-editor-editor-indentUnit")}<p id="my-paragraph">Hello, world!</p>
 </body>
 
 </html>
@@ -533,23 +535,23 @@ function getExamples() {
 <html>
 
 <head>
-    <title>Basic JavaScript</title>
+${localStorage.getItem("code-editor-editor-indentUnit")}<title>Basic JavaScript</title>
 </head>
 
 <body>
-    <h1>My Basic JavaScript</h1>
-    <button id="date-button">Show date and time</button>
-    <p id="date-time"></p>
-    <script>
-        let dateButton = document.getElementById("date-button");
-        let dateParagraph = document.getElementById("date-time");
+${localStorage.getItem("code-editor-editor-indentUnit")}<h1>My Basic JavaScript</h1>
+${localStorage.getItem("code-editor-editor-indentUnit")}<button id="date-button">Show date and time</button>
+${localStorage.getItem("code-editor-editor-indentUnit")}<p id="date-time"></p>
+${localStorage.getItem("code-editor-editor-indentUnit")}<script>
+${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}let dateButton = document.getElementById("date-button");
+${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}let dateParagraph = document.getElementById("date-time");
 
-        dateButton.onclick = showDate;
+${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}dateButton.onclick = showDate;
 
-        function showDate() {
-            dateParagraph.textContent = Date();
-        }
-    </script>
+${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}function showDate() {
+${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}dateParagraph.textContent = Date();
+${localStorage.getItem("code-editor-editor-indentUnit")}${localStorage.getItem("code-editor-editor-indentUnit")}}
+${localStorage.getItem("code-editor-editor-indentUnit")}</script>
 </body>
 
 </html>

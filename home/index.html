@@ -7,12 +7,12 @@
         <link rel="stylesheet" href="style/site.css" />
     </head>
     <body>
+        <div class="banner">
+            Note that this site is for live testing. If you're just visiting the page, please consider <a href="https://drrman25.github.io/">going here instead</a>.
+        </div>
         <header>
             <nav>
                 <a class="logo" href="./">DrRman</a>
-                <div class="navlinks">
-                    <!-- <a href="about/">About</a> -->
-                </div>
             </nav>
         </header>
         <article>
@@ -49,5 +49,8 @@
                 </li>
             </ul>
         </article>
+        <script>
+            if (location.origin.indexOf("repl.co") > -1) document.querySelector(".banner").style.display = "block";
+        </script>
     </body>
 </html>
