@@ -543,11 +543,12 @@ addEventListener('click', () => console.log('I detected you with addEventListene
             "Kaboom.js starter kit": `import kaboom from 'kaboom';
 kaboom();
 
-loadBean();
+loadSprite('bean', 'sprites/bean.png');
 
 add([
-    sprite('bean'),
-    pos(50, 50)
+${localStorage.getItem("code-editor-editor-indentUnit")}sprite('bean'),
+${localStorage.getItem("code-editor-editor-indentUnit")}pos(80, 40),
+${localStorage.getItem("code-editor-editor-indentUnit")}area()
 ]);
 `
         }
