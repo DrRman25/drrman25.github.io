@@ -926,8 +926,8 @@ body[theme="spooky"] #editor-ctx-menu {
 }
 
 #editor-ctx-menu button:first-child {
-    border-top-left-radius: .5rem;
-    border-top-right-radius: .5rem;
+    border-top-left-radius: .75rem;
+    border-top-right-radius: .75rem;
 }
 
 #editor-ctx-menu button:last-child {

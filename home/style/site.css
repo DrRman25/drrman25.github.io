@@ -1,5 +1,29 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i");
 
+@font-face {
+    font-family: 'DrRcraft Hack';
+    src: url('font/hack-regular.woff2') format("woff2"), url('font/hack-regular.woff') format("woff");
+}
+
+@font-face {
+    font-family: 'DrRcraft Hack';
+    font-weight: bold;
+    src: url('font/hack-bold.woff2') format("woff2"), url('font/hack-bold.woff') format("woff");
+}
+
+@font-face {
+    font-family: 'DrRcraft Hack';
+    font-style: italic;
+    src: url('font/hack-italic.woff2') format("woff2"), url('font/hack-italic.woff') format("woff");
+}
+
+@font-face {
+    font-family: 'DrRcraft Hack';
+    font-style: italic;
+    font-weight: bold;
+    src: url('font/hack-bolditalic.woff2') format("woff2"), url('font/hack-bolditalic.woff') format("woff");
+}
+
 html, body {
     min-height: 100%;
 }
@@ -92,7 +116,7 @@ strong {
     font-weight: 600;
 }
 
-nav a:link, nav a:visited, a.blocklink:link, a.blocklink:visited, code a:link, code a:visited, h2 a:link, h2 a:visited, h3 a:link, h3 a:visited, h4 a:link, h4 a:visited, body[theme="dark"] nav a:link, body[theme="dark"] nav a:visited, body[theme="dark"] a.blocklink:link, body[theme="dark"] a.blocklink:visited, body[theme="dark"] code a:link, body[theme="dark"] code a:visited, body[theme="dark"] h2 a:link, body[theme="dark"] h2 a:visited, body[theme="dark"] h3 a:link, body[theme="dark"] h3 a:visited, body[theme="dark"] h4 a:link, body[theme="dark"] h4 a:visited, body[theme="spooky"] nav a:link, body[theme="spooky"] nav a:visited, body[theme="spooky"] a.blocklink:link, body[theme="spooky"] a.blocklink:visited, body[theme="spooky"] code a:link, body[theme="spooky"] code a:visited, body[theme="spooky"] h2 a:link, body[theme="spooky"] h2 a:visited, body[theme="spooky"] h3 a:link, body[theme="spooky"] h3 a:visited, body[theme="spooky"] h4 a:link, body[theme="spooky"] h4 a:visited {
+nav a:link, nav a:visited, a.blocklink:link, a.blocklink:visited, code a:link, code a:visited, h2 a:link, h2 a:visited, h3 a:link, h3 a:visited, h4 a:link, h4 a:visited {
     color: inherit;
 }
 
@@ -112,14 +136,6 @@ code, pre, .cm-editor .cm-scroller {
 
 a.blocklink:hover, nav a.active, a:link, a:visited {
     color: #066adf;
-}
-
-body[theme="dark"] a.blocklink:hover, body[theme="dark"] nav a.active, body[theme="dark"] a:link, body[theme="dark"] a:visited {
-    color: #4bafff;
-}
-
-body[theme="spooky"] a.blocklink:hover, body[theme="spooky"] nav a.active, body[theme="spooky"] a:link, body[theme="spooky"] a:visited {
-    color: #d96d00;
 }
 
 .navlinks {
@@ -142,14 +158,6 @@ footer .navlinks {
 
 .navlinks > a:hover {
     color: #066adf;
-}
-
-body[theme="dark"] .navlinks > a:hover {
-    color: #4bafff;
-}
-
-body[theme="spooky"] .navlinks > a:hover {
-    color: #d96d00;
 }
 
 nav#toc {
