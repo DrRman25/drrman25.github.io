@@ -46,7 +46,7 @@
         bottom: 1rem;
         right: 1rem;
         z-index: 2147483647;
-        opacity: .5;
+        opacity: 0.5;
         transition: opacity 120ms, transform 120ms;
         transition-timing-function: ease-out;
         font-family: 'Roboto Mono', monospace;
@@ -60,17 +60,17 @@
         opacity: 1;
     }
 </style>
-<svg id="drrcraft-code-editor-badge-lg" xmlns="http://www.w3.org/2000/svg" width="360" height="35">
+<svg id="drrcraft-code-editor-badge-lg" xmlns="http://www.w3.org/2000/svg" width="22.5rem" height="2.1875rem">
     <g filter="url('#drrcraft-code-editor-badge-lg-filter0')">
-        <rect x="1" y="1" width="354" height="30" rx="8" fill="${theme.background}" />
+        <rect x="0.0625rem" y="0.0625rem" width="22.125rem" height="1.875rem" rx="0.5rem" fill="${theme.background}" />
     </g>
-    <image href="https://drrman25.github.io/code-editor/3/style/logo-foreground-${(theme.foreground === '#130f26') ? 'light' : 'dark'}.svg" x="4" y="-8" width="50" height="50" />
-    <text x="60" y="22" fill="${theme.foreground}">Made with DrRcraft Code Editor</text>
+    <image href="https://drrman25.github.io/code-editor/3/style/logo-foreground-${(theme.foreground === '#130f26') ? 'light' : 'dark'}.svg" x="0.25rem" y="-0.5rem" width="3.125rem" height="3.125rem" />
+    <text x="3.75rem" y="1.375rem" fill="${theme.foreground}">Made with DrRcraft Code Editor</text>
     <defs>
-        <filter id="drrcraft-code-editor-badge-lg-filter0" x="0" y="0" width="360" height="35" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+        <filter id="drrcraft-code-editor-badge-lg-filter0" x="0" y="0" width="22.5rem" height="2.1875rem" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
             <feFlood flood-opacity="0" result="BackgroundImageFix" />
             <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
-            <feOffset dx="2" dy="2" />
+            <feOffset dx="0.125rem" dy="0.125rem" />
             <feGaussianBlur stdDeviation="1.5" />
             <feComposite in2="hardAlpha" operator="out" />
             <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
@@ -79,16 +79,16 @@
         </filter>
     </defs>
 </svg>
-<svg id="drrcraft-code-editor-badge" xmlns="http://www.w3.org/2000/svg" width="58" height="35">
+<svg id="drrcraft-code-editor-badge" xmlns="http://www.w3.org/2000/svg" width="3.625rem" height="2.1875rem">
     <g filter="url('#drrcraft-code-editor-badge-filter0')">
-        <rect x="1" y="1" width="52" height="30" rx="8" fill="${theme.background}" />
+        <rect x="0.0625rem" y="0.0625rem" width="3.25rem" height="1.875rem" rx="0.5rem" fill="${theme.background}" />
     </g>
-    <image href="${location.origin}/code-editor/3/style/logo-foreground-${(theme.foreground === '#130f26') ? 'light' : 'dark'}.svg" x="4" y="-8" width="50" height="50" />
+    <image href="${location.origin}/code-editor/3/style/logo-foreground-${(theme.foreground === '#130f26') ? 'light' : 'dark'}.svg" x="0.25rem" y="-0.5rem" width="3.125rem" height="3.125rem" />
     <defs>
-        <filter id="drrcraft-code-editor-badge-filter0" x="0" y="0" width="58" height="35" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+        <filter id="drrcraft-code-editor-badge-filter0" x="0" y="0" width="3.625rem" height="2.1875rem" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
             <feFlood flood-opacity="0" result="BackgroundImageFix" />
             <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
-            <feOffset dx="2" dy="2" />
+            <feOffset dx="0.125rem" dy="0.125rem" />
             <feGaussianBlur stdDeviation="1.5" />
             <feComposite in2="hardAlpha" operator="out" />
             <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />

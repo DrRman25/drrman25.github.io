@@ -29,17 +29,17 @@ const files = {
             height: 20rem;
             background-color: black;
             margin: auto;
-            padding: .5rem 0 0 .5rem;
+            padding: 0.5rem 0 0 0.5rem;
             border-radius: 1rem;
         }
 
         .square {
             width: 4rem;
             height: 4rem;
-            margin: .375rem;
+            margin: 0.375rem;
             background-color: #333;
             float: left;
-            border-radius: .5rem;
+            border-radius: 0.5rem;
         }
 
         .tile {
@@ -50,7 +50,7 @@ const files = {
             position: absolute;
             line-height: 4rem;
             font-size: 1.5rem;
-            border-radius: .5rem;
+            border-radius: 0.5rem;
             box-shadow: 0 0 1rem white;
             cursor: pointer;
         }
@@ -122,10 +122,10 @@ const files = {
         #up, #left, #right, #down, button.control, a.control {
             background-color: #222;
             color: white;
-            padding: .375rem;
+            padding: 0.375rem;
             border: none;
-            border-radius: .75rem;
-            transition-duration: .2s;
+            border-radius: 0.75rem;
+            transition-duration: 0.2s;
             user-select: none;
             cursor: pointer;
             position: relative;
@@ -133,7 +133,7 @@ const files = {
         }
 
         button.control {
-            padding: .5rem;
+            padding: 0.5rem;
         }
 
 		#up:hover, #left:hover, #right:hover, #down:hover, button.control:hover, a.control:hover {
@@ -146,14 +146,14 @@ const files = {
 		}
 
 		#up:focus, #left:focus, #right:focus, #down:focus, button.control:focus, a.control:focus {
-			box-shadow: 0 0 .3125rem white;
+			box-shadow: 0 0 0.3125rem white;
 			outline: none;
         }
 
         #up {
             display: block;
-            margin: auto auto .5rem auto;
-            margin-block-end: .5rem;
+            margin: auto auto 0.5rem auto;
+            margin-block-end: 0.5rem;
         }
 
         #left {
@@ -162,8 +162,8 @@ const files = {
 
         #down {
             display: block;
-            margin: .5rem auto auto auto;
-            margin-block-start: .5rem;
+            margin: 0.5rem auto auto auto;
+            margin-block-start: 0.5rem;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
