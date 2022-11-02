@@ -414,6 +414,21 @@ document.getElementById("ctx-menu-btn-run").addEventListener("click", () => {
 });
 
 /**
+Make the 'Run in Fullscreen' button in the context menu run the code, and open the output in fullscreen.
+*/
+document.getElementById("ctx-menu-btn-run-fullscreen").addEventListener("click", () => {
+    run(true);
+    document.getElementById("output").focus();
+    if (typeof document.getElementById("output").requestFullscreen === "function") {
+        document.getElementById("output").requestFullscreen();
+    } else if (typeof document.getElementById("output").webkitRequestFullscreen === "function") {
+        document.getElementById("output").webkitRequestFullscreen();
+    } else if (typeof document.getElementById("output").mozRequestFullScreen === "function") {
+        document.getElementById("output").mozRequestFullScreen();
+    }
+});
+
+/**
 Make the 'Cut' button in the context menu cut the selected text.
 */
 document.getElementById("ctx-menu-btn-cut").addEventListener("click", () => {
