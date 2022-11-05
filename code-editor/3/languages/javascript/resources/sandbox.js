@@ -2,7 +2,7 @@
 
 let outChannel = null;
 
-addEventListener("message", function(e) {
+addEventListener("message", e => {
     if (e.origin != document.location.origin) {
         return;
     }
@@ -70,7 +70,7 @@ function serialize(val) {
 
 function wrapConsole(level) {
     let old = console[level];
-    console[level] = function(...args) {
+    console[level] = (...args) => {
         old.apply(console, args);
         if (outChannel) {
             outChannel.postMessage({log: level, elements: args.map(serialize)});
@@ -83,6 +83,4 @@ wrapConsole("info");
 wrapConsole("warn");
 wrapConsole("error");
 
-window.addEventListener("error", function(e) {
-    console.error(e.error);
-});
+window.addEventListener("error", e => console.error(e.error));

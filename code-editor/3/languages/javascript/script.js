@@ -637,7 +637,7 @@ Load code, depending on the URL query and the user's saved programs.
         }
     }
     loadCode(
-        (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) === 11) ? decodeParameter(urlCodeQuery[1])
+        (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) === 12) ? decodeParameter(urlCodeQuery[1])
         : (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) ? myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["program"]
         : getDefaultCode()
     );
@@ -646,7 +646,7 @@ Load code, depending on the URL query and the user's saved programs.
 /**
 If the data version parameter is not the current data version, open the 'Invalid Data Version' modal.
 */
-if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !== 11)) {
+if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !== 12)) {
     document.getElementById("modal-invalid-dv").showModal();
     document.getElementById("data-version").textContent = (
         !urlDataVersionQuery ? "3.0.0.8 or earlier"
@@ -660,7 +660,8 @@ if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !=
         : (parseInt(urlDataVersionQuery[1]) === 8) ? "3.0.0.16"
         : (parseInt(urlDataVersionQuery[1]) === 9) ? "3.0.0.17"
         : (parseInt(urlDataVersionQuery[1]) === 10) ? "3.0.0.18"
-        : (parseInt(urlDataVersionQuery[1]) > 11) ? "(future version - 3.0.0.20+)"
+        : (parseInt(urlDataVersionQuery[1]) === 11) ? "3.0.0.19"
+        : (parseInt(urlDataVersionQuery[1]) > 12) ? "(future version - 3.0.0.21+)"
         : "unknown"
     );
 }
@@ -1062,7 +1063,7 @@ function prepareShareModal() {
     : editor.state.doc.toString().length >= 1048576 ? `${(editor.state.doc.toString().length / 1048576).toFixed(2)} megabytes`
     : editor.state.doc.toString().length >= 1024 ? `${(editor.state.doc.toString().length / 1024).toFixed(2)} kilobytes`
     : `${editor.state.doc.toString().length} bytes`;
-    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=11";
+    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=12";
 }
 
 /**
@@ -1101,7 +1102,7 @@ document.getElementById("save").addEventListener("click", () => {
 When the 'Copy link' button in the share modal is clicked, copy the share link to the clipboard.
 */
 document.getElementById("share-link-copy").addEventListener("click", e => {
-    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=11");
+    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=12");
     displayNotification(e.target, document.getElementById("modal-share"), "Link successfully copied!", 2000);
 });
 
