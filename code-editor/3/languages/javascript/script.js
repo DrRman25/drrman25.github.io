@@ -381,9 +381,11 @@ document.getElementById("editor").addEventListener("contextmenu", e => {
         contextMenu.style.left = `${Math.min(e.clientX + scrollX, innerWidth - contextMenu.offsetWidth + scrollX)}px`;
         contextMenu.style.top = `${Math.min(e.clientY + scrollY, innerHeight - contextMenu.offsetHeight + scrollY)}px`;
         document.getElementById("ctx-menu-btn-cut").disabled = document.getElementById("ctx-menu-btn-copy").disabled = editor.state.selection.ranges.some(r => r.empty);
-        navigator.clipboard.readText().then(str => {
-            document.getElementById("ctx-menu-btn-paste").disabled = !!str === false;
-        });
+        if (typeof navigator.clipboard.readText === "function") {
+            navigator.clipboard.readText().then(str => {
+                document.getElementById("ctx-menu-btn-paste").disabled = !!str === false;
+            });
+        }
     }
 });
 
@@ -417,7 +419,6 @@ document.getElementById("ctx-menu-btn-run").addEventListener("click", () => {
 Make the 'Run in Fullscreen' button in the context menu run the code, and open the output in fullscreen.
 */
 document.getElementById("ctx-menu-btn-run-fullscreen").addEventListener("click", () => {
-    run(true);
     document.getElementById("output").focus();
     if (typeof document.getElementById("output").requestFullscreen === "function") {
         document.getElementById("output").requestFullscreen();
@@ -426,6 +427,7 @@ document.getElementById("ctx-menu-btn-run-fullscreen").addEventListener("click",
     } else if (typeof document.getElementById("output").mozRequestFullScreen === "function") {
         document.getElementById("output").mozRequestFullScreen();
     }
+    setTimeout(() => run(true), 500);
 });
 
 /**
