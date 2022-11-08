@@ -14,17 +14,17 @@ body[theme="dark"] .version, body[theme="spooky"] .version {
 
 #controls {
     display: flex;
-    column-gap: .625rem;
-    padding: .3125rem 0;
+    column-gap: 0.625rem;
+    padding: 0.3125rem 0;
 }
 
 #controls button {
     font-family: sans-serif;
     color: buttontext;
     background: #eee;
-    border: .0625rem solid #666;
-    border-radius: .3125rem;
-    padding: .125rem .3125rem;
+    border: 0.0625rem solid #666;
+    border-radius: 0.3125rem;
+    padding: 0.125rem 0.3125rem;
     cursor: pointer;
 }
 
@@ -43,7 +43,7 @@ body[theme="dark"] .version, body[theme="spooky"] .version {
 }
 
 #controls button:disabled {
-    opacity: .5;
+    opacity: 0.5;
     cursor: not-allowed;
 }
 
@@ -103,14 +103,14 @@ body[theme="spooky"] #controls select {
     align-items: stretch;
     height: 80vh;
     position: relative;
-    border: .0625rem solid #666;
+    border: 0.0625rem solid #666;
 }
 
 #log {
     box-sizing: border-box;
     overflow-y: auto;
-    padding: .1875rem .4375rem;
-    font-size: .875rem;
+    padding: 0.1875rem 0.4375rem;
+    font-size: 0.875rem;
     font-family: "DrRcraft Hack", monospace;
     white-space: pre-wrap;
 }
@@ -139,9 +139,9 @@ body[theme="spooky"] #controls select {
 .notification {
     position: fixed;
     background: lightyellow;
-    border: .0625rem solid gold;
-    border-radius: .5rem;
-    padding: .125rem .3125rem;
+    border: 0.0625rem solid gold;
+    border-radius: 0.5rem;
+    padding: 0.125rem 0.3125rem;
     cursor: default;
     user-select: none;
     -webkit-user-select: none;
@@ -159,7 +159,7 @@ body[theme="spooky"] #controls select {
 }
 
 #tab-log.new-logs {
-    animation: new-logs .5s ease-in-out infinite alternate;
+    animation: new-logs 0.5s ease-in-out infinite alternate;
 }
 
 @keyframes new-logs {
@@ -181,7 +181,7 @@ body[theme="spooky"] #controls select {
     }
     
     #editor {
-        border-right: .0625rem solid #666;
+        border-right: 0.0625rem solid #666;
     }
     
     #editor, #output, #log {
