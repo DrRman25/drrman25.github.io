@@ -557,18 +557,33 @@ addEventListener("click", () => console.log("I detected you with addEventListene
 `,
         },
         "Kaboom.js": {
-            "Kaboom.js template (basic)": `import kaboom from "kaboom";
+            "Kaboom.js template (basic)": `// Import kaboom library
+import kaboom from "kaboom";
+
+// Initialize kaboom context
 kaboom();
 
+// Load assets
 loadSprite("bean", "sprites/bean.png");
 
+// Add character to screen
 add([
 ${localStorage.getItem("code-editor-editor-indentUnit")}sprite("bean"),
 ${localStorage.getItem("code-editor-editor-indentUnit")}pos(80, 40),
 ${localStorage.getItem("code-editor-editor-indentUnit")}area()
 ]);
+
+// Add kaboom when page is clicked
+onClick(() => addKaboom(mousePos()));
+
+// Burp when any key is pressed
+onKeyPress(burp);
+
+// Refer to the documentation at
+// kaboomjs.com for more information
 `,
-            "Kaboom.js template (minimal)": `import "kaboom";
+            "Kaboom.js template (minimal)": `// Import kaboom library and initialize context
+import "kaboom";
 kaboom();
 `
         }
