@@ -459,14 +459,14 @@ document.getElementById("ctx-menu-btn-paste").addEventListener("click", () => {
 Helper function which returns the default code, which shows up in the editor when you open it for the first time.
 */
 function getDefaultCode() {
-    return `console.log('Hello, world!');
+    return `console.log("Hello, world!");
 
 // This below script adds a badge, to show that you are using the DrRcraft Code Editor.
 // You can modify the "data-drrcraft-theme" attribute of the script to change the color theme to dark, light, red, orange, yellow, lime, green, teal, blue, blurple, purple, magenta, or pink!
-const badgeScript = document.createElement('script');
-badgeScript.src = '${location.origin}/code-editor/3/scripts/editor-badge.js';
-badgeScript.defer = 'true';
-badgeScript.setAttribute('data-drrcraft-theme', 'blue');
+const badgeScript = document.createElement("script");
+badgeScript.src = "${location.origin}/code-editor/3/scripts/editor-badge.js";
+badgeScript.defer = true;
+badgeScript.setAttribute("data-drrcraft-theme", "blue");
 document.body.appendChild(badgeScript);
 `;
 }
@@ -477,9 +477,9 @@ Helper function which returns all the examples, which can be accessed by opening
 function getExamples() {
     return {
         "Plain JavaScript": {
-            "JavaScript console output": `console.log('Hello, world!'); // Informational message
-console.warn('Hello, world!'); // Warning message
-console.error('Hello, world!'); // Error message
+            "JavaScript console output": `console.log("Hello, world!"); // Informational message
+console.warn("Hello, world!"); // Warning message
+console.error("Hello, world!"); // Error message
 `,
             "JavaScript variables": `var x = 5; // Can be changed and re-declared
 let y = 5; // Can be changed, and cannot be re-declared
@@ -493,15 +493,15 @@ console.log(x);
 // and comment out some lines,
 // and see what happens!
 `,
-            "JavaScript conditionals": `let x = '5';
+            "JavaScript conditionals": `let x = "5";
 let y;
 
 if (x === 5) {
-${localStorage.getItem("code-editor-editor-indentUnit")}y = 'Perfect!';
+${localStorage.getItem("code-editor-editor-indentUnit")}y = "Perfect!";
 } else if (x == 5) {
-${localStorage.getItem("code-editor-editor-indentUnit")}y = 'Okay.';
+${localStorage.getItem("code-editor-editor-indentUnit")}y = "Okay.";
 } else {
-${localStorage.getItem("code-editor-editor-indentUnit")}y = 'Wait, what?';
+${localStorage.getItem("code-editor-editor-indentUnit")}y = "Wait, what?";
 }
 
 console.log(y);
@@ -512,14 +512,14 @@ console.log(y);
             "JavaScript loops": `let i = 0;
 
 // While loop
-console.log('While loop');
+console.log("While loop");
 while (i < 10) {
 ${localStorage.getItem("code-editor-editor-indentUnit")}console.log(i);
 ${localStorage.getItem("code-editor-editor-indentUnit")}i++;
 }
 
 // For loop
-console.log('\\nFor loop');
+console.log("\\nFor loop");
 for (i = 0; i < 10; i++) {
 ${localStorage.getItem("code-editor-editor-indentUnit")}console.log(i);
 }
@@ -543,30 +543,33 @@ ${localStorage.getItem("code-editor-editor-indentUnit")}return \`Hello, \${who}!
 const hello4 = (who) => \`Hello, \${who}!\`;
 const hello5 = who => \`Hello, \${who}!\`;
 
-console.log(hello1('world'));
-console.log(hello2('planet'));
-console.log(hello3('solar system'));
-console.log(hello4('galaxy'));
-console.log(hello5('universe'));
+console.log(hello1("world"));
+console.log(hello2("planet"));
+console.log(hello3("solar system"));
+console.log(hello4("galaxy"));
+console.log(hello5("universe"));
 `,
             "JavaScript events": `// Detect any clicks on the page
-window.onclick = () => console.log('Hey, you clicked me!');
+window.onclick = () => console.log("Hey, you clicked me!");
 
 // With addEventListener
-addEventListener('click', () => console.log('I detected you with addEventListener!'));
+addEventListener("click", () => console.log("I detected you with addEventListener!"));
 `,
         },
         "Kaboom.js": {
-            "Kaboom.js starter kit": `import kaboom from 'kaboom';
+            "Kaboom.js template (basic)": `import kaboom from "kaboom";
 kaboom();
 
-loadSprite('bean', 'sprites/bean.png');
+loadSprite("bean", "sprites/bean.png");
 
 add([
-${localStorage.getItem("code-editor-editor-indentUnit")}sprite('bean'),
+${localStorage.getItem("code-editor-editor-indentUnit")}sprite("bean"),
 ${localStorage.getItem("code-editor-editor-indentUnit")}pos(80, 40),
 ${localStorage.getItem("code-editor-editor-indentUnit")}area()
 ]);
+`,
+            "Kaboom.js template (minimal)": `import "kaboom";
+kaboom();
 `
         }
     };
@@ -957,14 +960,17 @@ const codemirrorLezerPackages = [
     'crelt',
     'style-mod',
     'w3c-keyname'
-]
+];
 
 /**
 Make a list of other packages.
 */
 const otherPackages = {
     jquery: "https://code.jquery.com/jquery-3.6.1.min.js",
-    kaboom: "https://unpkg.com/kaboom/dist/kaboom.mjs"
+    kaboom: {
+        normal: "https://unpkg.com/kaboom/dist/kaboom.js",
+        extended: "https://unpkg.com/kaboom/dist/kaboom.mjs"
+    }
 }
 
 /**
@@ -982,14 +988,25 @@ function rewriteImports(code) {
         code = code.replace(fromRegexp2, `from 'https://codemirror.net/try/mods/${packageName.replace(/\//g, "-")}.js'`);
     }
     for (let packageName in otherPackages) {
-        let importRegexp = new RegExp(`import( |	){0,}"${packageName}"`, "g");
-        code = code.replace(importRegexp, `import "${otherPackages[packageName]}"`);
-        let importRegexp2 = new RegExp(`import( |	){0,}'${packageName}'`, "g");
-        code = code.replace(importRegexp2, `import '${otherPackages[packageName]}'`);
-        let fromRegexp = new RegExp(`from( |	){0,}"${packageName}"`, "g");
-        code = code.replace(fromRegexp, `from "${otherPackages[packageName]}"`);
-        let fromRegexp2 = new RegExp(`from( |	){0,}'${packageName}'`, "g");
-        code = code.replace(fromRegexp2, `from '${otherPackages[packageName]}'`);
+        if (typeof otherPackages[packageName] === "string") {
+            let importRegexp = new RegExp(`import( |	){0,}"${packageName}"`, "g");
+            code = code.replace(importRegexp, `import "${otherPackages[packageName]}"`);
+            let importRegexp2 = new RegExp(`import( |	){0,}'${packageName}'`, "g");
+            code = code.replace(importRegexp2, `import '${otherPackages[packageName]}'`);
+            let fromRegexp = new RegExp(`from( |	){0,}"${packageName}"`, "g");
+            code = code.replace(fromRegexp, `from "${otherPackages[packageName]}"`);
+            let fromRegexp2 = new RegExp(`from( |	){0,}'${packageName}'`, "g");
+            code = code.replace(fromRegexp2, `from '${otherPackages[packageName]}'`);
+        } else {
+            let importRegexp = new RegExp(`import( |	){0,}"${packageName}"`, "g");
+            code = code.replace(importRegexp, `import "${otherPackages[packageName].normal}"`);
+            let importRegexp2 = new RegExp(`import( |	){0,}'${packageName}'`, "g");
+            code = code.replace(importRegexp2, `import '${otherPackages[packageName].normal}'`);
+            let fromRegexp = new RegExp(`from( |	){0,}"${packageName}"`, "g");
+            code = code.replace(fromRegexp, `from "${otherPackages[packageName].extended}"`);
+            let fromRegexp2 = new RegExp(`from( |	){0,}'${packageName}'`, "g");
+            code = code.replace(fromRegexp2, `from '${otherPackages[packageName].extended}'`);
+        }
     }
     return code;
 }

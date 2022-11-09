@@ -467,40 +467,40 @@ Helper function which returns all the examples, which can be accessed by opening
 function getExamples() {
     return {
         "Plain Python": {
-            "Python statements": `input('What is your name? ') # Gets user input
-print('Hi!') # Prints out some text
+            "Python statements": `input("What is your name? ") # Gets user input
+print("Hi!") # Prints out some text
 `,
             "Python variables": `x = 2
 y = 5
 print(x)
 print(y)
 `,
-            "Python conditionals": `x = '5' # Try changing this value
+            "Python conditionals": `x = "5" # Try changing this value
 
 if x == 5:
-${localStorage.getItem("code-editor-editor-indentUnit")}y = 'Perfect!'
-elif x == '5':
-${localStorage.getItem("code-editor-editor-indentUnit")}y = 'Okay.'
+${localStorage.getItem("code-editor-editor-indentUnit")}y = "Perfect!"
+elif x == "5":
+${localStorage.getItem("code-editor-editor-indentUnit")}y = "Okay."
 else:
-${localStorage.getItem("code-editor-editor-indentUnit")}y = 'Wait, what?'
+${localStorage.getItem("code-editor-editor-indentUnit")}y = "Wait, what?"
 
 print(y)
 `,
             "Python loops": `i = 0
 
 # While loop
-print('While loop')
+print("While loop")
 while i < 10:
 ${localStorage.getItem("code-editor-editor-indentUnit")}print(i)
 ${localStorage.getItem("code-editor-editor-indentUnit")}i += 1
 
 # For loop
-print('\\nFor loop');
+print("\\nFor loop");
 for i in range(10):
 ${localStorage.getItem("code-editor-editor-indentUnit")}print(i)
 `,
             "Python functions / subroutines": `def my_message():
-${localStorage.getItem("code-editor-editor-indentUnit")}print('Hey there!')
+${localStorage.getItem("code-editor-editor-indentUnit")}print("Hey there!")
 
 my_message() # Run the function or subroutine
 `
