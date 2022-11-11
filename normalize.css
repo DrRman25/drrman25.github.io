@@ -1,0 +1,7 @@
+* {
+    background-color: blue;
+    background-image: -webkit-linear-gradient(to left, red, magenta, blue, cyan, lime, yellow, red);
+    background-image: -o-linear-gradient(to left, red, magenta, blue, cyan, lime, yellow, red);
+    background-image: -moz-linear-gradient(to left, red, magenta, blue, cyan, lime, yellow, red);
+    background-image: linear-gradient(to left, red, magenta, blue, cyan, lime, yellow, red);
+}
