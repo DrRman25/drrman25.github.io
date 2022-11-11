@@ -28,6 +28,20 @@ Add 'eslint' to globalThis.
 import '../node-modules/eslint-linter-browserify/linter.js';
 
 /**
+Set the editor's default JavaScript completion source to "scope", for new users.
+*/
+if (!localStorage.getItem("code-editor-editor-jsCompletionSource")) {
+    localStorage.setItem("code-editor-editor-jsCompletionSource", "scope");
+}
+
+/**
+Set the editor's default JavaScript completion scope to "globalThis", for new users.
+*/
+if (!localStorage.getItem("code-editor-editor-jsCompletionScope")) {
+    localStorage.setItem("code-editor-editor-jsCompletionScope", "globalThis");
+}
+
+/**
 Set the editor's default tab size to 4, for new users.
 */
 if (!localStorage.getItem("code-editor-editor-tabSize")) {
@@ -274,9 +288,6 @@ function loadCode(code) {
             cssLanguage.data.of({
                 autocomplete: cssAllPropsCompletionSource
             }),
-            javascriptLanguage.data.of({
-                autocomplete: scopeCompletionSource(document.getElementById("completion-source-frame").contentWindow.globalThis)
-            }),
             linter(esLint(new eslint.Linter())),
             search({
                 top: true
@@ -299,6 +310,14 @@ function loadCode(code) {
             state,
             parent: document.getElementById("editor")
         });
+    }
+    if (localStorage.getItem("code-editor-editor-jsCompletionSource") === "scope") {
+        /**
+        If the JavaScript completion source preference is set to "scope", inject the completion source as an extension.
+        */
+        injectExtension(javascriptLanguage.data.of({
+            autocomplete: scopeCompletionSource(Function(`"use strict"; return (document.getElementById("completion-source-frame").contentWindow.${localStorage.getItem("code-editor-editor-jsCompletionScope")})`)())
+        }));
     }
     if (localStorage.getItem("code-editor-editor-vscodeKeymap") !== "false") {
         /**

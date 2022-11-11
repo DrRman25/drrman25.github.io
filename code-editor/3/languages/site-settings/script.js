@@ -56,14 +56,14 @@ document.getElementById("site-theme").style.width = `${0.35 + (0.5625 * document
 if (document.getElementById("site-theme").value === "\t") {
     document.getElementById("site-theme").style.width = "4.85em";
 } else if (document.getElementById("site-theme").value === "") {
-    document.getElementById("site-theme").style.width = ".35em";
+    document.getElementById("site-theme").style.width = "0.35em";
 }
 document.getElementById("site-theme").addEventListener("keyup", () => {
     document.getElementById("site-theme").style.width = `${0.35 + (0.5625 * document.getElementById("site-theme").value.length)}em`;
     if (document.getElementById("site-theme").value === "\t") {
         document.getElementById("site-theme").style.width = "4.85em";
     } else if (document.getElementById("site-theme").value === "") {
-        document.getElementById("site-theme").style.width = ".35em";
+        document.getElementById("site-theme").style.width = "0.35em";
     }
 });
 

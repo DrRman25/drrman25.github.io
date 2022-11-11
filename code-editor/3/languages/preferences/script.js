@@ -1,4 +1,18 @@
 /**
+Set the editor's default JavaScript completion source to "scope", for new users.
+*/
+if (!localStorage.getItem("code-editor-editor-jsCompletionSource")) {
+    localStorage.setItem("code-editor-editor-jsCompletionSource", "scope");
+}
+
+/**
+Set the editor's default JavaScript completion scope to "globalThis", for new users.
+*/
+if (!localStorage.getItem("code-editor-editor-jsCompletionScope")) {
+    localStorage.setItem("code-editor-editor-jsCompletionScope", "globalThis");
+}
+
+/**
 Set the editor's default tab size to 4, for new users.
 */
 if (!localStorage.getItem("code-editor-editor-tabSize")) {
@@ -77,6 +91,8 @@ document.body.setAttribute("seasonal-extras", localStorage.getItem("code-editor-
 /**
 Show all the preferences in their respective input elements.
 */
+document.getElementById("editor-jsCompletionSource").value = localStorage.getItem("code-editor-editor-jsCompletionSource");
+document.getElementById("editor-jsCompletionScope").value = localStorage.getItem("code-editor-editor-jsCompletionScope");
 document.getElementById("editor-tabSize").value = localStorage.getItem("code-editor-editor-tabSize");
 document.getElementById("editor-indentUnit").value = localStorage.getItem("code-editor-editor-indentUnit");
 document.getElementById("editor-vscodeKeymap").value = localStorage.getItem("code-editor-editor-vscodeKeymap");
@@ -107,6 +123,9 @@ Save changes to preferences when 'Apply' button is clicked.
 */
 document.getElementById("apply").addEventListener("click", e => {
     displayNotification(e.target, "Changes saved!", 2000);
+    localStorage.setItem("code-editor-editor-vscodeKeymap", (document.getElementById("editor-vscodeKeymap").value.trim() === "true") ? true : false);
+    localStorage.setItem("code-editor-editor-jsCompletionSource", (document.getElementById("editor-jsCompletionSource").value.trim() === "keywords") ? "keywords" : "scope");
+    localStorage.setItem("code-editor-editor-jsCompletionScope", document.getElementById("editor-jsCompletionScope").value.toString());
     localStorage.setItem("code-editor-editor-tabSize", (document.getElementById("editor-tabSize").value > 8) ? 8 : (document.getElementById("editor-tabSize").value < 1) ? 1 : parseInt(document.getElementById("editor-tabSize").value));
     localStorage.setItem("code-editor-editor-indentUnit", document.getElementById("editor-indentUnit").value.toString());
     localStorage.setItem("code-editor-editor-vscodeKeymap", (document.getElementById("editor-vscodeKeymap").value.trim() === "true") ? true : false);
@@ -124,14 +143,42 @@ document.getElementById("editor-indentUnit").style.width = `${0.35 + (0.5625 * d
 if (document.getElementById("editor-indentUnit").value === "\t") {
     document.getElementById("editor-indentUnit").style.width = "4.85em";
 } else if (document.getElementById("editor-indentUnit").value === "") {
-    document.getElementById("editor-indentUnit").style.width = ".35em";
+    document.getElementById("editor-indentUnit").style.width = "0.35em";
 }
 document.getElementById("editor-indentUnit").addEventListener("keyup", () => {
     document.getElementById("editor-indentUnit").style.width = `${0.35 + (0.5625 * document.getElementById("editor-indentUnit").value.length)}em`;
     if (document.getElementById("editor-indentUnit").value === "\t") {
         document.getElementById("editor-indentUnit").style.width = "4.85em";
     } else if (document.getElementById("editor-indentUnit").value === "") {
-        document.getElementById("editor-indentUnit").style.width = ".35em";
+        document.getElementById("editor-indentUnit").style.width = "0.35em";
+    }
+});
+
+/**
+Automatically resize the JavaScript completion source input's width after typing.
+*/
+document.getElementById("editor-jsCompletionSource").style.width = `${0.35 + (0.5625 * document.getElementById("editor-jsCompletionSource").value.length)}em`;
+if (document.getElementById("editor-jsCompletionSource").value === "") {
+    document.getElementById("editor-jsCompletionSource").style.width = "0.35em";
+}
+document.getElementById("editor-jsCompletionSource").addEventListener("keyup", () => {
+    document.getElementById("editor-jsCompletionSource").style.width = `${0.35 + (0.5625 * document.getElementById("editor-jsCompletionSource").value.length)}em`;
+    if (document.getElementById("editor-jsCompletionSource").value === "") {
+        document.getElementById("editor-jsCompletionSource").style.width = "0.35em";
+    }
+});
+
+/**
+Automatically resize the JavaScript completion scope input's width after typing.
+*/
+document.getElementById("editor-jsCompletionScope").style.width = `${0.35 + (0.5625 * document.getElementById("editor-jsCompletionScope").value.length)}em`;
+if (document.getElementById("editor-jsCompletionScope").value === "") {
+    document.getElementById("editor-jsCompletionScope").style.width = "0.35em";
+}
+document.getElementById("editor-jsCompletionScope").addEventListener("keyup", () => {
+    document.getElementById("editor-jsCompletionScope").style.width = `${0.35 + (0.5625 * document.getElementById("editor-jsCompletionScope").value.length)}em`;
+    if (document.getElementById("editor-jsCompletionScope").value === "") {
+        document.getElementById("editor-jsCompletionScope").style.width = "0.35em";
     }
 });
 

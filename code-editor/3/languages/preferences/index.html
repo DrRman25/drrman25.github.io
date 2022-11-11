@@ -23,6 +23,25 @@
         <article>
             <h1>Preferences</h1>
             <p>You can change the configuration of the editor here, although after applying your changes, you must refresh <em>all</em> instances of the editor for the changes to take effect.</p>
+            <h2>Autocompletion</h2>
+            <dl>
+                <dt>
+                    <code>
+                        <strong>jsCompletionSource</strong>: <span class="tok-string">&quot;<input type="text" class="tok-string" id="editor-jsCompletionSource" maxlength="8" style="text-align: center;" />&quot;</span>
+                    </code>
+                </dt>
+                <dd>
+                    <p>The source to get JavaScript completions from. Can be set to <code class="tok-string">"keywords"</code> or <code class="tok-string">"scope"</code>.</p>
+                </dd>
+                <dt>
+                    <code>
+                        <strong>jsCompletionScope</strong>: <input type="text" id="editor-jsCompletionScope" />
+                    </code>
+                </dt>
+                <dd>
+                    <p>The scope potential JavaScript completions are collected from. Only has an effect when <code><strong>jsCompletionSource</strong></code> is set to <code class="tok-string">"scope"</code>.</p>
+                </dd>
+            </dl>
             <h2>Indentation</h2>
             <dl>
                 <dt>
@@ -39,7 +58,7 @@
                     </code>
                 </dt>
                 <dd>
-                    <p>The unit in which indentation happens. Must consist of either the same amount of spaces as the tab size, or a single tab character.</p>
+                    <p>The unit in which indentation happens. Must consist of either the same amount of spaces as <code><strong>tabSize</strong></code>, or a single tab character.</p>
                 </dd>
             </dl>
             <h2>Key binds</h2>
