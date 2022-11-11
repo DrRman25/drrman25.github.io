@@ -1,0 +1,75 @@
+/*.button-wrapper button {
+    z-index: 1;
+    height: 40px;
+    width: 100px;
+    margin: 10px;
+    padding: 5px;
+}*/
+
+.excalidraw .App-menu_top {
+    grid-template-columns: max-content auto !important;
+}
+
+.excalidraw .App-menu_top .buttonList {
+    display: flex;
+}
+
+.excalidraw-wrapper {
+    height: 100%;
+    position: relative;
+}
+
+:root[dir="ltr"] .excalidraw .layer-ui__wrapper .zen-mode-transition.App-menu_bottom--transition-left {
+    transform: none;
+}
+
+.excalidraw .context-menu-option-separator {
+    margin: 0.5em 0;
+}
+
+.excalidraw .HelpDialog--header {
+    display: none !important;
+}
+
+.excalidraw .App-menu_bottom {
+    margin-bottom: 0;
+}
+
+.excalidraw .App-toolbar {
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.excalidraw .App-bottom-bar .Island, .excalidraw .App-bottom-bar .App-toolbar {
+    width: max-content !important;
+    min-width: max-content !important;
+    max-width: max-content !important;
+}
+
+.excalidraw .App-bottom-bar .App-toolbar-content {
+    justify-content: normal;
+}
+
+.excalidraw .ToolIcon_type_button:not(:last-child) {
+    margin-right: 8px;
+}
+
+.excalidraw .ToolIcon_type_button--hide {
+    display: none !important;
+}
+
+.excalidraw .Stack.Stack_vertical > .Stack.Stack_horizontal > .ToolIcon.ToolIcon__penMode, .excalidraw .Stack.Stack_vertical > .Stack.Stack_horizontal > .ToolIcon.ToolIcon__lock, .excalidraw .Stack.Stack_vertical > .Stack.Stack_horizontal > .ToolIcon.ToolIcon__library {
+    display: none;
+}
+
+.excalidraw .help-icon {
+    display: none !important;
+}
+
+.excalidraw .App-top-bar {
+    flex-direction: row !important;
+}
+
+.excalidraw .HintViewer {
+    line-height: 1.4;
+}

@@ -1,0 +1,38 @@
+#surface {
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    height: 80vh;
+    position: relative;
+    border: 0.0625rem solid #666;
+}
+
+#workspace {
+    flex-basis: 100%;
+    width: 100%;
+}
+
+@media screen and (min-width: 1200px) {
+    #tab-editor {
+        display: none;
+    }
+    
+    article, header, footer nav {
+        max-width: 1150px;
+    }
+    
+    #editor {
+        border-right: 0.0625rem solid #666;
+    }
+    
+    #editor, #output, #log {
+        flex-basis: 50%;
+        width: 50%;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    article, header, footer nav {
+        max-width: 1350px;
+    }
+}
