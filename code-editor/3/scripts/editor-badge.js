@@ -42,6 +42,7 @@
     }
 
     #drrcraft-code-editor-badge, #drrcraft-code-editor-badge-lg {
+        font-size: 16px;
         position: fixed;
         bottom: 1rem;
         right: 1rem;
