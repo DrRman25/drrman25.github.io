@@ -273,7 +273,75 @@ function loadCode(code) {
             EditorView.lineWrapping,
             placeholder("Not sure where to start? Look at some examples above (this message will be dismissed after typing)"),
             javascript(),
-            linter(esLint(new eslint.Linter())),
+            linter(esLint(new eslint.Linter(), {
+                parserOptions: {
+                    ecmaVersion: "latest",
+                    sourceType: "module"
+                },
+                rules: {
+                    "constructor-super": ["error"],
+                    "for-direction": ["error"],
+                    "getter-return": ["error"],
+                    "no-async-promise-executor": ["error"],
+                    "no-case-declarations": ["error"],
+                    "no-class-assign": ["error"],
+                    "no-compare-neg-zero": ["error"],
+                    "no-cond-assign": ["error"],
+                    "no-const-assign": ["error"],
+                    "no-constant-condition": ["error"],
+                    "no-control-regex": ["error"],
+                    "no-debugger": ["error"],
+                    "no-delete-var": ["error"],
+                    "no-dupe-args": ["error"],
+                    "no-dupe-class-members": ["error"],
+                    "no-dupe-else-if": ["error"],
+                    "no-dupe-keys": ["error"],
+                    "no-duplicate-case": ["error"],
+                    "no-empty": ["error"],
+                    "no-empty-character-class": ["error"],
+                    "no-empty-pattern": ["error"],
+                    "no-ex-assign": ["error"],
+                    "no-extra-boolean-cast": ["error"],
+                    "no-extra-semi": ["error"],
+                    "no-fallthrough": ["error"],
+                    "no-func-assign": ["error"],
+                    "no-global-assign": ["error"],
+                    "no-import-assign": ["error"],
+                    "no-inner-declarations": ["error"],
+                    "no-invalid-regexp": ["error"],
+                    "no-irregular-whitespace": ["error"],
+                    "no-loss-of-precision": ["error"],
+                    "no-misleading-character-class": ["error"],
+                    "no-mixed-spaces-and-tabs": ["error"],
+                    "no-new-symbol": ["error"],
+                    "no-nonoctal-decimal-escape": ["error"],
+                    "no-obj-calls": ["error"],
+                    "no-octal": ["error"],
+                    "no-prototype-builtins": ["error"],
+                    "no-redeclare": ["error"],
+                    "no-regex-spaces": ["error"],
+                    "no-self-assign": ["error"],
+                    "no-setter-return": ["error"],
+                    "no-shadow-restricted-names": ["error"],
+                    "no-sparse-arrays": ["error"],
+                    "no-this-before-super": ["error"],
+                    "no-undef": ["error"],
+                    "no-unexpected-multiline": ["error"],
+                    "no-unreachable": ["error"],
+                    "no-unsafe-finally": ["error"],
+                    "no-unsafe-negation": ["error"],
+                    "no-unsafe-optional-chaining": ["error"],
+                    "no-unused-labels": ["error"],
+                    "no-unused-vars": ["error"],
+                    "no-useless-backreference": ["error"],
+                    "no-useless-catch": ["error"],
+                    "no-useless-escape": ["error"],
+                    "no-with": ["error"],
+                    "require-yield": ["error"],
+                    "use-isnan": ["error"],
+                    "valid-typeof": ["error"]
+                }
+            })),
             search({
                 top: true
             }),
@@ -606,6 +674,307 @@ onKeyPress(burp);
             "Kaboom.js template (minimal)": `// Import kaboom library and initialize context
 import "kaboom";
 kaboom();
+`,
+            "Kaboom.js platformer": `import kaboom from "kaboom";
+kaboom();
+
+function big() {
+    let timer = 0;
+    let isBig = false;
+    let destScale = 1;
+    return {
+        // Component name (ID)
+        id: "big",
+        // Requires scale component
+        require: ["scale"],
+        // Runs every frame
+        update() {
+            if (isBig) {
+                timer -= dt();
+                if (timer <= 0) {
+                    this.smallify();
+                }
+            }
+            this.scale = this.scale.lerp(vec2(destScale), dt() * 6);
+        },
+        // Custom methods
+        isBig() {
+            return isBig;
+        },
+        smallify() {
+            destScale = 1;
+            timer = 0;
+            isBig = false;
+        },
+        biggify(time) {
+            destScale = 2;
+            timer = time;
+            isBig = true;
+        }
+    };
+}
+
+function patrol(speed = 60, dir = 1) {
+    return {
+        id: "patrol",
+        require: ["pos", "area"],
+        add() {
+            this.on("collide", (obj, col) => {
+                if (col.isLeft() || col.isRight()) {
+                    dir = -dir;
+                }
+            });
+        },
+        update() {
+            this.move(speed * dir, 0);
+        }
+    };
+}
+
+loadSprite("bean", "sprites/bean.png");
+loadSprite("ghosty", "sprites/ghosty.png");
+loadSprite("spike", "sprites/spike.png");
+loadSprite("grass", "sprites/grass.png");
+loadSprite("prize", "sprites/jumpy.png");
+loadSprite("apple", "sprites/apple.png");
+loadSprite("portal", "sprites/portal.png");
+loadSprite("coin", "sprites/coin.png");
+loadSound("coin", "sounds/score.mp3");
+loadSound("powerup", "sounds/powerup.mp3");
+loadSound("blip", "sounds/blip.mp3");
+loadSound("hit", "sounds/hit.mp3");
+loadSound("portal", "sounds/portal.mp3");
+
+// Define some constants
+const jumpForce = 1320;
+const moveSpeed = 480;
+const fallDeath = 2400;
+
+const LEVELS = [
+    [
+        "                          $",
+        "                          $",
+        "                          $",
+        "                          $",
+        "                          $",
+        "           $$         =   $",
+        "  %      ====         =   $",
+        "                      =   $",
+        "                      =    ",
+        "       ^^      = >    =   @",
+        "==========================="
+    ],
+    [
+        "     $    $    $    $     $",
+        "     $    $    $    $     $",
+        "                           ",
+        "                           ",
+        "                           ",
+        "                           ",
+        "                           ",
+        " ^^^^>^^^^>^^^^>^^^^>^^^^^@",
+        "==========================="
+    ]
+];
+
+// Define what each symbol means in the level graph
+const levelConf = {
+    // Grid size
+    width: 64,
+    height: 64,
+    // Define each object as a list of components
+    "=": () => [
+        sprite("grass"),
+        origin("bot"),
+        area(),
+        solid()
+    ],
+    "$": () => [
+        sprite("coin"),
+        origin("bot"),
+        pos(0, -9),
+        area(),
+        "coin"
+    ],
+    "%": () => [
+        sprite("prize"),
+        origin("bot"),
+        area(),
+        solid(),
+        "prize"
+    ],
+    "^": () => [
+        sprite("spike"),
+        origin("bot"),
+        area(),
+        solid(),
+        "danger"
+    ],
+    "#": () => [
+        sprite("apple"),
+        origin("bot"),
+        area(),
+        body(),
+        "apple"
+    ],
+    ">": () => [
+        sprite("ghosty"),
+        origin("bot"),
+        area(),
+        body(),
+        patrol(),
+        "enemy"
+    ],
+    "@": () => [
+        sprite("portal"),
+        area({ scale: 0.5, }),
+        origin("bot"),
+        pos(0, -12),
+        "portal"
+    ]
+};
+
+scene("game", ({levelId, coins} = {levelId: 0, coins: 0}) => {
+    gravity(3200);
+
+    // Add level to scene
+    const level = addLevel(LEVELS[levelId ?? 0], levelConf);
+
+    // Define player object
+    const player = add([
+        sprite("bean"),
+        pos(0, 0),
+        area(),
+        scale(1),
+        // Make it fall to gravity and jumpable
+        body(),
+        // The custom component we defined above
+        big(),
+        origin("bot")
+    ]);
+
+    // onUpdate() runs every frame
+    player.onUpdate(() => {
+        // Center camera to player
+        camPos(player.pos);
+        // Check fall death
+        if (player.pos.y >= fallDeath) {
+            go("lose");
+        }
+    });
+
+    // If player onCollide with any object with "danger" tag, lose
+    player.onCollide("danger", () => {
+        go("lose");
+        play("hit");
+    });
+
+    player.onCollide("portal", () => {
+        play("portal");
+        if (levelId + 1 < LEVELS.length) {
+            go("game", {
+                levelId: levelId + 1,
+                coins: coins
+            });
+        } else {
+            go("win");
+        }
+    });
+
+    player.onGround(l => {
+        if (l.is("enemy")) {
+            player.jump(jumpForce * 1.5);
+            destroy(l);
+            addKaboom(player.pos);
+            play("powerup");
+        }
+    });
+
+    player.onCollide("enemy", (e, col) => {
+        // If it's not from the top, die
+        if (!col.isBottom()) {
+            go("lose");
+            play("hit");
+        }
+    });
+
+    let hasApple = false;
+
+    // Grow an apple if player's head bumps into an object with "prize" tag
+    player.onHeadbutt(obj => {
+        if (obj.is("prize") && !hasApple) {
+            const apple = level.spawn("#", obj.gridPos.sub(0, 1));
+            apple.jump();
+            hasApple = true;
+            play("blip");
+        }
+    });
+
+    // Player grows big onCollide with an "apple" object
+    player.onCollide("apple", a => {
+        destroy(a);
+        // As we defined in the big() component
+        player.biggify(3);
+        hasApple = false;
+        play("powerup");
+    });
+
+    let coinPitch = 0;
+
+    onUpdate(() => {
+        if (coinPitch > 0) {
+            coinPitch = Math.max(0, coinPitch - dt() * 100);
+        }
+    });
+
+    player.onCollide("coin", c => {
+        destroy(c);
+        play("coin", {
+            detune: coinPitch
+        });
+        coinPitch += 100;
+        coins++;
+        coinsLabel.text = coins;
+    });
+
+    const coinsLabel = add([
+        text(coins),
+        pos(24, 24),
+        fixed()
+    ]);
+
+    // Jump with up arrow or space
+    onKeyDown(["up", "space"], () => {
+        // These 2 functions are provided by body() component
+        if (player.isGrounded()) {
+            player.jump(jumpForce);
+        }
+    });
+
+    onKeyDown("left", () => player.move(-moveSpeed, 0));
+    onKeyDown("right", () => player.move(moveSpeed, 0));
+
+    onKeyPress("down", () => player.weight = 3);
+    onKeyRelease("down", () => player.weight = 1);
+
+    onKeyPress("f", () => fullscreen(!fullscreen()));
+});
+
+scene("lose", () => {
+    add([
+        text("You Lose")
+    ]);
+    onKeyPress(() => go("game"));
+});
+
+scene("win", () => {
+    add([
+        text("You Win")
+    ]);
+    onKeyPress(() => go("game"));
+})
+
+go("game");
 `
         }
     };
