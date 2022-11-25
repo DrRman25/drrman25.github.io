@@ -51,7 +51,9 @@ function properties() {
     if (!_properties && typeof document == "object" && document.body) {
         let names = [];
         for (let prop in document.body.style) {
-            names.push(toDashCase(prop));
+            if (typeof document.body.style[prop] === "string") {
+                names.push(toDashCase(prop));
+            }
         }
         _properties = names.sort().map(name => ({
             type: "property",

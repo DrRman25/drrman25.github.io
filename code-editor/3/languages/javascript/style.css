@@ -113,6 +113,7 @@ body[theme="spooky"] #controls select {
     font-size: 0.875rem;
     font-family: "DrRcraft Hack", monospace;
     white-space: pre-wrap;
+    word-break: break-word;
 }
 
 #output iframe {
@@ -233,10 +234,31 @@ body[theme="dark"] .log-frames, body[theme="spooky"] .log-frames {
 dialog {
     border-radius: 2rem;
     border-width: 0;
-    max-width: 50rem;
+    width: 50rem;
     box-shadow: 0 0 1rem black;
 }
 
 dialog::backdrop {
     background-color: transparent;
+}
+
+#modal-history-view .ͼ1 .cm-scroller {
+    line-height: 1.5;
+}
+
+body[theme="dark"] #modal-history-view .cm-scroller {
+    background: #1c2333;
+    color: white;
+}
+
+body[theme="spooky"] #modal-history-view .cm-scroller {
+    background: #292c33;
+    color: white;
+}
+
+
+#history-controls {
+    display: flex;
+    column-gap: 0.625rem;
+    margin-top: 0.625rem;
 }

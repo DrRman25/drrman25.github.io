@@ -27,31 +27,23 @@
             <dl>
                 <dt>
                     <code>
-                        <strong>jsCompletionSource</strong>: <span class="tok-string">&quot;<input type="text" class="tok-string" id="editor-jsCompletionSource" maxlength="8" style="text-align: center;" />&quot;</span>
-                    </code>
-                </dt>
-                <dd>
-                    <p>The source to get JavaScript completions from. Can be set to <code class="tok-string">"keywords"</code> or <code class="tok-string">"scope"</code>.</p>
-                </dd>
-                <dt>
-                    <code>
                         <strong>jsCompletionScope</strong>: <input type="text" id="editor-jsCompletionScope" />
                     </code>
                 </dt>
                 <dd>
                     <p>The scope potential JavaScript completions are collected from. Only has an effect when <code><strong>jsCompletionSource</strong></code> is set to <code class="tok-string">"scope"</code>.</p>
                 </dd>
-            </dl>
-            <h2>Indentation</h2>
-            <dl>
                 <dt>
                     <code>
-                        <strong>tabSize</strong>: <input type="number" class="tok-number" id="editor-tabSize" min="1" max="8" />
+                        <strong>jsCompletionSource</strong>: <span class="tok-string">&quot;<input type="text" class="tok-string" id="editor-jsCompletionSource" maxlength="8" style="text-align: center;" />&quot;</span>
                     </code>
                 </dt>
                 <dd>
-                    <p>The size of a tab, in columns.</p>
+                    <p>The source to get JavaScript completions from. Can be set to <code class="tok-string">"keywords"</code> or <code class="tok-string">"scope"</code>.</p>
                 </dd>
+            </dl>
+            <h2>Indentation</h2>
+            <dl>
                 <dt>
                     <code>
                         <strong>indentUnit</strong>: <span class="tok-string">&quot;<input type="text" class="tok-string" id="editor-indentUnit" maxlength="8" style="text-align: center;" />&quot;</span>
@@ -60,9 +52,25 @@
                 <dd>
                     <p>The unit in which indentation happens. Must consist of either the same amount of spaces as <code><strong>tabSize</strong></code>, or a single tab character.</p>
                 </dd>
+                <dt>
+                    <code>
+                        <strong>tabSize</strong>: <input type="number" class="tok-number" id="editor-tabSize" min="1" max="8" />
+                    </code>
+                </dt>
+                <dd>
+                    <p>The size of a tab, in columns.</p>
+                </dd>
             </dl>
             <h2>Key binds</h2>
             <dl>
+                <dt>
+                    <code>
+                        <strong>indentWithTab</strong>: <input type="text" class="tok-bool" id="editor-indentWithTab" maxlength="5" style="width: 3em;" />
+                    </code>
+                </dt>
+                <dd>
+                    <p>Allows the user to press Tab to insert the <code><strong>indentUnit</strong></code> characters at the cursor, or if something is selected, indent the selection. Shift-Tab removes a unit of indentation from all selected lines.</p>
+                </dd>
                 <dt>
                     <code>
                         <strong>vscodeKeymap</strong>: <input type="text" class="tok-bool" id="editor-vscodeKeymap" maxlength="5" style="width: 3em;" />
@@ -70,7 +78,7 @@
                 </dt>
                 <dd>
                     <p>Whether the editor uses the default CodeMirror 6 key binds or the <a href="http://code.visualstudio.com/docs/getstarted/keybindings#_keyboard-shortcuts-reference">Visual Studio Code key binds</a>.</p>
-                    <p><strong style="color: #f50;">Warning:</strong> This rebinds the Tab key! Many users do not have access to a pointing device, and it is really unfriendly towards said users to not be able to escape from a focusable input!</p>
+                    <p><span class="deprecated">deprecated</span> Use the other key bind options instead.</p>
                 </dd>
             </dl>
             <h2>Extensions</h2>
@@ -90,6 +98,14 @@
                 </dt>
                 <dd>
                     <p>Shows a color picker next to CSS color values.</p>
+                </dd>
+                <dt>
+                    <code>
+                        <strong>filePlaceholders</strong>: <input type="text" class="tok-bool" id="editor-filePlaceholders" maxlength="5" style="width: 3em;" />
+                    </code>
+                </dt>
+                <dd>
+                    <p>Allows the user to drag images in the editor from a file viewer, and see them as actual images in the code.</p>
                 </dd>
                 <dt>
                     <code>

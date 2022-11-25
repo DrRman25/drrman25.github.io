@@ -1,4 +1,11 @@
 /**
+Set the editor's default JavaScript completion scope to "globalThis", for new users.
+*/
+if (!localStorage.getItem("code-editor-editor-jsCompletionScope")) {
+    localStorage.setItem("code-editor-editor-jsCompletionScope", "globalThis");
+}
+
+/**
 Set the editor's default JavaScript completion source to "scope", for new users.
 */
 if (!localStorage.getItem("code-editor-editor-jsCompletionSource")) {
@@ -6,10 +13,10 @@ if (!localStorage.getItem("code-editor-editor-jsCompletionSource")) {
 }
 
 /**
-Set the editor's default JavaScript completion scope to "globalThis", for new users.
+Set the default number of spaces a block (whatever that means depending on the language) should be indented in the editor to 4, for new users.
 */
-if (!localStorage.getItem("code-editor-editor-jsCompletionScope")) {
-    localStorage.setItem("code-editor-editor-jsCompletionScope", "globalThis");
+if (!localStorage.getItem("code-editor-editor-indentUnit")) {
+    localStorage.setItem("code-editor-editor-indentUnit", "    ");
 }
 
 /**
@@ -20,10 +27,10 @@ if (!localStorage.getItem("code-editor-editor-tabSize")) {
 }
 
 /**
-Set the default number of spaces a block (whatever that means depending on the language) should be indented in the editor to 4, for new users.
+Disable indenting with tab in the editor by default, for new users.
 */
-if (!localStorage.getItem("code-editor-editor-indentUnit")) {
-    localStorage.setItem("code-editor-editor-indentUnit", "    ");
+if (!localStorage.getItem("code-editor-editor-indentWithTab")) {
+    localStorage.setItem("code-editor-editor-indentWithTab", false);
 }
 
 /**
@@ -45,6 +52,13 @@ Enable the CSS color picker by default, for new users.
 */
 if (!localStorage.getItem("code-editor-editor-colorPicker")) {
     localStorage.setItem("code-editor-editor-colorPicker", true);
+}
+
+/**
+Disable file placeholders in the editor by default, for new users.
+*/
+if (!localStorage.getItem("code-editor-editor-filePlaceholders")) {
+    localStorage.setItem("code-editor-editor-filePlaceholders", false);
 }
 
 /**
@@ -91,13 +105,15 @@ document.body.setAttribute("seasonal-extras", localStorage.getItem("code-editor-
 /**
 Show all the preferences in their respective input elements.
 */
-document.getElementById("editor-jsCompletionSource").value = localStorage.getItem("code-editor-editor-jsCompletionSource");
 document.getElementById("editor-jsCompletionScope").value = localStorage.getItem("code-editor-editor-jsCompletionScope");
-document.getElementById("editor-tabSize").value = localStorage.getItem("code-editor-editor-tabSize");
+document.getElementById("editor-jsCompletionSource").value = localStorage.getItem("code-editor-editor-jsCompletionSource");
 document.getElementById("editor-indentUnit").value = localStorage.getItem("code-editor-editor-indentUnit");
+document.getElementById("editor-tabSize").value = localStorage.getItem("code-editor-editor-tabSize");
+document.getElementById("editor-indentWithTab").value = localStorage.getItem("code-editor-editor-indentWithTab");
 document.getElementById("editor-vscodeKeymap").value = localStorage.getItem("code-editor-editor-vscodeKeymap");
 document.getElementById("editor-abbreviationTracker").value = localStorage.getItem("code-editor-editor-abbreviationTracker");
 document.getElementById("editor-colorPicker").value = localStorage.getItem("code-editor-editor-colorPicker");
+document.getElementById("editor-filePlaceholders").value = localStorage.getItem("code-editor-editor-filePlaceholders");
 document.getElementById("editor-indentationMarkers").value = localStorage.getItem("code-editor-editor-indentationMarkers");
 document.getElementById("editor-interact").value = localStorage.getItem("code-editor-editor-interact");
 document.getElementById("editor-rectangularSelection").value = localStorage.getItem("code-editor-editor-rectangularSelection");
@@ -122,18 +138,22 @@ function displayNotification(relativeElement, messageText, notificationTime) {
 Save changes to preferences when 'Apply' button is clicked.
 */
 document.getElementById("apply").addEventListener("click", e => {
-    displayNotification(e.target, "Changes saved!", 2000);
-    localStorage.setItem("code-editor-editor-vscodeKeymap", (document.getElementById("editor-vscodeKeymap").value.trim() === "true") ? true : false);
-    localStorage.setItem("code-editor-editor-jsCompletionSource", (document.getElementById("editor-jsCompletionSource").value.trim() === "keywords") ? "keywords" : "scope");
-    localStorage.setItem("code-editor-editor-jsCompletionScope", document.getElementById("editor-jsCompletionScope").value.toString());
-    localStorage.setItem("code-editor-editor-tabSize", (document.getElementById("editor-tabSize").value > 8) ? 8 : (document.getElementById("editor-tabSize").value < 1) ? 1 : parseInt(document.getElementById("editor-tabSize").value));
-    localStorage.setItem("code-editor-editor-indentUnit", document.getElementById("editor-indentUnit").value.toString());
-    localStorage.setItem("code-editor-editor-vscodeKeymap", (document.getElementById("editor-vscodeKeymap").value.trim() === "true") ? true : false);
-    localStorage.setItem("code-editor-editor-abbreviationTracker", (document.getElementById("editor-abbreviationTracker").value.trim() === "true") ? true : false);
-    localStorage.setItem("code-editor-editor-colorPicker", (document.getElementById("editor-colorPicker").value.trim() === "true") ? true : false);
-    localStorage.setItem("code-editor-editor-indentationMarkers", (document.getElementById("editor-indentationMarkers").value.trim() === "true") ? true : false);
-    localStorage.setItem("code-editor-editor-interact", (document.getElementById("editor-interact").value.trim() === "true") ? true : false);
-    localStorage.setItem("code-editor-editor-rectangularSelection", (document.getElementById("editor-rectangularSelection").value.trim() === "true") ? true : false);
+    if (document.getElementById("editor-vscodeKeymap").value.trim() === "false" || ((document.getElementById("editor-vscodeKeymap").value.trim() === "true" && confirm("WARNING: You are enabling or have enabled vscodeKeymap, which is deprecated. It may cease to work at any time. Do you wish to proceed anyway?")))) {
+        displayNotification(e.target, "Changes saved!", 2000);
+        localStorage.setItem("code-editor-editor-vscodeKeymap", (document.getElementById("editor-vscodeKeymap").value.trim() === "true") ? true : false);
+        localStorage.setItem("code-editor-editor-jsCompletionScope", document.getElementById("editor-jsCompletionScope").value.toString());
+        localStorage.setItem("code-editor-editor-jsCompletionSource", (document.getElementById("editor-jsCompletionSource").value.trim() === "keywords") ? "keywords" : "scope");
+        localStorage.setItem("code-editor-editor-indentUnit", document.getElementById("editor-indentUnit").value.toString());
+        localStorage.setItem("code-editor-editor-tabSize", (document.getElementById("editor-tabSize").value > 8) ? 8 : (document.getElementById("editor-tabSize").value < 1) ? 1 : parseInt(document.getElementById("editor-tabSize").value));
+        localStorage.setItem("code-editor-editor-indentWithTab", (document.getElementById("editor-indentWithTab").value.trim() === "true") ? true : false);
+        localStorage.setItem("code-editor-editor-vscodeKeymap", (document.getElementById("editor-vscodeKeymap").value.trim() === "true") ? true : false);
+        localStorage.setItem("code-editor-editor-abbreviationTracker", (document.getElementById("editor-abbreviationTracker").value.trim() === "true") ? true : false);
+        localStorage.setItem("code-editor-editor-colorPicker", (document.getElementById("editor-colorPicker").value.trim() === "true") ? true : false);
+        localStorage.setItem("code-editor-editor-filePlaceholders", (document.getElementById("editor-filePlaceholders").value.trim() === "true") ? true : false);
+        localStorage.setItem("code-editor-editor-indentationMarkers", (document.getElementById("editor-indentationMarkers").value.trim() === "true") ? true : false);
+        localStorage.setItem("code-editor-editor-interact", (document.getElementById("editor-interact").value.trim() === "true") ? true : false);
+        localStorage.setItem("code-editor-editor-rectangularSelection", (document.getElementById("editor-rectangularSelection").value.trim() === "true") ? true : false);
+    }
 });
 
 /**

@@ -55,10 +55,6 @@ body[theme="spooky"] button.control:active {
     color: black;
 }
 
-code, pre {
-    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
-}
-
 input[type="text"], input[type="number"] {
     font: inherit;
     padding: 0;
@@ -66,4 +62,23 @@ input[type="text"], input[type="number"] {
     margin: 0;
     outline: 0;
     background-color: transparent;
+}
+
+.deprecated {
+    background-color: #da5d5d80;
+    font-weight: bold;
+    display: inline-block;
+    padding: 0.1875rem 0.25rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0.5rem #da5d5d;
+    margin: 0.25rem;
+    cursor: default;
+}
+
+.deprecated::moz-selection {
+    background-color: #fff1;
+}
+
+.deprecated::selection {
+    background-color: #fff1;
 }

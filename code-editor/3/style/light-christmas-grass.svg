@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="150">
+    <rect x="0" y="50" width="100" height="100" fill="#850"></rect>
+    <polygon points="0, 50 100, 50 100, 70 50, 100 0, 70" fill="#fff"></polygon>
+    <line x1="0" y1="50" x2="100" y2="50" stroke-width="3" stroke="#bbb"></line>
+    <rect x="42" y="10" width="16" height="70" fill="#eee" stroke-width="1" stroke="gainsboro"></rect>
+    <rect x="42" y="20" width="16" height="10" fill="red"></rect>
+    <rect x="42" y="40" width="16" height="10" fill="red"></rect>
+    <rect x="42" y="60" width="16" height="10" fill="red"></rect>
+    <rect x="67" y="20" width="16" height="50" fill="#eee" stroke-width="1" stroke="gainsboro"></rect>
+    <rect x="67" y="30" width="16" height="10" fill="red"></rect>
+    <rect x="67" y="50" width="16" height="10" fill="red"></rect>
+    <rect x="17" y="30" width="16" height="30" fill="#eee" stroke-width="1" stroke="gainsboro"></rect>
+    <rect x="17" y="40" width="16" height="10" fill="red"></rect>
+    <rect x="100" y="50" width="100" height="100" fill="#850"></rect>
+    <polygon points="100, 50 200, 50 200, 70 150, 100 100, 70" fill="#fff"></polygon>
+    <line x1="100" y1="50" x2="200" y2="50" stroke-width="3" stroke="#bbb"></line>
+    <rect x="115" y="35" width="35" height="35" fill="#0a0" stroke-width="1" stroke="#050"></rect>
+    <rect x="115" y="47.5" width="35" height="10" fill="red"></rect>
+    <rect x="127.5" y="35" width="10" height="35" fill="red"></rect>
+    <circle cx="127.5" cy="30" r="7" fill="transparent" stroke-width="3" stroke="red"></circle>
+    <circle cx="135" cy="30" r="7" fill="transparent" stroke-width="3" stroke="red"></circle>
+    <rect x="160" y="25" width="35" height="35" fill="#0af" stroke-width="1" stroke="#058"></rect>
+    <rect x="160" y="37.5" width="35" height="10" fill="#cc0"></rect>
+    <rect x="172.5" y="25" width="10" height="35" fill="#cc0"></rect>
+    <circle cx="172.5" cy="20" r="7" fill="transparent" stroke-width="3" stroke="#cc0"></circle>
+    <circle cx="180" cy="20" r="7" fill="transparent" stroke-width="3" stroke="#cc0"></circle>
+    <rect x="200" y="50" width="100" height="100" fill="#850"></rect>
+    <polygon points="200, 50 300, 50 300, 70 250, 100 200, 70" fill="#fff"></polygon>
+    <line x1="200" y1="50" x2="300" y2="50" stroke-width="3" stroke="#bbb"></line>
+    <rect x="300" y="50" width="100" height="100" fill="#850"></rect>
+    <polygon points="300, 50 400, 50 400, 70 350, 100 300, 70" fill="#fff"></polygon>
+    <line x1="300" y1="50" x2="400" y2="50" stroke-width="3" stroke="#bbb"></line>
+    <rect x="220" y="40" width="100" height="20" fill="#420"></rect>
+    <rect x="320" y="45" width="60" height="10" fill="#420"></rect>
+    <line x1="320" y1="45" x2="360" y2="15" stroke-width="10" stroke="#420"></line>
+    <line x1="300" y1="45" x2="360" y2="75" stroke-width="10" stroke="#420"></line>
+    <circle cx="360" cy="15" r="10" fill="red" stroke-width="1" stroke="#800"></circle>
+    <circle cx="380" cy="50" r="10" fill="limegreen" stroke-width="1" stroke="#080"></circle>
+    <circle cx="360" cy="75" r="10" fill="blue" stroke-width="1" stroke="#008"></circle>
+</svg>

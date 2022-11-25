@@ -12,6 +12,16 @@ import {linter, lintKeymap} from "https://codemirror.net/try/mods/@codemirror-li
 import {javascript, javascriptLanguage, scopeCompletionSource, esLint} from "https://codemirror.net/try/mods/@codemirror-lang-javascript.js";
 
 /**
+Import a file placeholder extension, for use later.
+*/
+import filePlaceholders from "./scripts/file-placeholder.js";
+
+/**
+Import an indenting with tab extension, for use later.
+*/
+import indentWithTab from "./scripts/indent-with-tab.js";
+
+/**
 Import all required Replit modules.
 */
 import {vscodeKeymap} from '../node-modules/@replit/codemirror-vscode-keymap/dist/index.js';
@@ -52,6 +62,13 @@ if (!localStorage.getItem("code-editor-editor-indentUnit")) {
 }
 
 /**
+Disable indenting with tab in the editor by default, for new users.
+*/
+if (!localStorage.getItem("code-editor-editor-indentWithTab")) {
+    localStorage.setItem("code-editor-editor-indentWithTab", false);
+}
+
+/**
 Disable the Visual Studio Code key bindings by default, for new users.
 */
 if (!localStorage.getItem("code-editor-editor-vscodeKeymap")) {
@@ -63,6 +80,13 @@ Enable the CSS color picker by default, for new users.
 */
 if (!localStorage.getItem("code-editor-editor-colorPicker")) {
     localStorage.setItem("code-editor-editor-colorPicker", true);
+}
+
+/**
+Disable file placeholders in the editor by default, for new users.
+*/
+if (!localStorage.getItem("code-editor-editor-filePlaceholders")) {
+    localStorage.setItem("code-editor-editor-filePlaceholders", false);
 }
 
 /**
@@ -120,6 +144,11 @@ let lastWideScreenTab, lastNarrowScreenTab;
 Make the code 'run-able', to run the code as soon as the page loads.
 */
 let canRunCode = true;
+
+/**
+Create an object to store previous versions of the code, and two variables to store a setInterval, for use later.
+*/
+let codeHistory = {}, codeHistoryInterval, historyReplayInterval;
 
 /**
 Get URL queries for use later.
@@ -215,9 +244,9 @@ const spookyTheme = HighlightStyle.define([
 ]);
 
 /**
-Helper function that 'injects' an extension into the CodeMirror editor.
+Helper function that 'injects' an extension into a CodeMirror editor.
 */
-function injectExtension(extension) {
+function injectExtension(editor, extension) {
     editor.dispatch({
         effects: StateEffect.appendConfig.of(extension)
     });
@@ -277,69 +306,6 @@ function loadCode(code) {
                 parserOptions: {
                     ecmaVersion: "latest",
                     sourceType: "module"
-                },
-                rules: {
-                    "constructor-super": ["error"],
-                    "for-direction": ["error"],
-                    "getter-return": ["error"],
-                    "no-async-promise-executor": ["error"],
-                    "no-case-declarations": ["error"],
-                    "no-class-assign": ["error"],
-                    "no-compare-neg-zero": ["error"],
-                    "no-cond-assign": ["error"],
-                    "no-const-assign": ["error"],
-                    "no-constant-condition": ["error"],
-                    "no-control-regex": ["error"],
-                    "no-debugger": ["error"],
-                    "no-delete-var": ["error"],
-                    "no-dupe-args": ["error"],
-                    "no-dupe-class-members": ["error"],
-                    "no-dupe-else-if": ["error"],
-                    "no-dupe-keys": ["error"],
-                    "no-duplicate-case": ["error"],
-                    "no-empty": ["error"],
-                    "no-empty-character-class": ["error"],
-                    "no-empty-pattern": ["error"],
-                    "no-ex-assign": ["error"],
-                    "no-extra-boolean-cast": ["error"],
-                    "no-extra-semi": ["error"],
-                    "no-fallthrough": ["error"],
-                    "no-func-assign": ["error"],
-                    "no-global-assign": ["error"],
-                    "no-import-assign": ["error"],
-                    "no-inner-declarations": ["error"],
-                    "no-invalid-regexp": ["error"],
-                    "no-irregular-whitespace": ["error"],
-                    "no-loss-of-precision": ["error"],
-                    "no-misleading-character-class": ["error"],
-                    "no-mixed-spaces-and-tabs": ["error"],
-                    "no-new-symbol": ["error"],
-                    "no-nonoctal-decimal-escape": ["error"],
-                    "no-obj-calls": ["error"],
-                    "no-octal": ["error"],
-                    "no-prototype-builtins": ["error"],
-                    "no-redeclare": ["error"],
-                    "no-regex-spaces": ["error"],
-                    "no-self-assign": ["error"],
-                    "no-setter-return": ["error"],
-                    "no-shadow-restricted-names": ["error"],
-                    "no-sparse-arrays": ["error"],
-                    "no-this-before-super": ["error"],
-                    "no-undef": ["error"],
-                    "no-unexpected-multiline": ["error"],
-                    "no-unreachable": ["error"],
-                    "no-unsafe-finally": ["error"],
-                    "no-unsafe-negation": ["error"],
-                    "no-unsafe-optional-chaining": ["error"],
-                    "no-unused-labels": ["error"],
-                    "no-unused-vars": ["error"],
-                    "no-useless-backreference": ["error"],
-                    "no-useless-catch": ["error"],
-                    "no-useless-escape": ["error"],
-                    "no-with": ["error"],
-                    "require-yield": ["error"],
-                    "use-isnan": ["error"],
-                    "valid-typeof": ["error"]
                 }
             })),
             search({
@@ -368,7 +334,7 @@ function loadCode(code) {
         /**
         If the JavaScript completion source preference is set to "scope", inject the completion source as an extension.
         */
-        injectExtension(javascriptLanguage.data.of({
+        injectExtension(editor, javascriptLanguage.data.of({
             autocomplete: scopeCompletionSource(Function(`"use strict"; return (document.getElementById("completion-source-frame").contentWindow.${localStorage.getItem("code-editor-editor-jsCompletionScope")})`)())
         }));
     }
@@ -376,19 +342,30 @@ function loadCode(code) {
         /**
         If the Visual Studio key bindings are enabled in the preferences, inject the keymap as an extension.
         */
-        injectExtension(keymap.of([...vscodeKeymap]));
+        injectExtension(editor, keymap.of([...vscodeKeymap]));
+    } else if (localStorage.getItem("code-editor-editor-indentWithTab") !== "false") {
+        /**
+        If indenting with tab is enabled in the preferences, inject the keymap as an extension.
+        */
+        injectExtension(editor, keymap.of([indentWithTab]));
+    }
+    if (localStorage.getItem("code-editor-editor-filePlaceholders") !== "false") {
+        /**
+        If file placeholders are enabled in the preferences, inject the placeholders as an extension.
+        */
+        injectExtension(editor, filePlaceholders);
     }
     if (localStorage.getItem("code-editor-editor-indentationMarkers") !== "false") {
         /**
         If indentation markers are enabled in the preferences, inject the markers as an extension.
         */
-        injectExtension(indentationMarkers());
+        injectExtension(editor, indentationMarkers());
     }
     if (localStorage.getItem("code-editor-editor-interact") !== "false") {
         /**
         If the interact feature is enabled in the preferences, inject it as an extension.
         */
-        injectExtension(interact({
+        injectExtension(editor, interact({
             rules: [
                 {
                     regexp: /-?\b\d+\.?\d*\b/g,
@@ -433,30 +410,104 @@ function loadCode(code) {
         /**
         If rectangular selection is enabled in the preferences, inject it as an extension. Also, inject the crosshair cursor extension, to serve as a visual hint that rectangular selection is going to happen.
         */
-        injectExtension(rectangularSelection());
-        injectExtension(crosshairCursor());
+        injectExtension(editor, rectangularSelection());
+        injectExtension(editor, crosshairCursor());
     } else {
         /**
         Otherwise, add selections when clicking with the Alt key held down.
         */
-        injectExtension(EditorView.clickAddsSelectionRange.of(e => e.altKey));
+        injectExtension(editor, EditorView.clickAddsSelectionRange.of(e => e.altKey));
     }
     if (localStorage.getItem("code-editor-site-theme") === "light") {
         /**
         If the current site theme is light, inject the light highlight style.
         */
-        injectExtension(syntaxHighlighting(lightTheme));
+        injectExtension(editor, syntaxHighlighting(lightTheme));
     } else if (localStorage.getItem("code-editor-site-theme") === "dark") {
         /**
         Otherwise, if the current site theme is dark, inject the dark highlight style.
         */
-        injectExtension(syntaxHighlighting(darkTheme));
+        injectExtension(editor, syntaxHighlighting(darkTheme));
     } else if (localStorage.getItem("code-editor-site-theme") === "spooky") {
         /**
         Otherwise, if the current site theme is spooky, inject the spooky highlight style.
         */
-        injectExtension(syntaxHighlighting(spookyTheme));
+        injectExtension(editor, syntaxHighlighting(spookyTheme));
     }
+}
+
+/**
+Create an editor for the history modal.
+*/
+const historyEditor = new EditorView({
+    state: EditorState.create({
+        extensions: [
+            EditorView.editable.of(false),
+            lineNumbers(),
+            highlightActiveLineGutter(),
+            highlightSpecialChars(),
+            history(),
+            foldGutter({
+                openText: "⌄",
+                closedText: "⌄"
+            }),
+            drawSelection(),
+            dropCursor(),
+            EditorState.allowMultipleSelections.of(true),
+            EditorState.phrases.of({
+                "next": ">",
+                "previous": "<",
+                "all": "Find all",
+                "match case": "Match case",
+                "regexp": "RegExp",
+                "by word": "By word",
+                "replace": "Replace",
+                "replace all": "Replace all",
+            }),
+            indentOnInput(),
+            bracketMatching(),
+            closeBrackets(),
+            autocompletion(),
+            highlightSelectionMatches(),
+            highlightActiveLine(),
+            keymap.of([
+                {key: "Mod-Enter", run: run},
+                ...closeBracketsKeymap,
+                ...defaultKeymap,
+                ...searchKeymap,
+                ...historyKeymap,
+                ...foldKeymap,
+                ...completionKeymap,
+                ...lintKeymap
+            ]),
+            EditorView.lineWrapping,
+            javascript(),
+            search({
+                top: true
+            }),
+            EditorState.tabSize.of(localStorage.getItem("code-editor-editor-tabSize")),
+            indentUnit.of(localStorage.getItem("code-editor-editor-indentUnit")),
+            syntaxHighlighting(universalTheme)
+        ]
+    }),
+    parent: document.getElementById("modal-history-view")
+});
+
+/**
+Add some extensions to the history editor.
+*/
+if (localStorage.getItem("code-editor-editor-filePlaceholders") !== "false") {
+    injectExtension(historyEditor, filePlaceholders);
+}
+if (localStorage.getItem("code-editor-editor-indentationMarkers") !== "false") {
+    injectExtension(historyEditor, indentationMarkers());
+}
+if (localStorage.getItem("code-editor-site-theme") === "light") {
+    injectExtension(historyEditor, syntaxHighlighting(lightTheme));
+} else if (localStorage.getItem("code-editor-site-theme") === "dark") {
+    injectExtension(historyEditor, syntaxHighlighting(darkTheme));
+} else if (localStorage.getItem("code-editor-site-theme") === "spooky") {
+    injectExtension(historyEditor, syntaxHighlighting(spookyTheme));
 }
 
 /**
@@ -509,6 +560,7 @@ Make the 'Run in Fullscreen' button in the context menu run the code, and open t
 */
 document.getElementById("ctx-menu-btn-run-fullscreen").addEventListener("click", () => {
     document.getElementById("output").focus();
+    run();
     if (typeof document.getElementById("output").requestFullscreen === "function") {
         document.getElementById("output").requestFullscreen();
     } else if (typeof document.getElementById("output").webkitRequestFullscreen === "function") {
@@ -516,7 +568,14 @@ document.getElementById("ctx-menu-btn-run-fullscreen").addEventListener("click",
     } else if (typeof document.getElementById("output").mozRequestFullScreen === "function") {
         document.getElementById("output").mozRequestFullScreen();
     }
-    setTimeout(() => run(true), 500);
+});
+
+/**
+Make the 'History' button in the context menu open and prepare the history modal.
+*/
+document.getElementById("ctx-menu-btn-history").addEventListener("click", () => {
+    document.getElementById("modal-history").showModal();
+    prepareHistoryModal();
 });
 
 /**
@@ -827,7 +886,7 @@ const levelConf = {
     ],
     "@": () => [
         sprite("portal"),
-        area({ scale: 0.5, }),
+        area({scale: 0.5}),
         origin("bot"),
         pos(0, -12),
         "portal"
@@ -975,7 +1034,8 @@ scene("win", () => {
 })
 
 go("game");
-`
+`,
+            "Kaboom.js platformer*": ``
         }
     };
 }
@@ -1047,16 +1107,46 @@ Load code, depending on the URL query and the user's saved programs.
         }
     }
     loadCode(
-        (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) === 12) ? decodeParameter(urlCodeQuery[1])
+        (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) === 13) ? decodeParameter(urlCodeQuery[1])
         : (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) ? myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["program"]
         : getDefaultCode()
     );
 })();
 
 /**
+Allow inline dragging and dropping of files in the editor, if file placeholders are enabled in the preferences.
+*/
+const editorDOM = editor.dom;
+editorDOM.addEventListener("dragover", e => {
+    e.stopPropagation();
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "copy";
+});
+editorDOM.addEventListener("drop", e => {
+    e.stopPropagation();
+    e.preventDefault();
+    for (const file of e.dataTransfer.files) {
+        if (localStorage.getItem("code-editor-editor-filePlaceholders") !== "false") {
+            const reader = new FileReader();
+            reader.addEventListener("load", e => {
+                editor.dispatch(editor.state.replaceSelection(`"${e.target.result}"`));
+            })
+            reader.readAsDataURL(file);
+        }
+    }
+});
+
+/**
+Every 100 milliseconds, store the code in the code history object.
+*/
+codeHistoryInterval = setInterval(() => {
+    codeHistory[`${Object.keys(codeHistory).length / 10}`] = editor.state.doc.toString();
+}, 100);
+
+/**
 If the data version parameter is not the current data version, open the 'Invalid Data Version' modal.
 */
-if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !== 12)) {
+if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !== 13)) {
     document.getElementById("modal-invalid-dv").showModal();
     document.getElementById("data-version").textContent = (
         !urlDataVersionQuery ? "3.0.0.8 or earlier"
@@ -1071,7 +1161,8 @@ if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !=
         : (parseInt(urlDataVersionQuery[1]) === 9) ? "3.0.0.17"
         : (parseInt(urlDataVersionQuery[1]) === 10) ? "3.0.0.18"
         : (parseInt(urlDataVersionQuery[1]) === 11) ? "3.0.0.19"
-        : (parseInt(urlDataVersionQuery[1]) > 12) ? "(future version - 3.0.0.21+)"
+        : (parseInt(urlDataVersionQuery[1]) === 12) ? "3.0.0.20"
+        : (parseInt(urlDataVersionQuery[1]) > 13) ? "(future version - 3.0.0.22+)"
         : "unknown"
     );
 }
@@ -1487,7 +1578,7 @@ function prepareShareModal() {
     : editor.state.doc.toString().length >= 1048576 ? `${(editor.state.doc.toString().length / 1048576).toFixed(2)} megabytes`
     : editor.state.doc.toString().length >= 1024 ? `${(editor.state.doc.toString().length / 1024).toFixed(2)} kilobytes`
     : `${editor.state.doc.toString().length} bytes`;
-    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=12";
+    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=13";
 }
 
 /**
@@ -1497,6 +1588,18 @@ function prepareSaveModal() {
     if (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) {
         document.getElementById("save-name").value = decodeURIComponent(urlMyProgramQuery[1]);
     }
+}
+
+/**
+Helper function that prepares the history modal when it is opened.
+*/
+function prepareHistoryModal() {
+    clearInterval(codeHistoryInterval);
+    document.getElementById("history-time").value = document.getElementById("history-time").max = document.getElementById("current-time").textContent = parseFloat(((Object.keys(codeHistory).length / 10) - 0.1).toFixed(1));
+    document.getElementById("revert-code").textContent = `Revert to ${parseFloat(((Object.keys(codeHistory).length / 10) - 0.1).toFixed(1))}`;
+    historyEditor.dispatch({
+        changes: {from: 0, to: historyEditor.state.doc.length, insert: codeHistory[`${document.getElementById("history-time").value}`]}
+    });
 }
 
 /**
@@ -1526,7 +1629,7 @@ document.getElementById("save").addEventListener("click", () => {
 When the 'Copy link' button in the share modal is clicked, copy the share link to the clipboard.
 */
 document.getElementById("share-link-copy").addEventListener("click", e => {
-    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=12");
+    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=13");
     displayNotification(e.target, document.getElementById("modal-share"), "Link successfully copied!", 2000);
 });
 
@@ -1589,6 +1692,67 @@ When the 'Close' button in the save modal is clicked, close the save modal.
 */
 document.getElementById("modal-save-close").addEventListener("click", () => {
     document.getElementById("modal-save").close();
+});
+
+/**
+When the slider in the history modal changes its value, change the editor's and some elements' text.
+*/
+document.getElementById("history-time").addEventListener("input", () => {
+    document.getElementById("current-time").textContent = document.getElementById("history-time").value;
+    document.getElementById("revert-code").textContent = `Revert to ${document.getElementById("history-time").value}`;
+    historyEditor.dispatch({
+        changes: {from: 0, to: historyEditor.state.doc.length, insert: codeHistory[`${document.getElementById("history-time").value}`]}
+    });
+});
+
+/**
+When the 'Play' or 'Pause' button in the history modal is clicked, play or pause the history replay.
+*/
+document.getElementById("history-play-pause").addEventListener("click", () => {
+    if (document.getElementById("history-play-pause").textContent === "Play") {
+        if (document.getElementById("history-time").value === document.getElementById("history-time").max) {
+            document.getElementById("history-time").value = -0.1;
+        }
+        historyReplayInterval = setInterval(() => {
+            document.getElementById("history-time").value = parseFloat(document.getElementById("history-time").value) + 0.1;
+            document.getElementById("current-time").textContent = document.getElementById("history-time").value;
+            document.getElementById("revert-code").textContent = `Revert to ${document.getElementById("history-time").value}`;
+            historyEditor.dispatch({
+                changes: {from: 0, to: historyEditor.state.doc.length, insert: codeHistory[`${document.getElementById("history-time").value}`]}
+            });
+            if (document.getElementById("history-time").value === document.getElementById("history-time").max) {
+                clearInterval(historyReplayInterval);
+                document.getElementById("history-play-pause").textContent = "Play";
+            }
+        }, 100);
+        document.getElementById("history-play-pause").textContent = "Pause";
+    } else {
+        clearInterval(historyReplayInterval);
+        document.getElementById("history-play-pause").textContent = "Play";
+    }
+});
+
+/**
+When the 'Revert to {0}' button in the history modal is clicked, revert the editor's code to the selected time.
+*/
+document.getElementById("revert-code").addEventListener("click", () => {
+    editor.dispatch({
+        changes: {from: 0, to: editor.state.doc.length, insert: codeHistory[`${document.getElementById("history-time").value}`]}
+    });
+    document.getElementById("modal-history").close();
+    codeHistoryInterval = setInterval(() => {
+        codeHistory[`${Object.keys(codeHistory).length / 10}`] = editor.state.doc.toString();
+    }, 100);
+});
+
+/**
+When the 'Close' button in the history modal is clicked, close the history modal.
+*/
+document.getElementById("modal-history-close").addEventListener("click", () => {
+    document.getElementById("modal-history").close();
+    codeHistoryInterval = setInterval(() => {
+        codeHistory[`${Object.keys(codeHistory).length / 10}`] = editor.state.doc.toString();
+    }, 100);
 });
 
 /**

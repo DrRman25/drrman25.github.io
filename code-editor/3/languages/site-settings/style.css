@@ -55,10 +55,6 @@ body[theme="spooky"] button.control:active {
     color: black;
 }
 
-code, pre {
-    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
-}
-
 input[type="text"], input[type="number"] {
     font: inherit;
     padding: 0;

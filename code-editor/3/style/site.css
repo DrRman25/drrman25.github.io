@@ -69,7 +69,7 @@ body {
 }
 
 body[seasonal-extras="true"] {
-    background: white url("light-autumn-grass.svg") repeat-x bottom;
+    background: white url("light-christmas-grass.svg") repeat-x bottom;
 }
 
 body[theme="dark"] {
@@ -78,7 +78,7 @@ body[theme="dark"] {
 }
 
 body[theme="dark"][seasonal-extras="true"] {
-    background: #1c2333 url("dark-autumn-grass.svg") repeat-x bottom;
+    background: #1c2333 url("dark-christmas-grass.svg") repeat-x bottom;
 }
 
 body[theme="spooky"] {
@@ -87,7 +87,7 @@ body[theme="spooky"] {
 }
 
 body[theme="spooky"][seasonal-extras="true"] {
-    background: #292c33 url("dark-autumn-grass.svg") repeat-x bottom;
+    background: #292c33 url("dark-christmas-grass.svg") repeat-x bottom;
 }
 
 header, article, footer nav {
@@ -424,7 +424,7 @@ div.figure {
 }
 
 .cm-editor {
-    max-height: 12.5rem;
+    max-height: 25rem;
     border: 0.0625rem solid silver;
     font-size: 0.875rem;
 }
@@ -922,7 +922,6 @@ body[theme="spooky"] #editor-ctx-menu {
     font-family: 'Source Sans Pro', sans-serif;
     width: 100%;
     cursor: pointer;
-    transition: background-color 0.2s;
 }
 
 #editor-ctx-menu button:first-child {
