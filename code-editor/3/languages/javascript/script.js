@@ -1034,8 +1034,7 @@ scene("win", () => {
 })
 
 go("game");
-`,
-            "Kaboom.js platformer*": ``
+`
         }
     };
 }
