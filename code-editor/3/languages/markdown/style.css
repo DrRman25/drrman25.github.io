@@ -112,22 +112,7 @@ body[theme="spooky"] #controls select {
     font-size: 80%;
 }
 
-#output-title-bar {
-    height: 2rem;
-    border-bottom: 0.0625rem solid #666;
-    box-sizing: border-box;
-    text-align: center;
-    line-height: 1.9375rem;
-    background-color: rgba(0, 255, 0, 0.5);
-    transition: background-color 0.4s ease-in-out;
-}
-
-#output-title-bar.cleared {
-    background-color: rgba(255, 0, 0, 0.5);
-}
-
-#output-iframe-container {
-    height: calc(100% - 2rem);
+#output {
     background: white;
     color: black;
 }
