@@ -9,7 +9,8 @@ import {tags} from "https://codemirror.net/try/mods/@lezer-highlight.js";
 import {indentUnit, syntaxHighlighting, HighlightStyle, foldGutter, indentOnInput, bracketMatching, foldKeymap} from "https://codemirror.net/try/mods/@codemirror-language.js";
 import {closeBrackets, autocompletion, closeBracketsKeymap, completionKeymap} from "https://codemirror.net/try/mods/@codemirror-autocomplete.js";
 import {lintKeymap} from "https://codemirror.net/try/mods/@codemirror-lint.js";
-import {markdown} from "https://codemirror.net/try/mods/@codemirror-lang-markdown.js";
+import {languages} from "https://codemirror.net/try/mods/@codemirror-language-data.js";
+import {markdown, markdownLanguage} from "https://codemirror.net/try/mods/@codemirror-lang-markdown.js";
 
 /**
 Import an file placeholder extension, for use later.
@@ -137,9 +138,9 @@ Declare the editor variable, to use later.
 let editor;
 
 /**
-Make the code 'run-able', to run the code as soon as the page loads.
+Make the code 'preview-able', to preview the code as soon as the page loads.
 */
-let canRunCode = true;
+let canPreviewCode = true;
 
 /**
 Create an object to store previous versions of the code, and two variables to store a setInterval, for use later.
@@ -159,7 +160,6 @@ const urlExampleQuery = /[?&]example=([^&]+)/.exec(document.location.search);
 Define a universal highlight style, for use in the editor.
 */
 const universalTheme = HighlightStyle.define([
-    {tag: tags.link, textDecoration: "underline"},
     {tag: tags.heading, fontWeight: "bold"},
     {tag: tags.heading1, fontSize: "1.2em", fontWeight: "bold"},
     {tag: tags.heading2, fontSize: "1.1em", fontWeight: "bold"},
@@ -290,7 +290,7 @@ function loadCode(code) {
             highlightSelectionMatches(),
             highlightActiveLine(),
             keymap.of([
-                {key: "Mod-Enter", run: run},
+                {key: "Mod-Enter", run: preview},
                 ...closeBracketsKeymap,
                 ...defaultKeymap,
                 ...searchKeymap,
@@ -301,7 +301,10 @@ function loadCode(code) {
             ]),
             EditorView.lineWrapping,
             placeholder("Not sure where to start? Look at some examples above (this message will be dismissed after typing)"),
-            markdown(),
+            markdown({
+                base: markdownLanguage,
+                codeLanguages: languages
+            }),
             search({
                 top: true
             }),
@@ -463,7 +466,7 @@ const historyEditor = new EditorView({
             highlightSelectionMatches(),
             highlightActiveLine(),
             keymap.of([
-                {key: "Mod-Enter", run: run},
+                {key: "Mod-Enter", run: preview},
                 ...closeBracketsKeymap,
                 ...defaultKeymap,
                 ...searchKeymap,
@@ -540,26 +543,11 @@ for (const button of document.getElementById("editor-ctx-menu").children) {
 }
 
 /**
-Make the 'Run' button in the context menu run the code.
+Make the 'Preview' button in the context menu preview the code.
 */
-document.getElementById("ctx-menu-btn-run").addEventListener("click", () => {
+document.getElementById("ctx-menu-btn-preview").addEventListener("click", () => {
     editor.focus();
-    run(true);
-});
-
-/**
-Make the 'Run in Fullscreen' button in the context menu run the code, and open the output in fullscreen.
-*/
-document.getElementById("ctx-menu-btn-run-fullscreen").addEventListener("click", () => {
-    document.getElementById("output-iframe-container").focus();
-    run();
-    if (typeof document.getElementById("output-iframe-container").requestFullscreen === "function") {
-        document.getElementById("output-iframe-container").requestFullscreen();
-    } else if (typeof document.getElementById("output-iframe-container").webkitRequestFullscreen === "function") {
-        document.getElementById("output-iframe-container").webkitRequestFullscreen();
-    } else if (typeof document.getElementById("output-iframe-container").mozRequestFullScreen === "function") {
-        document.getElementById("output-iframe-container").mozRequestFullScreen();
-    }
+    preview(true);
 });
 
 /**
@@ -609,7 +597,7 @@ Helper function which returns all the examples, which can be accessed by opening
 */
 function getExamples() {
     return {
-        "Basic Formatting": `# I'm the largest possible heading
+        "Basic formatting": `# I'm the largest possible heading
 
 ## I'm the second largest possible heading
 
@@ -694,7 +682,7 @@ document.getElementById("examples").addEventListener("change", () => {
     if (examples.hasOwnProperty(exampleValue)) {
         window.history.pushState({}, "", document.location.toString().replace(/[#?].*/, "") + "?example=" + encodeURIComponent(exampleValue));
         loadCode(examples[exampleValue]);
-        run(false);
+        preview(false);
     }
     document.getElementById("examples").selectedIndex = 0;
 });
@@ -713,12 +701,25 @@ import myPrograms from "./scripts/my-programs.js";
 Load code, depending on the URL query and the user's saved programs.
 */
 loadCode(
-    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) === 13) ? decodeParameter(urlCodeQuery[1])
+    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) === 14) ? decodeParameter(urlCodeQuery[1])
     : (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) ? myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["program"]
     : (urlFilenameQuery && files.hasOwnProperty(urlFilenameQuery[1])) ? files[urlFilenameQuery[1]]
     : (urlExampleQuery && examples.hasOwnProperty(decodeURIComponent(urlExampleQuery[1]))) ? examples[decodeURIComponent(urlExampleQuery[1])]
     : getDefaultCode()
 );
+
+/**
+If the user's currently loaded program has a tutorial, open the tutorial.
+*/
+if (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1])) && ((myPrograms[decodeURIComponent(urlMyProgramQuery[1])].hasOwnProperty("tutorial:text") && myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["tutorial:text"] instanceof Object && myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["tutorial:text"].constructor === Object && myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["tutorial:text"].hasOwnProperty("title") && myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["tutorial:text"].hasOwnProperty("body") && typeof myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["tutorial:text"]["title"] === "string" && typeof myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["tutorial:text"]["body"] === "string") || (myPrograms[decodeURIComponent(urlMyProgramQuery[1])].hasOwnProperty("tutorial:video") && typeof myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["tutorial:video"] === "string"))) {
+    if (!window.open(`../../tutorial/?prog=${urlMyProgramQuery[1]}`, "_blank")) {
+        document.getElementById("modal-blocked-tutorial").showModal();
+        document.getElementById("blocked-tutorial-open").href = `../../tutorial/?prog=${urlMyProgramQuery[1]}`;
+        [document.getElementById("blocked-tutorial-open"), document.getElementById("modal-blocked-tutorial-close")].forEach(element => element.addEventListener("click", () => {
+            document.getElementById("modal-blocked-tutorial").close();
+        }));
+    }
+}
 
 /**
 Allow inline dragging and dropping of files in the editor, if file placeholders are enabled in the preferences.
@@ -753,32 +754,33 @@ codeHistoryInterval = setInterval(() => {
 /**
 If the data version parameter is not the current data version, open the 'Invalid Data Version' modal.
 */
-if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !== 13)) {
+if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !== 14)) {
     document.getElementById("modal-invalid-dv").showModal();
     document.getElementById("data-version").textContent = (
-        !urlDataVersionQuery ? "3.0.0.8 or earlier"
-        : (parseInt(urlDataVersionQuery[1]) === 1) ? "3.0.0.9"
-        : (parseInt(urlDataVersionQuery[1]) === 2) ? "3.0.0.10"
-        : (parseInt(urlDataVersionQuery[1]) === 3) ? "3.0.0.11"
-        : (parseInt(urlDataVersionQuery[1]) === 4) ? "3.0.0.12"
-        : (parseInt(urlDataVersionQuery[1]) === 5) ? "3.0.0.13"
-        : (parseInt(urlDataVersionQuery[1]) === 6) ? "3.0.0.14"
-        : (parseInt(urlDataVersionQuery[1]) === 7) ? "3.0.0.15"
-        : (parseInt(urlDataVersionQuery[1]) === 8) ? "3.0.0.16"
-        : (parseInt(urlDataVersionQuery[1]) === 9) ? "3.0.0.17"
-        : (parseInt(urlDataVersionQuery[1]) === 10) ? "3.0.0.18"
-        : (parseInt(urlDataVersionQuery[1]) === 11) ? "3.0.0.19"
-        : (parseInt(urlDataVersionQuery[1]) === 12) ? "3.0.0.20"
-        : (parseInt(urlDataVersionQuery[1]) > 13) ? "(future version - 3.0.0.22+)"
+        !urlDataVersionQuery ? "version 3.0.0.8 or earlier"
+        : (parseInt(urlDataVersionQuery[1]) === 1) ? "version 3.0.0.9"
+        : (parseInt(urlDataVersionQuery[1]) === 2) ? "version 3.0.0.10"
+        : (parseInt(urlDataVersionQuery[1]) === 3) ? "version 3.0.0.11"
+        : (parseInt(urlDataVersionQuery[1]) === 4) ? "version 3.0.0.12"
+        : (parseInt(urlDataVersionQuery[1]) === 5) ? "version 3.0.0.13"
+        : (parseInt(urlDataVersionQuery[1]) === 6) ? "version 3.0.0.14"
+        : (parseInt(urlDataVersionQuery[1]) === 7) ? "version 3.0.0.15"
+        : (parseInt(urlDataVersionQuery[1]) === 8) ? "version 3.0.0.16"
+        : (parseInt(urlDataVersionQuery[1]) === 9) ? "version 3.0.0.17"
+        : (parseInt(urlDataVersionQuery[1]) === 10) ? "version 3.0.0.18"
+        : (parseInt(urlDataVersionQuery[1]) === 11) ? "version 3.0.0.19"
+        : (parseInt(urlDataVersionQuery[1]) === 12) ? "version 3.0.0.20"
+        : (parseInt(urlDataVersionQuery[1]) === 13) ? "version 3.0.0.21"
+        : (parseInt(urlDataVersionQuery[1]) > 14) ? "a future version"
         : "unknown"
     );
 }
 
 /**
-Helper function which runs the code in the Output tab.
+Helper function which previews the code in the Output tab.
 */
-function run(coolDown = true) {
-    if (canRunCode) {
+function preview(coolDown = true) {
+    if (canPreviewCode) {
         if (innerWidth < 1200) {
             document.getElementById("editor").style.display = "none";
             document.getElementById("output").style.display = "block";
@@ -795,6 +797,24 @@ function run(coolDown = true) {
 
 <head>
     <title>DrRcraft Markdown Sandbox</title>
+    <style>
+        .tok-keyword, .fn, .keyword {color: #005cb8;}
+        .tok-atom {color: #005cb8;}
+        .tok-bool {color: #004182;}
+        .tok-number, .prim {color: #466900;}
+        .tok-attribute {color: #004182;}
+        .tok-typeName, .tok-className {color: #005cb8;}
+        .tok-literal {color: #736000;}
+        .tok-comment {color: #98999c;}
+        .tok-string, .string {color: #964b00;}
+        .tok-string2 {color: #ab2980;}
+        .tok-propertyName {color: #004182;}
+        .tok-operator {color: #004182;}
+        .tok-labelName, .tok-function {color: #736000;}
+        .tok-meta {color: #005cb8;}
+        .tok-angleBracket {color: #5c5f66;}
+        .tok-invalid {color: #c00;}
+    </style>
 </head>
 
 <body></body>
@@ -802,29 +822,25 @@ function run(coolDown = true) {
 </html>
 `);
         frameDoc.close();
+        let prismScript = document.createElement("script");
+        prismScript.type = "module";
+        prismScript.src = "../../tutorial/scripts/highlighter.min.js";
+        frameDoc.body.appendChild(prismScript);
+        let markdownScript = document.createElement("script");
+        markdownScript.type = "module";
+        markdownScript.src = "https://unpkg.com/md-block/md-block.js";
+        frameDoc.body.appendChild(markdownScript);
         let markdownBlock = document.createElement("md-block");
         markdownBlock.textContent = editor.state.doc.toString();
         frameDoc.body.appendChild(markdownBlock);
-        let markdownScript = document.createElement("script");
-        markdownScript.type = "module";
-        markdownScript.src = "https://md-block.verou.me/md-block.js";
-        frameDoc.body.appendChild(markdownScript);
-        let prismStyles = document.createElement("link");
-        prismStyles.rel = "stylesheet";
-        prismStyles.href = "prism-highlighter/prism.css";
-        frameDoc.body.appendChild(prismStyles);
-        let prismScript = document.createElement("script");
-        prismScript.src = "prism-highlighter/prism.js";
-        frameDoc.body.appendChild(prismScript);
         if (coolDown) {
-            canRunCode = false;
-            document.getElementById("run").textContent = ". . .";
+            canPreviewCode = false;
+            document.getElementById("preview").textContent = ". . .";
             setTimeout(() => {
-                canRunCode = true;
-                document.getElementById("run").textContent = "Run";
+                canPreviewCode = true;
+                document.getElementById("preview").textContent = "Preview";
             }, 500);
         }
-        document.getElementById("clear").disabled = false;
     }
     return true;
 }
@@ -856,7 +872,7 @@ function prepareShareModal() {
     : editor.state.doc.toString().length >= 1048576 ? `${(editor.state.doc.toString().length / 1048576).toFixed(2)} megabytes`
     : editor.state.doc.toString().length >= 1024 ? `${(editor.state.doc.toString().length / 1024).toFixed(2)} kilobytes`
     : `${editor.state.doc.toString().length} bytes`;
-    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=13";
+    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=14";
 }
 
 /**
@@ -865,6 +881,93 @@ Helper function that prepares the save modal when it is opened.
 function prepareSaveModal() {
     if (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) {
         document.getElementById("save-name").value = decodeURIComponent(urlMyProgramQuery[1]);
+    } else {
+        const adjectives = [
+            "Gangly",
+            "Stupifying",
+            "Jawdropping",
+            "Mindblowing",
+            "Deceiving",
+            "Ungainly",
+            "Unexpected",
+            "Traumatizing",
+            "Entertaining",
+            "Horrifying",
+            "Breathtaking",
+            "Terrifying",
+            "Lethal",
+            "Unusual",
+            "Mollifying",
+            "Dirty",
+            "Smelly",
+            "Slippery",
+            "Shiny",
+            "Lumpy",
+            "Sentient",
+            "Overcooked",
+            "Undercooked",
+            "Melted",
+            "Holy",
+            "Cursed",
+            "Traumatized",
+            "Petrified",
+            "Petrifying",
+            "Beautiful",
+            "Sunburnt"
+        ];
+        const plurals = [
+            "Toasters",
+            "Peanutbutter",
+            "Apples",
+            "Bellybuttonlint",
+            "Toejam",
+            "Breadtags",
+            "Farts",
+            "Dangleberries",
+            "Catfur",
+            "Elephants",
+            "Blackheadremovers",
+            "Toiletbrushes",
+            "Bananas",
+            "Monkeys",
+            "Eyeballs",
+            "Earwax",
+            "Earwigs",
+            "Bogans",
+            "Armhairs",
+            "Fingernails",
+            "Trees",
+            "Frogs",
+            "Water",
+            "Leaves",
+            "Humans",
+            "Onezies",
+            "Snails",
+            "Lightsabers",
+            "Simpsons",
+            "Coconuts",
+            "Suitcases",
+            "Dogs",
+            "Cats",
+            "Fish",
+            "Umbrellas",
+            "Animegirls",
+            "Hammocks",
+            "Printers",
+            "Stormtroopers",
+            "Snakes",
+            "Snacks",
+            "Bats",
+            "Athletes",
+            "Shoes",
+            "Batarangs",
+            "Gorillas"
+        ];
+        const adjective1 = adjectives[Math.floor(Math.random() * adjectives.length)];
+        adjectives.splice(adjectives.indexOf(adjective1), 1);
+        const adjective2 = adjectives[Math.floor(Math.random() * adjectives.length)];
+        const plural = plurals[Math.floor(Math.random() * plurals.length)];
+        document.getElementById("save-name").value = `${adjective1}${adjective2}${plural}`;
     }
 }
 
@@ -881,10 +984,10 @@ function prepareHistoryModal() {
 }
 
 /**
-When the 'Run' button is clicked, run the code.
+When the 'Preview' button is clicked, preview the code.
 */
-document.getElementById("run").addEventListener("click", () => {
-    run(true);
+document.getElementById("preview").addEventListener("click", () => {
+    preview(true);
 });
 
 /**
@@ -896,18 +999,24 @@ document.getElementById("share").addEventListener("click", () => {
 });
 
 /**
-When the 'Save' button is clicked, open the save modal.
+When the 'Save' button is clicked, open the save modal if the program in the search query is not found, otherwise, save the program.
 */
-document.getElementById("save").addEventListener("click", () => {
-    document.getElementById("modal-save").showModal();
-    prepareSaveModal();
+document.getElementById("save").addEventListener("click", e => {
+    if (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) {
+        myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["program"] = editor.state.doc.toString();
+        localStorage.setItem("code-editor-my-programs", JSON.stringify(myPrograms));
+        displayNotification(e.target, document.body, "Program found and successfully saved!", 2000);
+    } else {
+        document.getElementById("modal-save").showModal();
+        prepareSaveModal();
+    }
 });
 
 /**
 When the 'Copy link' button in the share modal is clicked, copy the share link to the clipboard.
 */
 document.getElementById("share-link-copy").addEventListener("click", e => {
-    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=13");
+    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=14");
     displayNotification(e.target, document.getElementById("modal-share"), "Link successfully copied!", 2000);
 });
 
@@ -946,9 +1055,16 @@ document.getElementById("modal-share-close").addEventListener("click", () => {
 When the 'Save code' button in the save modal is clicked, save the code.
 */
 document.getElementById("save-to-programs").addEventListener("click", e => {
-    myPrograms[document.getElementById("save-name").value] = {};
-    myPrograms[document.getElementById("save-name").value]["language"] = "markdown";
-    myPrograms[document.getElementById("save-name").value]["program"] = editor.state.doc.toString();
+    const originalProgramName = document.getElementById("save-name").value || "Markdown (experimental)";
+    let programName = originalProgramName;
+    let programNumber = 1;
+    while (myPrograms.hasOwnProperty(programName)) {
+        programName = `${originalProgramName} (${programNumber})`;
+        programNumber++;
+    }
+    myPrograms[programName] = {};
+    myPrograms[programName]["language"] = "markdown";
+    myPrograms[programName]["program"] = editor.state.doc.toString();
     displayNotification(e.target, document.getElementById("modal-save"), "Program successfully saved!", 2000);
     localStorage.setItem("code-editor-my-programs", JSON.stringify(myPrograms));
 });
@@ -1026,7 +1142,7 @@ When the 'Try to Load Anyway' button in the 'Invalid Data Version' modal is clic
 */
 document.getElementById("invalid-dv-load-anyway").addEventListener("click", () => {
     loadCode(decodeParameter(urlCodeQuery[1]));
-    run(false);
+    preview(false);
     document.getElementById("modal-invalid-dv").close();
 });
 
@@ -1038,19 +1154,9 @@ document.getElementById("invalid-dv-load-default").addEventListener("click", () 
 });
 
 /**
-When the 'Clear Output' button is clicked, clear the Output tab.
+Preview the code when the page loads.
 */
-document.getElementById("clear").addEventListener("click", () => {
-    document.getElementById("output").textContent = "";
-    let frame = document.createElement("iframe");
-    document.getElementById("output").appendChild(frame);
-    document.getElementById("clear").disabled = true;
-});
-
-/**
-Run the code when the page loads.
-*/
-run(false);
+preview(false);
 
 addEventListener("load", () => {
     if (innerWidth < 1200) {

@@ -159,14 +159,14 @@ document.getElementById("apply").addEventListener("click", e => {
 /**
 Automatically resize the indent unit input's width after typing.
 */
-document.getElementById("editor-indentUnit").style.width = `${0.35 + (0.5625 * document.getElementById("editor-indentUnit").value.length)}em`;
+document.getElementById("editor-indentUnit").style.width = `${0.35 + (0.6125 * document.getElementById("editor-indentUnit").value.length)}em`;
 if (document.getElementById("editor-indentUnit").value === "\t") {
     document.getElementById("editor-indentUnit").style.width = "4.85em";
 } else if (document.getElementById("editor-indentUnit").value === "") {
     document.getElementById("editor-indentUnit").style.width = "0.35em";
 }
-document.getElementById("editor-indentUnit").addEventListener("keyup", () => {
-    document.getElementById("editor-indentUnit").style.width = `${0.35 + (0.5625 * document.getElementById("editor-indentUnit").value.length)}em`;
+document.getElementById("editor-indentUnit").addEventListener("input", () => {
+    document.getElementById("editor-indentUnit").style.width = `${0.35 + (0.6125 * document.getElementById("editor-indentUnit").value.length)}em`;
     if (document.getElementById("editor-indentUnit").value === "\t") {
         document.getElementById("editor-indentUnit").style.width = "4.85em";
     } else if (document.getElementById("editor-indentUnit").value === "") {
@@ -177,12 +177,12 @@ document.getElementById("editor-indentUnit").addEventListener("keyup", () => {
 /**
 Automatically resize the JavaScript completion source input's width after typing.
 */
-document.getElementById("editor-jsCompletionSource").style.width = `${0.35 + (0.5625 * document.getElementById("editor-jsCompletionSource").value.length)}em`;
+document.getElementById("editor-jsCompletionSource").style.width = `${0.35 + (0.6125 * document.getElementById("editor-jsCompletionSource").value.length)}em`;
 if (document.getElementById("editor-jsCompletionSource").value === "") {
     document.getElementById("editor-jsCompletionSource").style.width = "0.35em";
 }
-document.getElementById("editor-jsCompletionSource").addEventListener("keyup", () => {
-    document.getElementById("editor-jsCompletionSource").style.width = `${0.35 + (0.5625 * document.getElementById("editor-jsCompletionSource").value.length)}em`;
+document.getElementById("editor-jsCompletionSource").addEventListener("input", () => {
+    document.getElementById("editor-jsCompletionSource").style.width = `${0.35 + (0.6125 * document.getElementById("editor-jsCompletionSource").value.length)}em`;
     if (document.getElementById("editor-jsCompletionSource").value === "") {
         document.getElementById("editor-jsCompletionSource").style.width = "0.35em";
     }
@@ -191,12 +191,12 @@ document.getElementById("editor-jsCompletionSource").addEventListener("keyup", (
 /**
 Automatically resize the JavaScript completion scope input's width after typing.
 */
-document.getElementById("editor-jsCompletionScope").style.width = `${0.35 + (0.5625 * document.getElementById("editor-jsCompletionScope").value.length)}em`;
+document.getElementById("editor-jsCompletionScope").style.width = `${0.35 + (0.6125 * document.getElementById("editor-jsCompletionScope").value.length)}em`;
 if (document.getElementById("editor-jsCompletionScope").value === "") {
     document.getElementById("editor-jsCompletionScope").style.width = "0.35em";
 }
-document.getElementById("editor-jsCompletionScope").addEventListener("keyup", () => {
-    document.getElementById("editor-jsCompletionScope").style.width = `${0.35 + (0.5625 * document.getElementById("editor-jsCompletionScope").value.length)}em`;
+document.getElementById("editor-jsCompletionScope").addEventListener("input", () => {
+    document.getElementById("editor-jsCompletionScope").style.width = `${0.35 + (0.6125 * document.getElementById("editor-jsCompletionScope").value.length)}em`;
     if (document.getElementById("editor-jsCompletionScope").value === "") {
         document.getElementById("editor-jsCompletionScope").style.width = "0.35em";
     }

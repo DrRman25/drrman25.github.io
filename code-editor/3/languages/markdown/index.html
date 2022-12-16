@@ -15,19 +15,20 @@
                 <div class="navlinks">
                     <a href="../../about/">About</a>
                     <a href="../../help/">Help</a>
-                    <a href="../" class="active">Languages</a>
+                    <a href="../../create/">Create</a>
+                    <a href="../../programs/">Programs</a>
+                    <a href="../../preferences/">Preferences</a>
                     <a href="../../../">Version 2</a>
                 </div>
             </nav>
         </header>
         <article>
-            <h1>Markdown Editor <span class="version">v3.0.0.21b</span></h1>
+            <h1>Markdown Editor <span class="version">v3.0.0.22</span></h1>
             <p><strong style="color: #f50;">Note:</strong> This editor is currently in a testing phase. Some features may be missing, or completely not working.</p>
             <div id="controls">
-                <button id="run" title="Run code (Ctrl-Enter)" aria-title="Run code (Ctrl-Enter)">Run</button>
+                <button id="preview" title="Preview code (Ctrl-Enter)" aria-title="Preview code (Ctrl-Enter)">Preview</button>
                 <button id="share" aria-title="Share code">Share</button>
                 <button id="save" aria-title="Save code to My Programs">Save</button>
-                <button id="clear" title="Clear output" aria-title="Clear output">Clear Output</button>
                 <select id="examples" aria-title="List of examples">
                     <option>Select example...</option>
                 </select>
@@ -41,17 +42,12 @@
             </div>
         </article>
         <div id="editor-ctx-menu">
-            <button id="ctx-menu-btn-run" data-drrcraft-shortcut="Ctrl Enter">
+            <button id="ctx-menu-btn-preview" class="ctx-menu-sep" data-drrcraft-shortcut="Ctrl Enter">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" style="vertical-align: middle;">
-                    <path d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z"></path>
+                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"></path>
+                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"></path>
                 </svg>
-                &nbsp; Run
-            </button>
-            <button id="ctx-menu-btn-run-fullscreen" class="ctx-menu-sep">
-                <svg width="16" height="16" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true" style="vertical-align: middle;">
-                    <path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z"></path>
-                </svg>
-                &nbsp; Run in Fullscreen
+                &nbsp; Preview
             </button>
             <button id="ctx-menu-btn-history" class="ctx-menu-sep">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="vertical-align: middle;">
@@ -91,8 +87,8 @@
             <button id="modal-share-close" aria-title="Close modal" style="margin-top: 0.9375rem;">Close</button>
         </dialog>
         <dialog id="modal-save">
-            <h2 style="margin-top: 0;">Save Code to My Programs</h2>
-            <p style="margin-bottom: 0.9375rem;">My Programs is a place where you can save a program with just one click. If you haven't saved the code before, type in a new name below, and click "Save code". If you have saved the code before, but changed something since your last save, just click "Save code" again.</p>
+            <h2 style="margin-top: 0;">Save Code to Programs</h2>
+            <p style="margin-bottom: 0.9375rem;">Type the name of the program below, and it will save automatically.</p>
             <input type="text" id="save-name" style="width: 19rem;" />
             <button id="save-to-programs" aria-title="Save code">Save code</button>
             <br/>
@@ -111,9 +107,14 @@
         </dialog>
         <dialog id="modal-invalid-dv">
             <h2 style="margin-top: 0;">Invalid Data Version</h2>
-            <p style="margin-bottom: 0.9375rem;">This link, which most likely came from the 'Share' tool, was created specifically in version <span id="data-version"></span>, while you are on version 3.0.0.21. If you received this link from someone, please ask them to send you a more up-to-date link! If that is not possible, you can try loading the code anyway, or just use the default template.</p>
+            <p style="margin-bottom: 0.9375rem;">This link, which most likely came from the 'Share' tool, was created specifically in <span id="data-version"></span>, while you are on version 3.0.0.22. If you received this link from someone, please ask them to send you a more up-to-date link! If that is not possible, you can try loading the code anyway, or just use the default template.</p>
             <button id="invalid-dv-load-anyway" aria-title="Try to load code anyway">Try to Load Anyway</button>
             <button id="invalid-dv-load-default" aria-title="Use default template">Use Default Code</button>
+        </dialog>
+        <dialog id="modal-blocked-tutorial">
+            <h2 style="margin-top: 0;">Unable to Open Tutorial</h2>
+            <p style="margin-bottom: 0.9375rem;">This program has a tutorial, but it could not be opened automatically. To view it, either <a id="blocked-tutorial-open" target="_blank">open the tutorial in a new tab</a>, or enable pop-ups in your browser settings and refresh the page.</p>
+            <button id="modal-blocked-tutorial-close">Close</button>
         </dialog>
         <iframe id="completion-source-frame"></iframe>
         <script type="module" src="script.js"></script>

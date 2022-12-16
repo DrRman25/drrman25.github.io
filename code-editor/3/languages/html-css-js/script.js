@@ -784,12 +784,25 @@ import myPrograms from "./scripts/my-programs.js";
 Load code, depending on the URL query and the user's saved programs.
 */
 loadCode(
-    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) === 13) ? decodeParameter(urlCodeQuery[1])
+    (urlCodeQuery && urlDataVersionQuery && parseInt(urlDataVersionQuery[1]) === 14) ? decodeParameter(urlCodeQuery[1])
     : (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) ? myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["program"]
     : (urlFilenameQuery && files.hasOwnProperty(urlFilenameQuery[1])) ? files[urlFilenameQuery[1]]
     : (urlExampleQuery && examples.hasOwnProperty(decodeURIComponent(urlExampleQuery[1]))) ? examples[decodeURIComponent(urlExampleQuery[1])]
     : getDefaultCode()
 );
+
+/**
+If the user's currently loaded program has a tutorial, open the tutorial.
+*/
+if (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1])) && ((myPrograms[decodeURIComponent(urlMyProgramQuery[1])].hasOwnProperty("tutorial:text") && myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["tutorial:text"] instanceof Object && myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["tutorial:text"].constructor === Object && myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["tutorial:text"].hasOwnProperty("title") && myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["tutorial:text"].hasOwnProperty("body") && typeof myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["tutorial:text"]["title"] === "string" && typeof myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["tutorial:text"]["body"] === "string") || (myPrograms[decodeURIComponent(urlMyProgramQuery[1])].hasOwnProperty("tutorial:video") && typeof myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["tutorial:video"] === "string"))) {
+    if (!window.open(`../../tutorial/?prog=${urlMyProgramQuery[1]}`, "_blank")) {
+        document.getElementById("modal-blocked-tutorial").showModal();
+        document.getElementById("blocked-tutorial-open").href = `../../tutorial/?prog=${urlMyProgramQuery[1]}`;
+        [document.getElementById("blocked-tutorial-open"), document.getElementById("modal-blocked-tutorial-close")].forEach(element => element.addEventListener("click", () => {
+            document.getElementById("modal-blocked-tutorial").close();
+        }));
+    }
+}
 
 /**
 Allow inline dragging and dropping of files in the editor, if file placeholders are enabled in the preferences.
@@ -824,23 +837,24 @@ codeHistoryInterval = setInterval(() => {
 /**
 If the data version parameter is not the current data version, open the 'Invalid Data Version' modal.
 */
-if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !== 13)) {
+if (urlCodeQuery && (!urlDataVersionQuery || parseInt(urlDataVersionQuery[1]) !== 14)) {
     document.getElementById("modal-invalid-dv").showModal();
     document.getElementById("data-version").textContent = (
-        !urlDataVersionQuery ? "3.0.0.8 or earlier"
-        : (parseInt(urlDataVersionQuery[1]) === 1) ? "3.0.0.9"
-        : (parseInt(urlDataVersionQuery[1]) === 2) ? "3.0.0.10"
-        : (parseInt(urlDataVersionQuery[1]) === 3) ? "3.0.0.11"
-        : (parseInt(urlDataVersionQuery[1]) === 4) ? "3.0.0.12"
-        : (parseInt(urlDataVersionQuery[1]) === 5) ? "3.0.0.13"
-        : (parseInt(urlDataVersionQuery[1]) === 6) ? "3.0.0.14"
-        : (parseInt(urlDataVersionQuery[1]) === 7) ? "3.0.0.15"
-        : (parseInt(urlDataVersionQuery[1]) === 8) ? "3.0.0.16"
-        : (parseInt(urlDataVersionQuery[1]) === 9) ? "3.0.0.17"
-        : (parseInt(urlDataVersionQuery[1]) === 10) ? "3.0.0.18"
-        : (parseInt(urlDataVersionQuery[1]) === 11) ? "3.0.0.19"
-        : (parseInt(urlDataVersionQuery[1]) === 12) ? "3.0.0.20"
-        : (parseInt(urlDataVersionQuery[1]) > 13) ? "(future version - 3.0.0.22+)"
+        !urlDataVersionQuery ? "version 3.0.0.8 or earlier"
+        : (parseInt(urlDataVersionQuery[1]) === 1) ? "version 3.0.0.9"
+        : (parseInt(urlDataVersionQuery[1]) === 2) ? "version 3.0.0.10"
+        : (parseInt(urlDataVersionQuery[1]) === 3) ? "version 3.0.0.11"
+        : (parseInt(urlDataVersionQuery[1]) === 4) ? "version 3.0.0.12"
+        : (parseInt(urlDataVersionQuery[1]) === 5) ? "version 3.0.0.13"
+        : (parseInt(urlDataVersionQuery[1]) === 6) ? "version 3.0.0.14"
+        : (parseInt(urlDataVersionQuery[1]) === 7) ? "version 3.0.0.15"
+        : (parseInt(urlDataVersionQuery[1]) === 8) ? "version 3.0.0.16"
+        : (parseInt(urlDataVersionQuery[1]) === 9) ? "version 3.0.0.17"
+        : (parseInt(urlDataVersionQuery[1]) === 10) ? "version 3.0.0.18"
+        : (parseInt(urlDataVersionQuery[1]) === 11) ? "version 3.0.0.19"
+        : (parseInt(urlDataVersionQuery[1]) === 12) ? "version 3.0.0.20"
+        : (parseInt(urlDataVersionQuery[1]) === 13) ? "version 3.0.0.21"
+        : (parseInt(urlDataVersionQuery[1]) > 14) ? "a future version"
         : "unknown"
     );
 }
@@ -911,7 +925,7 @@ function prepareShareModal() {
     : editor.state.doc.toString().length >= 1048576 ? `${(editor.state.doc.toString().length / 1048576).toFixed(2)} megabytes`
     : editor.state.doc.toString().length >= 1024 ? `${(editor.state.doc.toString().length / 1024).toFixed(2)} kilobytes`
     : `${editor.state.doc.toString().length} bytes`;
-    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=13";
+    document.getElementById("share-link").value = document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=14";
 }
 
 /**
@@ -920,6 +934,93 @@ Helper function that prepares the save modal when it is opened.
 function prepareSaveModal() {
     if (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) {
         document.getElementById("save-name").value = decodeURIComponent(urlMyProgramQuery[1]);
+    } else {
+        const adjectives = [
+            "Gangly",
+            "Stupifying",
+            "Jawdropping",
+            "Mindblowing",
+            "Deceiving",
+            "Ungainly",
+            "Unexpected",
+            "Traumatizing",
+            "Entertaining",
+            "Horrifying",
+            "Breathtaking",
+            "Terrifying",
+            "Lethal",
+            "Unusual",
+            "Mollifying",
+            "Dirty",
+            "Smelly",
+            "Slippery",
+            "Shiny",
+            "Lumpy",
+            "Sentient",
+            "Overcooked",
+            "Undercooked",
+            "Melted",
+            "Holy",
+            "Cursed",
+            "Traumatized",
+            "Petrified",
+            "Petrifying",
+            "Beautiful",
+            "Sunburnt"
+        ];
+        const plurals = [
+            "Toasters",
+            "Peanutbutter",
+            "Apples",
+            "Bellybuttonlint",
+            "Toejam",
+            "Breadtags",
+            "Farts",
+            "Dangleberries",
+            "Catfur",
+            "Elephants",
+            "Blackheadremovers",
+            "Toiletbrushes",
+            "Bananas",
+            "Monkeys",
+            "Eyeballs",
+            "Earwax",
+            "Earwigs",
+            "Bogans",
+            "Armhairs",
+            "Fingernails",
+            "Trees",
+            "Frogs",
+            "Water",
+            "Leaves",
+            "Humans",
+            "Onezies",
+            "Snails",
+            "Lightsabers",
+            "Simpsons",
+            "Coconuts",
+            "Suitcases",
+            "Dogs",
+            "Cats",
+            "Fish",
+            "Umbrellas",
+            "Animegirls",
+            "Hammocks",
+            "Printers",
+            "Stormtroopers",
+            "Snakes",
+            "Snacks",
+            "Bats",
+            "Athletes",
+            "Shoes",
+            "Batarangs",
+            "Gorillas"
+        ];
+        const adjective1 = adjectives[Math.floor(Math.random() * adjectives.length)];
+        adjectives.splice(adjectives.indexOf(adjective1), 1);
+        const adjective2 = adjectives[Math.floor(Math.random() * adjectives.length)];
+        const plural = plurals[Math.floor(Math.random() * plurals.length)];
+        document.getElementById("save-name").value = `${adjective1}${adjective2}${plural}`;
     }
 }
 
@@ -951,18 +1052,24 @@ document.getElementById("share").addEventListener("click", () => {
 });
 
 /**
-When the 'Save' button is clicked, open the save modal.
+When the 'Save' button is clicked, open the save modal if the program in the search query is not found, otherwise, save the program.
 */
-document.getElementById("save").addEventListener("click", () => {
-    document.getElementById("modal-save").showModal();
-    prepareSaveModal();
+document.getElementById("save").addEventListener("click", e => {
+    if (urlMyProgramQuery && myPrograms.hasOwnProperty(decodeURIComponent(urlMyProgramQuery[1]))) {
+        myPrograms[decodeURIComponent(urlMyProgramQuery[1])]["program"] = editor.state.doc.toString();
+        localStorage.setItem("code-editor-my-programs", JSON.stringify(myPrograms));
+        displayNotification(e.target, document.body, "Program found and successfully saved!", 2000);
+    } else {
+        document.getElementById("modal-save").showModal();
+        prepareSaveModal();
+    }
 });
 
 /**
 When the 'Copy link' button in the share modal is clicked, copy the share link to the clipboard.
 */
 document.getElementById("share-link-copy").addEventListener("click", e => {
-    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=13");
+    navigator.clipboard.writeText(document.location.toString().replace(/[#?].*/, "") + "?c=" + encodeParameter(editor.state.doc.toString()) + "&dv=14");
     displayNotification(e.target, document.getElementById("modal-share"), "Link successfully copied!", 2000);
 });
 
@@ -1001,9 +1108,16 @@ document.getElementById("modal-share-close").addEventListener("click", () => {
 When the 'Save code' button in the save modal is clicked, save the code.
 */
 document.getElementById("save-to-programs").addEventListener("click", e => {
-    myPrograms[document.getElementById("save-name").value] = {};
-    myPrograms[document.getElementById("save-name").value]["language"] = "html-css-js";
-    myPrograms[document.getElementById("save-name").value]["program"] = editor.state.doc.toString();
+    const originalProgramName = document.getElementById("save-name").value || "HTML, CSS, JS";
+    let programName = originalProgramName;
+    let programNumber = 1;
+    while (myPrograms.hasOwnProperty(programName)) {
+        programName = `${originalProgramName} (${programNumber})`;
+        programNumber++;
+    }
+    myPrograms[programName] = {};
+    myPrograms[programName]["language"] = "html-css-js";
+    myPrograms[programName]["program"] = editor.state.doc.toString();
     displayNotification(e.target, document.getElementById("modal-save"), "Program successfully saved!", 2000);
     localStorage.setItem("code-editor-my-programs", JSON.stringify(myPrograms));
 });

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Code Editor: Command Line Cheatsheet</title>
+        <link rel="stylesheet" href="../../style/site.css" />
+        <link rel="stylesheet" href="style.css" />
+        <link rel="icon" href="../../style/logo-small.svg" />
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a class="logo" href="../../">Code Editor</a>
+                <div class="navlinks">
+                    <a href="../../about/">About</a>
+                    <a href="../../help/">Help</a>
+                    <a href="../../create/">Create</a>
+                    <a href="../" class="active">Programs</a>
+                    <a href="../../preferences/">Preferences</a>
+                    <a href="../../../">Version 2</a>
+                </div>
+            </nav>
+        </header>
+        <article>
+            <h1>Command Line Cheatsheet</h1>
+            <p>After you're done, <a href="../">go back to the command line</a>.</p>
+            <h2>Delete a Program</h2>
+            <p><code>DELETE "<input type="text" placeholder="program" />"</code></p>
+            <h2>Fork / Clone a Program</h2>
+            <p><code>CLONE "<input type="text" id="clone-command-1" placeholder="old program" />" "<input type="text" id="clone-command-2" placeholder="new program" />"</code><button id="clone-copy">Copy</button></p>
+            <h2>Modify Raw JSON of a Program</h2>
+            <p><code>EDIT "<input type="text" placeholder="program" />"</code></p>
+            <h2>Rename a Program</h2>
+            <p><code>RENAME "<input type="text" placeholder="program" />"</code></p>
+        <script defer="true" src="script.js"></script>
+    </body>
+</html>

@@ -1,11 +1,16 @@
 .notification {
     position: fixed;
     background: lightyellow;
-    border: .0625rem solid gold;
-    border-radius: .5rem;
-    padding: .125rem .3125rem;
+    border: 0.0625rem solid gold;
+    border-radius: 0.5rem;
+    padding: 0.125rem 0.3125rem;
     cursor: default;
     user-select: none;
     -webkit-user-select: none;
     color: black;
+}
+
+ul[class^="grid-list-"] strong {
+    font-size: 110%;
+    word-break: break-all;
 }

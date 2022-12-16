@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Code Editor: Programs</title>
+        <link rel="stylesheet" href="../style/site.css" />
+        <link rel="stylesheet" href="style.css" />
+        <link rel="icon" href="../style/logo-small.svg" />
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a class="logo" href="../">Code Editor</a>
+                <div class="navlinks">
+                    <a href="../about/">About</a>
+                    <a href="../help/">Help</a>
+                    <a href="../create/">Create</a>
+                    <a href="./" class="active">Programs</a>
+                    <a href="../preferences/">Preferences</a>
+                    <a href="../../">Version 2</a>
+                </div>
+            </nav>
+        </header>
+        <article>
+            <h1>Programs</h1>
+            <ul id="my-programs-list" class="grid-list-3"></ul>
+            <section id="no-programs" style="display: none; background-color: #add8e680; text-align: center; padding: 0.5rem 0; border-radius: 2rem;">
+                <h2>You have no programs</h2>
+                <p>Let's add some programs by clicking "Save" in one of the editors, or using the "Create" button at the top of the page.</p>
+            </section>
+            <h2>Run Commands</h2>
+            <p>To modify a program, use the tool below to run a command.</p>
+            <div id="command-line">
+                <select id="actions">
+                    <option>Select a command...</option>
+                    <option value="clone">CLONE</option>
+                    <option value="delete">DELETE</option>
+                    <option value="edit">EDIT</option>
+                    <option value="rename">RENAME</option>
+                </select>
+                <input type="text" id="command-parameter-1" style="flex-grow: 1;" disabled="true" />
+                <input type="text" id="command-parameter-2" style="display: none; flex-grow: 1;" />
+                <button id="run-command">Run command</button>
+            </div>
+        </article>
+        <dialog id="modal-edit">
+            <h2 style="margin-top: 0;">Edit Raw Program JSON Data</h2>
+            <div id="modal-edit-view"></div>
+            <p id="tutorial-found-message" style="margin-bottom: 0; display: none;">A tutorial has been found in the JSON. Would you like to edit it? <button id="tutorial-edit">Yes</button></p>
+            <button id="modal-edit-save" style="margin-top: 0.75rem;">Save</button>
+            <button id="modal-edit-close" style="margin-top: 0.75rem;">Close</button>
+        </dialog>
+        <dialog id="modal-tutorial">
+            <h2 style="margin-top: 0;">Edit Program Tutorial</h2>
+            <input type="text" id="modal-tutorial-title" placeholder="Title of Tutorial" style="margin-bottom: 0.75rem;" />
+            <div id="modal-tutorial-view"></div>
+            <button id="modal-tutorial-save" style="margin-top: 0.75rem;">Save</button>
+        </dialog>
+        <script type="module" src="script.js"></script>
+    </body>
+</html>

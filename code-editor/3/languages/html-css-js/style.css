@@ -170,13 +170,17 @@ body[theme="spooky"] #controls select {
     width: 100%;
 }
 
+article, header, footer nav {
+    max-width: max(calc(100% - 10rem), 720px);
+}
+
 @media screen and (min-width: 1200px) {
     #tab-editor, #tab-output {
         display: none;
     }
-    
+
     article, header, footer nav {
-        max-width: 1150px;
+        max-width: max(calc(100% - 10rem), 1150px);
     }
     
     #editor {
@@ -191,7 +195,7 @@ body[theme="spooky"] #controls select {
 
 @media screen and (min-width: 1400px) {
     article, header, footer nav {
-        max-width: 1350px;
+        max-width: max(calc(100% - 10rem), 1350px);
     }
 }
 
@@ -250,9 +254,27 @@ body[theme="spooky"] #modal-history-view .cm-scroller {
     color: white;
 }
 
-
 #history-controls {
     display: flex;
     column-gap: 0.625rem;
     margin-top: 0.625rem;
+}
+
+.deprecated {
+    background-color: #da5d5d80;
+    font-weight: bold;
+    display: inline-block;
+    padding: 0.1875rem 0.25rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0.5rem #da5d5d;
+    margin: 0.25rem;
+    cursor: default;
+}
+
+.deprecated::moz-selection {
+    background-color: #fff1;
+}
+
+.deprecated::selection {
+    background-color: #fff1;
 }

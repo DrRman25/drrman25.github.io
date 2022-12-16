@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Code Editor: Tutorial</title>
+        <link rel="stylesheet" href="../style/site.css" />
+        <link rel="stylesheet" href="style.css" />
+        <link rel="icon" href="../style/logo-small.svg" />
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a class="logo" href="../">Code Editor</a>
+                <div class="navlinks">
+                    <a href="../about/">About</a>
+                    <a href="../help/">Help</a>
+                    <a href="../create/">Create</a>
+                    <a href="../programs/">Programs</a>
+                    <a href="../preferences/">Preferences</a>
+                    <a href="../../">Version 2</a>
+                </div>
+            </nav>
+        </header>
+        <article>
+            <h1 id="tutorial-title"></h1>
+            <div id="video-tutorial-container" style="width: calc(640px + 2rem); height: calc(360px + 4rem); transform: translate(0, 0);">
+                <div class="video-tutorial-container-inner">
+                    <iframe id="video-tutorial-frame"></iframe>
+                    <div id="video-tutorial-frame-cover"></div>
+                </div>
+            </div>
+<md-block hmin="2"></md-block>
+        </article>
+        <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+        <script src="script.js"></script>
+        <script type="module" src="scripts/highlighter.min.js"></script>
+<!--         <script src="../languages/markdown/prism-highlighter/prism.js"></script> -->
+        <script type="module" src="https://unpkg.com/md-block/md-block.js"></script>
+    </body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>d</title>
+        <link rel="stylesheet" href="../../style/site.css" />
+    </head>
+    <body>
+        <pre id="code"></pre>
+        <script type="module">
+            import {renderString} from "./codemirror-render.js";
+             let code = `function add(a, b) {
+    return a + b;
+    1;
+    true;
+    "x"
+} 
+// amazing comment!
+`;
+
+            let result = renderString(code);
+            document.getElementById("code").innerHTML = result.codeLinesOnly
+        </script>
+    </body>
+</html>

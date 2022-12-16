@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Code Editor: Preferences</title>
+        <link rel="stylesheet" href="../style/site.css" />
+        <link rel="stylesheet" href="style.css" />
+        <link rel="icon" href="../style/logo-small.svg" />
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a class="logo" href="../">Code Editor</a>
+                <div class="navlinks">
+                    <a href="../about/">About</a>
+                    <a href="../help/">Help</a>
+                    <a href="../create/">Create</a>
+                    <a href="../programs/">Programs</a>
+                    <a href="./" class="active">Preferences</a>
+                    <a href="../../">Version 2</a>
+                </div>
+            </nav>
+        </header>
+        <article>
+            <h1>Preferences</h1>
+            <p>You can change the configuration of the editor or site here, although after applying your changes, you must refresh <em>all</em> instances of the editor for the changes to take effect.</p>
+            <button id="apply" aria-title="Apply and save changes" class="control">Apply</button>
+            <button id="done" aria-title="Leave" class="control">Done</button>
+            <h2>Site Settings</h2>
+            <h3>Styling</h3>
+            <dl>
+                <dt>
+                    <code>
+                        <strong>theme</strong>: <span class="tok-string">&quot;<input type="text" class="tok-string" id="site-theme" maxlength="6" style="text-align: center;" />&quot;</span>
+                    </code>
+                </dt>
+                <dd>
+                    <p>The color scheme (background and text color) of the editor. Can be set to a light, dark, or spooky theme.</p>
+                </dd>
+                <dt>
+                    <code>
+                        <strong>seasonalExtras</strong>: <input type="text" class="tok-bool" id="site-seasonalExtras" maxlength="5" style="width: 3em;" />
+                    </code>
+                </dt>
+                <dd>
+                    <p>Changes the look of the editor and the site, depending on the current season or time of year in the United States.</p>
+                </dd>
+            </dl>
+            <h2>Editor Settings</h2>
+            <h3>Autocompletion</h3>
+            <dl>
+                <dt>
+                    <code>
+                        <strong>jsCompletionScope</strong>: <input type="text" id="editor-jsCompletionScope" style="color: inherit;" />
+                    </code>
+                </dt>
+                <dd>
+                    <p>The scope potential JavaScript completions are collected from. Only has an effect when <code><strong>jsCompletionSource</strong></code> is set to <code class="tok-string">"scope"</code>.</p>
+                </dd>
+                <dt>
+                    <code>
+                        <strong>jsCompletionSource</strong>: <span class="tok-string">&quot;<input type="text" class="tok-string" id="editor-jsCompletionSource" maxlength="8" style="text-align: center;" />&quot;</span>
+                    </code>
+                </dt>
+                <dd>
+                    <p>The source to get JavaScript completions from. Can be set to <code class="tok-string">"keywords"</code> or <code class="tok-string">"scope"</code>.</p>
+                </dd>
+            </dl>
+            <h3>Indentation</h3>
+            <dl>
+                <dt>
+                    <code>
+                        <strong>indentUnit</strong>: <span class="tok-string">&quot;<input type="text" class="tok-string" id="editor-indentUnit" maxlength="8" style="text-align: center;" />&quot;</span>
+                    </code>
+                </dt>
+                <dd>
+                    <p>The unit in which indentation happens. Must consist of either the same amount of spaces as <code><strong>tabSize</strong></code>, or a single tab character.</p>
+                </dd>
+                <dt>
+                    <code>
+                        <strong>tabSize</strong>: <input type="number" class="tok-number" id="editor-tabSize" min="1" max="8" />
+                    </code>
+                </dt>
+                <dd>
+                    <p>The size of a tab, in columns.</p>
+                </dd>
+            </dl>
+            <h3>Key binds</h3>
+            <dl>
+                <dt>
+                    <code>
+                        <strong>indentWithTab</strong>: <input type="text" class="tok-bool" id="editor-indentWithTab" maxlength="5" style="width: 3em;" />
+                    </code>
+                </dt>
+                <dd>
+                    <p>Allows the user to press Tab to insert the <code><strong>indentUnit</strong></code> characters at the cursor, or if something is selected, indent the selection. Shift-Tab removes a unit of indentation from all selected lines.</p>
+                </dd>
+                <dt>
+                    <code>
+                        <strong>vscodeKeymap</strong>: <input type="text" class="tok-bool" id="editor-vscodeKeymap" maxlength="5" style="width: 3em;" />
+                    </code>
+                </dt>
+                <dd>
+                    <p>Whether the editor uses the default CodeMirror 6 key binds or the <a href="http://code.visualstudio.com/docs/getstarted/keybindings#_keyboard-shortcuts-reference">Visual Studio Code key binds</a>.</p>
+                    <p><span class="deprecated">deprecated</span> Use the other key bind options instead.</p>
+                </dd>
+            </dl>
+            <h3>Extensions</h3>
+            <dl>
+                <dt>
+                    <code>
+                        <strong>abbreviationTracker</strong>: <input type="text" class="tok-bool" id="editor-abbreviationTracker" maxlength="5" style="width: 3em;" />
+                    </code>
+                </dt>
+                <dd>
+                    <p>Allows you to type CSS-like <a href="https://emmet.io">Emmet</a> abbreviations in the code, and expand them into HTML and CSS code, by pressing Tab.</p>
+                </dd>
+                <dt>
+                    <code>
+                        <strong>colorPicker</strong>: <input type="text" class="tok-bool" id="editor-colorPicker" maxlength="5" style="width: 3em;" />
+                    </code>
+                </dt>
+                <dd>
+                    <p>Shows a color picker next to CSS color values.</p>
+                </dd>
+                <dt>
+                    <code>
+                        <strong>filePlaceholders</strong>: <input type="text" class="tok-bool" id="editor-filePlaceholders" maxlength="5" style="width: 3em;" />
+                    </code>
+                </dt>
+                <dd>
+                    <p>Allows the user to drag images in the editor from a file viewer, and see them as actual images in the code.</p>
+                </dd>
+                <dt>
+                    <code>
+                        <strong>indentationMarkers</strong>: <input type="text" class="tok-bool" id="editor-indentationMarkers" maxlength="5" style="width: 3em;" />
+                    </code>
+                </dt>
+                <dd>
+                    <p>Shows indentation markers for users to easily see how much lines are indented.</p>
+                </dd>
+                <dt>
+                    <code>
+                        <strong>interact</strong>: <input type="text" class="tok-bool" id="editor-interact" maxlength="5" style="width: 3em;" />
+                    </code>
+                </dt>
+                <dd>
+                    <p>Allows the user to interact with certain JavaScript values, by pressing "Alt" and clicking and dragging with the mouse.</p>
+                    <p><strong style="color: #f50;">Warning:</strong> When enabling this option on mobile devices, the editor may not behave as expected.</p>
+                </dd>
+                <dt>
+                    <code>
+                        <strong>rectangularSelection</strong>: <input type="text" class="tok-bool" id="editor-rectangularSelection" maxlength="5" style="width: 3em;" />
+                    </code>
+                </dt>
+                <dd>
+                    <p>When holding down the Alt key and left mouse dragging, rectangular selections will be created.</p>
+                    <p><strong style="color: #f50;">Note:</strong> When this extension is enabled, multi-selections will be made by holding down the Ctrl key, NOT the Alt key.</p>
+                </dd>
+            </dl>
+        </article>
+        <script defer="true" src="script.js"></script>
+    </body>
+</html>

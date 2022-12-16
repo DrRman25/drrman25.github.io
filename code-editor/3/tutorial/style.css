@@ -1,0 +1,45 @@
+#video-tutorial-container {
+    border: 1rem solid transparent;
+    box-sizing: border-box;
+    position: fixed;
+}
+
+.video-tutorial-container-inner {
+    padding-top: 2rem;
+    border-radius: 1rem;
+    background-color: white;
+    background-image: linear-gradient(#066adf80, #066adf80);
+    user-select: none;
+    touch-action: none;
+    overflow: hidden;
+    box-shadow: 0 0 1rem black;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+}
+
+body[theme="dark"] .video-tutorial-container-inner {
+    background-color: #1c2333;
+    background-image: linear-gradient(#4bafff80, #4bafff80);
+}
+
+body[theme="spooky"] .video-tutorial-container-inner {
+    background-color: #292c33;
+    background-image: linear-gradient(#d96d0080, #d96d0080);
+}
+
+#video-tutorial-frame {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border: none;
+}
+
+#video-tutorial-frame-cover {
+    width: 100%;
+    height: calc(100% - 2rem);
+    position: absolute;
+    top: 2rem;
+    display: none;
+    box-sizing: border-box;
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Code Editor: Create a Program</title>
+        <link rel="stylesheet" href="../style/site.css" />
+        <link rel="stylesheet" href="style.css" />
+        <link rel="icon" href="../style/logo-small.svg" />
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a class="logo" href="../">Code Editor</a>
+                <div class="navlinks">
+                    <a href="../about/">About</a>
+                    <a href="../help/">Help</a>
+                    <a href="./" class="active">Create</a>
+                    <a href="../programs/">Programs</a>
+                    <a href="../preferences/">Preferences</a>
+                    <a href="../../">Version 2</a>
+                </div>
+            </nav>
+        </header>
+        <article>
+            <h1>Create a Program</h1>
+            <p>Select a language and name for your program below to get started.</p>
+            <div id="options">
+                <select id="languages" aria-title="List of languages">
+                    <option>Select language...</option>
+                    <option value="html-css-js">HTML, CSS, JS</option>
+                    <option value="markdown">Markdown (experimental)</option>
+                    <option value="javascript">Plain JavaScript</option>
+                    <option value="python">Python</option>
+                </select>
+                <input type="text" id="program-name" style="flex-grow: 1;" disabled="true" />
+                <button id="create" aria-title="Create program">Create</button>
+            </div>
+            <p>If you want to start coding now and save your program later, check out the <a href="../languages/">languages</a> available.</p>
+        </article>
+        <script type="module" src="script.js"></script>
+    </body>
+</html>

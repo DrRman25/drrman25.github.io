@@ -15,13 +15,15 @@
                 <div class="navlinks">
                     <a href="../../about/">About</a>
                     <a href="../../help/">Help</a>
-                    <a href="../" class="active">Languages</a>
+                    <a href="../../create/">Create</a>
+                    <a href="../../programs/">Programs</a>
+                    <a href="../../preferences/">Preferences</a>
                     <a href="../../../">Version 2</a>
                 </div>
             </nav>
         </header>
         <article>
-            <h1>Python Editor <span class="version">v3.0.0.21</span></h1>
+            <h1>Python Editor <span class="version">v3.0.0.22</span></h1>
             <p><strong style="color: #f50;">Note:</strong> This editor is currently in a testing phase. Some features may be missing, or completely not working.</p>
             <div id="controls">
                 <button id="run" title="Run code (Ctrl-Enter)" aria-title="Run code (Ctrl-Enter)">Run</button>
@@ -93,8 +95,8 @@
             <button id="modal-share-close" aria-title="Close modal" style="margin-top: 0.9375rem;">Close</button>
         </dialog>
         <dialog id="modal-save">
-            <h2 style="margin-top: 0;">Save Code to My Programs</h2>
-            <p style="margin-bottom: 0.9375rem;">My Programs is a place where you can save a program with just one click. If you haven't saved the code before, type in a new name below, and click "Save code". If you have saved the code before, but changed something since your last save, just click "Save code" again.</p>
+            <h2 style="margin-top: 0;">Save Code to Programs</h2>
+            <p style="margin-bottom: 0.9375rem;">Type the name of the program below, and it will save automatically.</p>
             <input type="text" id="save-name" style="width: 19rem;" />
             <button id="save-to-programs" aria-title="Save code">Save code</button>
             <br/>
@@ -113,9 +115,14 @@
         </dialog>
         <dialog id="modal-invalid-dv">
             <h2 style="margin-top: 0;">Invalid Data Version</h2>
-            <p style="margin-bottom: 0.9375rem;">This link, which most likely came from the 'Share' tool, was created specifically in version <span id="data-version"></span>, while you are on version 3.0.0.21. If you received this link from someone, please ask them to send you a more up-to-date link! If that is not possible, you can try loading the code anyway, or just use the default template.</p>
+            <p style="margin-bottom: 0.9375rem;">This link, which most likely came from the 'Share' tool, was created specifically in <span id="data-version"></span>, while you are on version 3.0.0.22. If you received this link from someone, please ask them to send you a more up-to-date link! If that is not possible, you can try loading the code anyway, or just use the default template.</p>
             <button id="invalid-dv-load-anyway" aria-title="Try to load code anyway">Try to Load Anyway</button>
             <button id="invalid-dv-load-default" aria-title="Use default template">Use Default Code</button>
+        </dialog>
+        <dialog id="modal-blocked-tutorial">
+            <h2 style="margin-top: 0;">Unable to Open Tutorial</h2>
+            <p style="margin-bottom: 0.9375rem;">This program has a tutorial, but it could not be opened automatically. To view it, either <a id="blocked-tutorial-open" target="_blank">open the tutorial in a new tab</a>, or enable pop-ups in your browser settings and refresh the page.</p>
+            <button id="modal-blocked-tutorial-close">Close</button>
         </dialog>
         <iframe id="completion-source-frame"></iframe>
         <script type="module" src="script.js"></script>

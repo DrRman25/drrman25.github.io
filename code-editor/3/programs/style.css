@@ -1,0 +1,144 @@
+#command-line {
+    display: flex;
+    column-gap: 0.625rem;
+    padding: 0.3125rem 0;
+}
+
+#command-line button {
+    font-family: sans-serif;
+    color: buttontext;
+    background: #eee;
+    border: 0.0625rem solid #666;
+    border-radius: 0.3125rem;
+    padding: 0.125rem 0.3125rem;
+    cursor: pointer;
+}
+
+#command-line button.active {
+    background: #eef;
+    border-color: #55b;
+    color: #005;
+}
+
+#command-line button:hover {
+    background: white;
+}
+
+#command-line button:active {
+    background: #ccc;
+}
+
+#command-line button:disabled, #command-line select:disabled, #command-line input[type="text"]:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+body[theme="dark"] #command-line button {
+    background: #111;
+    border-color: #999;
+    color: white;
+}
+
+body[theme="dark"] #command-line button.active {
+    background: #114;
+    border-color: #33d;
+}
+
+body[theme="dark"] #command-line button:hover {
+    background: black;
+}
+
+body[theme="dark"] #command-line button:active {
+    background: #333;
+}
+
+body[theme="dark"] #command-line select, body[theme="dark"] #command-line input[type="text"] {
+    background: black;
+    border-color: #999;
+    border-width: 1px;
+    border-style: solid;
+    color: white;
+}
+
+body[theme="spooky"] #command-line button {
+    background: #222;
+    border-color: #666;
+    color: white;
+}
+
+body[theme="spooky"] #command-line button.active {
+    background: #421;
+    border-color: #b96;
+}
+
+body[theme="spooky"] #command-line button:hover {
+    background: #222;
+}
+
+body[theme="spooky"] #command-line button:active {
+    background: #555;
+}
+
+body[theme="spooky"] #command-line select, body[theme="spooky"] #options input[type="text"] {
+    background: #111;
+    border-color: #666;
+    border-width: 1px;
+    border-style: solid;
+    color: white;
+}
+
+.notification {
+    position: fixed;
+    background: lightyellow;
+    border: 0.0625rem solid gold;
+    border-radius: 0.5rem;
+    padding: 0.125rem 0.3125rem;
+    cursor: default;
+    user-select: none;
+    -webkit-user-select: none;
+    color: black;
+}
+
+ul[class^="grid-list-"] strong {
+    font-size: 110%;
+    word-break: break-all;
+}
+
+dialog {
+    border-radius: 2rem;
+    border-width: 0;
+    width: 50rem;
+    box-shadow: 0 0 1rem black;
+}
+
+dialog::backdrop {
+    background-color: transparent;
+}
+
+#modal-edit-view .ͼ1 .cm-scroller {
+    line-height: 1.5;
+}
+
+body[theme="dark"] #modal-edit-view .cm-scroller {
+    background: #1c2333;
+    color: white;
+}
+
+body[theme="spooky"] #modal-edit-view .cm-scroller {
+    background: #292c33;
+    color: white;
+}
+
+#modal-tutorial-view .ͼ1 .cm-scroller {
+    line-height: 1.5;
+}
+
+body[theme="dark"] #modal-tutorial-view .cm-scroller {
+    background: #1c2333;
+    color: white;
+}
+
+body[theme="spooky"] #modal-tutorial-view .cm-scroller {
+    background: #292c33;
+    color: white;
+}

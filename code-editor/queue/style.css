@@ -1,0 +1,57 @@
+body {
+    background-color: black;
+    color: gold;
+    margin: 0;
+}
+
+#queue-position {
+    bottom: 8.4vw;
+}
+
+#queue-time {
+    bottom: 6.3vw;
+}
+
+#queue-priority {
+    bottom: 0;
+}
+
+#queue-priority button {
+    background-color: transparent;
+    color: gold;
+    border: none;
+    margin: 0;
+    padding: 0;
+    font: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.3vw;
+    cursor: pointer;
+}
+
+#queue-priority button:hover {
+    color: #0af;
+}
+
+#queue-position, #queue-time, #queue-priority {
+    position: fixed;
+    font-size: 1.5vw;
+    line-height: 1.8vw;
+}
+
+#queue-position strong, #queue-time strong {
+    font-weight: 600;
+}
+
+[contenteditable] {
+    outline: none;
+}
+
+#queue-position-jumbotron {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: gold;
+    font-size: 5vw;
+    margin: 0;
+}

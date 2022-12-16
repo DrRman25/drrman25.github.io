@@ -1,0 +1,100 @@
+#options {
+    display: flex;
+    column-gap: 0.625rem;
+    padding: 0.3125rem 0;
+}
+
+#options button {
+    font-family: sans-serif;
+    color: buttontext;
+    background: #eee;
+    border: 0.0625rem solid #666;
+    border-radius: 0.3125rem;
+    padding: 0.125rem 0.3125rem;
+    cursor: pointer;
+}
+
+#options button.active {
+    background: #eef;
+    border-color: #55b;
+    color: #005;
+}
+
+#options button:hover {
+    background: white;
+}
+
+#options button:active {
+    background: #ccc;
+}
+
+#options button:disabled, #options select:disabled, #options input[type="text"]:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+body[theme="dark"] #options button {
+    background: #111;
+    border-color: #999;
+    color: white;
+}
+
+body[theme="dark"] #options button.active {
+    background: #114;
+    border-color: #33d;
+}
+
+body[theme="dark"] #options button:hover {
+    background: black;
+}
+
+body[theme="dark"] #options button:active {
+    background: #333;
+}
+
+body[theme="dark"] #options select, body[theme="dark"] #options input[type="text"] {
+    background: black;
+    border-color: #999;
+    border-width: 1px;
+    border-style: solid;
+    color: white;
+}
+
+body[theme="spooky"] #options button {
+    background: #222;
+    border-color: #666;
+    color: white;
+}
+
+body[theme="spooky"] #options button.active {
+    background: #421;
+    border-color: #b96;
+}
+
+body[theme="spooky"] #options button:hover {
+    background: #222;
+}
+
+body[theme="spooky"] #options button:active {
+    background: #555;
+}
+
+body[theme="spooky"] #options select, body[theme="spooky"] #options input[type="text"] {
+    background: #111;
+    border-color: #666;
+    border-width: 1px;
+    border-style: solid;
+    color: white;
+}
+
+.notification {
+    position: fixed;
+    background: lightyellow;
+    border: 0.0625rem solid gold;
+    border-radius: 0.5rem;
+    padding: 0.125rem 0.3125rem;
+    cursor: default;
+    user-select: none;
+    -webkit-user-select: none;
+    color: black;
+}

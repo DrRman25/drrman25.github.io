@@ -1,0 +1,40 @@
+{
+  "name": "eslint-linter-browserify",
+  "version": "8.25.0",
+  "description": "Use eslint in the browser",
+  "main": "linter.js",
+  "files": [
+    "linter.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UziTech/eslint-linter-browserify.git"
+  },
+  "keywords": [
+    "eslint",
+    "lint",
+    "linter",
+    "browser",
+    "browserify"
+  ],
+  "author": "Tony Brix <tony@brix.ninja>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/UziTech/eslint-linter-browserify/issues"
+  },
+  "homepage": "https://github.com/UziTech/eslint-linter-browserify#readme",
+  "scripts": {
+    "test": "node test.js",
+    "build": "rollup --config",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^14.1.0",
+    "eslint": "8.25.0",
+    "process": "^0.11.10",
+    "rollup": "^2.79.1",
+    "rollup-plugin-node-builtins": "^2.1.2"
+  }
+}
