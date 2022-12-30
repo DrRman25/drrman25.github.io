@@ -28,10 +28,14 @@
             <div id="options">
                 <select id="languages" aria-title="List of languages">
                     <option>Select language...</option>
-                    <option value="html-css-js">HTML, CSS, JS</option>
-                    <option value="markdown">Markdown (experimental)</option>
-                    <option value="javascript">Plain JavaScript</option>
-                    <option value="python">Python</option>
+                    <optgroup label="Official Languages ✔️">
+                        <option value="html-css-js">HTML, CSS, JS</option>
+                        <option value="javascript">Plain JavaScript</option>
+                        <option value="python">Python</option>
+                    </optgroup>
+                    <optgroup label="Experimental Languages">
+                        <option value="markdown">Markdown</option>
+                    </optgroup>
                 </select>
                 <input type="text" id="program-name" style="flex-grow: 1;" disabled="true" />
                 <button id="create" aria-title="Create program">Create</button>

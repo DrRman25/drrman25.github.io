@@ -132,8 +132,8 @@ document.getElementById("create").addEventListener("click", e => {
         const languageNames = {
             "html-css-js": "HTML, CSS, JS",
             javascript: "Plain JavaScript",
+            markdown: "Markdown (experimental)",
             python: "Python",
-            markdown: "Markdown (experimental)"
         }
         const originalProgramName = document.getElementById("program-name").value || languageNames[document.getElementById("languages").value];
         let programName = originalProgramName;

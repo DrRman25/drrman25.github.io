@@ -7,7 +7,7 @@ import {EditorView, keymap, placeholder, lineNumbers, highlightActiveLineGutter,
 import {defaultKeymap, history, historyKeymap} from "https://codemirror.net/try/mods/@codemirror-commands.js";
 import {tags} from "https://codemirror.net/try/mods/@lezer-highlight.js";
 import {indentUnit, syntaxHighlighting, HighlightStyle, foldGutter, indentOnInput, bracketMatching, foldKeymap} from "https://codemirror.net/try/mods/@codemirror-language.js";
-import {closeBrackets, autocompletion, closeBracketsKeymap, completionKeymap} from "https://codemirror.net/try/mods/@codemirror-autocomplete.js";
+import {closeBrackets, autocompletion, closeBracketsKeymap, completionKeymap, acceptCompletion} from "https://codemirror.net/try/mods/@codemirror-autocomplete.js";
 import {linter, lintKeymap} from "https://codemirror.net/try/mods/@codemirror-lint.js";
 import {javascript, javascriptLanguage, scopeCompletionSource, esLint} from "https://codemirror.net/try/mods/@codemirror-lang-javascript.js";
 
@@ -347,7 +347,10 @@ function loadCode(code) {
         /**
         If indenting with tab is enabled in the preferences, inject the keymap as an extension.
         */
-        injectExtension(editor, keymap.of([indentWithTab]));
+        injectExtension(editor, keymap.of([
+            {key: "Tab", run: acceptCompletion},
+            indentWithTab
+        ]));
     }
     if (localStorage.getItem("code-editor-editor-filePlaceholders") !== "false") {
         /**
@@ -1550,13 +1553,20 @@ function run(coolDown = true) {
         document.getElementById("output").appendChild(frame);
         if (coolDown) {
             canRunCode = false;
-            document.getElementById("run").textContent = ". . .";
+            document.getElementById("run").innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="vertical-align: -0.1875rem;">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M20.5929 10.9105C21.4425 11.3884 21.4425 12.6116 20.5929 13.0895L6.11279 21.2345C5.27954 21.7033 4.24997 21.1011 4.24997 20.1451L4.24997 3.85492C4.24997 2.89889 5.27954 2.29675 6.11279 2.76545L20.5929 10.9105Z"></path>
+                </svg>
+                &nbsp; . . .
+`;
             setTimeout(() => {
                 canRunCode = true;
-                document.getElementById("run").textContent = "Run";
+                document.getElementById("run").innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="vertical-align: -0.1875rem;">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M20.5929 10.9105C21.4425 11.3884 21.4425 12.6116 20.5929 13.0895L6.11279 21.2345C5.27954 21.7033 4.24997 21.1011 4.24997 20.1451L4.24997 3.85492C4.24997 2.89889 5.27954 2.29675 6.11279 2.76545L20.5929 10.9105Z"></path>
+                </svg>
+                &nbsp; Run
+`;
             }, 500);
         }
-        document.getElementById("clear").disabled = false;
     }
     return true;
 }
@@ -1712,6 +1722,14 @@ When the 'Share' button is clicked, open the share modal.
 document.getElementById("share").addEventListener("click", () => {
     document.getElementById("modal-share").showModal();
     prepareShareModal();
+});
+
+/**
+When the 'History' button is clicked, open the history modal.
+*/
+document.getElementById("history").addEventListener("click", () => {
+    document.getElementById("modal-history").showModal();
+    prepareHistoryModal();
 });
 
 /**
@@ -1879,17 +1897,6 @@ When the 'Use Default Code' button in the 'Invalid Data Version' modal is clicke
 */
 document.getElementById("invalid-dv-load-default").addEventListener("click", () => {
     document.getElementById("modal-invalid-dv").close();
-});
-
-/**
-When the 'Clear Output' button is clicked, clear the Output and Log tabs.
-*/
-document.getElementById("clear").addEventListener("click", () => {
-    let frame = document.createElement("iframe");
-    document.getElementById("output").textContent = document.getElementById("log").textContent = "";
-    document.getElementById("output").appendChild(frame);
-    document.getElementById("tab-log").classList.remove("new-logs");
-    document.getElementById("clear").disabled = true;
 });
 
 /**

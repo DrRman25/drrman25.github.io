@@ -1,11 +1,11 @@
 #video-tutorial-container {
-    border: 1rem solid transparent;
+    border: 16px solid transparent;
     box-sizing: border-box;
     position: fixed;
 }
 
 .video-tutorial-container-inner {
-    padding-top: 2rem;
+    padding-top: 32px;
     border-radius: 1rem;
     background-color: white;
     background-image: linear-gradient(#066adf80, #066adf80);
@@ -37,9 +37,13 @@ body[theme="spooky"] .video-tutorial-container-inner {
 
 #video-tutorial-frame-cover {
     width: 100%;
-    height: calc(100% - 2rem);
+    height: calc(100% - 32px);
     position: absolute;
-    top: 2rem;
+    top: 32px;
     display: none;
     box-sizing: border-box;
+}
+
+#show-video {
+    display: none;
 }
