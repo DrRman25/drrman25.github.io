@@ -1,5 +1,3 @@
-'use strict';
-
 let outChannel = null;
 
 addEventListener("message", e => {

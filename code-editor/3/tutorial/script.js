@@ -63,10 +63,10 @@ interact(document.getElementById("video-tutorial-container")).resizable({
         left: true
     },
     listeners: {
-        start: () => {
+        start() {
             document.getElementById("video-tutorial-frame-cover").style.display = "block";
         },
-        end: e => {
+        end(e) {
             document.getElementById("video-tutorial-frame-cover").style.display = "none";
             if (position.x > innerWidth - e.rect.width) {
                 position.x = innerWidth - e.rect.width;
@@ -84,7 +84,7 @@ interact(document.getElementById("video-tutorial-container")).resizable({
                 transform: `translate(${position.x}px, ${position.y}px)`
             });
         },
-        move: e => {
+        move(e) {
             let {x, y} = e.target.dataset;
             position.x += (parseFloat(x) || 0) + e.deltaRect.left;
             position.y += (parseFloat(y) || 0) + e.deltaRect.top;
@@ -100,10 +100,10 @@ interact(document.getElementById("video-tutorial-container")).resizable({
 
 interact(document.getElementById("video-tutorial-container")).draggable({
     listeners: {
-        start: () => {
+        start() {
             document.getElementById("video-tutorial-frame-cover").style.display = "block";
         },
-        end: e => {
+        end(e) {
             document.getElementById("video-tutorial-frame-cover").style.display = "none";
             if (position.x > innerWidth - e.rect.width) {
                 position.x = innerWidth - e.rect.width;
@@ -117,7 +117,7 @@ interact(document.getElementById("video-tutorial-container")).draggable({
             }
             e.target.style.transform = `translate(${position.x}px, ${position.y}px)`;
         },
-        move: e => {
+        move(e) {
             position.x += e.dx;
             position.y += e.dy;
             e.target.style.transform = `translate(${position.x}px, ${position.y}px)`;

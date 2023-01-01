@@ -66,7 +66,7 @@ body {
 }
 
 body[seasonal-extras="true"] {
-    background: white url("light-christmas-grass.svg") repeat-x bottom;
+    background: white url("light-winter-grass.svg") repeat-x bottom;
 }
 
 body[theme="dark"] {
@@ -75,7 +75,7 @@ body[theme="dark"] {
 }
 
 body[theme="dark"][seasonal-extras="true"] {
-    background: #1c2333 url("dark-christmas-grass.svg") repeat-x bottom;
+    background: #1c2333 url("dark-winter-grass.svg") repeat-x bottom;
 }
 
 body[theme="spooky"] {
@@ -84,7 +84,7 @@ body[theme="spooky"] {
 }
 
 body[theme="spooky"][seasonal-extras="true"] {
-    background: #292c33 url("dark-christmas-grass.svg") repeat-x bottom;
+    background: #292c33 url("dark-winter-grass.svg") repeat-x bottom;
 }
 
 header, article, footer nav {

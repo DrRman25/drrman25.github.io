@@ -303,9 +303,75 @@ function loadCode(code) {
             placeholder("Not sure where to start? Look at some examples above (this message will be dismissed after typing)"),
             javascript(),
             linter(esLint(new eslint.Linter(), {
+                rules: {
+                    "constructor-super": "warn",
+                    "for-direction": "warn",
+                    "getter-return": "warn",
+                    "no-async-promise-executor": "error",
+                    "no-case-declarations": "warn",
+                    "no-class-assign": "error",
+                    "no-compare-neg-zero": "warn",
+                    "no-cond-assign": "warn",
+                    "no-const-assign": "error",
+                    "no-constant-condition": "warn",
+                    "no-control-regex": "warn",
+                    "no-debugger": "warn",
+                    "no-delete-var": "error",
+                    "no-dupe-args": "error",
+                    "no-dupe-class-members": "error",
+                    "no-dupe-else-if": "warn",
+                    "no-dupe-keys": "warn",
+                    "no-duplicate-case": "warn",
+                    "no-empty": "warn",
+                    "no-empty-character-class": "warn",
+                    "no-empty-pattern": "warn",
+                    "no-ex-assign": "error",
+                    "no-extra-boolean-cast": "warn",
+                    "no-extra-semi": "warn",
+                    "no-fallthrough": "warn",
+                    "no-func-assign": "error",
+                    "no-global-assign": "error",
+                    "no-import-assign": "error",
+                    "no-inner-declarations": "warn",
+                    "no-invalid-regexp": "warn",
+                    "no-irregular-whitespace": "error",
+                    "no-loss-of-precision": "warn",
+                    "no-misleading-character-class": "warn",
+                    "no-mixed-spaces-and-tabs": "warn",
+                    "no-new-symbol": "error",
+                    "no-nonoctal-decimal-escape": "error",
+                    "no-obj-calls": "warn",
+                    "no-octal": "error",
+                    "no-prototype-builtins": "warn",
+                    "no-redeclare": "error",
+                    "no-regex-spaces": "warn",
+                    "no-self-assign": "warn",
+                    "no-setter-return": "warn",
+                    "no-shadow-restricted-names": "error",
+                    "no-sparse-arrays": "warn",
+                    "no-this-before-super": "error",
+                    "no-undef": "warn",
+                    "no-unexpected-multiline": "warn",
+                    "no-unreachable": "warn",
+                    "no-unsafe-finally": "warn",
+                    "no-unsafe-negation": "warn",
+                    "no-unsafe-optional-chaining": "warn",
+                    "no-unused-labels": "warn",
+                    "no-unused-vars": "warn",
+                    "no-useless-backreference": "warn",
+                    "no-useless-catch": "warn",
+                    "no-useless-escape": "warn",
+                    "no-with": "error",
+                    "require-yield": "warn",
+                    "use-isnan": "warn",
+                    "valid-typeof": "warn"
+                },
                 parserOptions: {
                     ecmaVersion: "latest",
                     sourceType: "module"
+                },
+                env: {
+                    browser: true
                 }
             })),
             search({
@@ -1535,7 +1601,6 @@ function run(coolDown = true) {
         }
         document.getElementById("output").textContent = document.getElementById("log").textContent = "";
         let frame = document.createElement("iframe");
-        frame.setAttribute("sandbox", "allow-scripts allow-popups allow-modals allow-forms");
         frame.src = "resources/sandbox.html";
         let code = editor.state.doc.toString();
         let channel = new MessageChannel();
