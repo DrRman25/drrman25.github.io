@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Website</title>
+        <style>
+            #fun-fact-text {
+                color: red;
+                font-family: "Papyrus";
+                font-size: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Welcome to my personal Website!</h1>
+        <p>It's not much at the moment, but there will be more in the future!</p>
+        <button id="fun-fact">Click me for a fun fact</button>
+        <p id="fun-fact-text"></p>
+        <script>
+            document.getElementById("fun-fact").addEventListener("click", () => {
+                document.getElementById("fun-fact-text").textContent = "JavaScript is used in over 98% of websites on the Internet!";
+            });
+        </script>
+    </body>
+</html>
